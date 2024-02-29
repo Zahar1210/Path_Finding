@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
+    public int step;
     public Dictionary<Vector3Int, Surface> _surfaces = new();
     public Vector3Int Position { get; set; }
+    
     public void SetSurface(PathFinding pathFinding)
     {
         AddSurface(Vector3Int.left, pathFinding);
@@ -31,8 +33,6 @@ public class Tile : MonoBehaviour
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        // if (Application.isPlaying == false) return;
-        
         foreach (KeyValuePair<Vector3Int, Surface> surface in _surfaces)
         {
             Surface s = surface.Value;

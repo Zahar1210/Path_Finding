@@ -88,22 +88,23 @@ public class Directions : ScriptableObject
     {
         public Vector3Int[] dirHorizontal =
         {
-            Vector3Int.forward, Vector3Int.back, Vector3Int.up, Vector3Int.down, 
+            new Vector3Int(0, 0, 1), new Vector3Int(0, 0, -1), new Vector3Int(0, 1, 0), new Vector3Int(0, -1, 0),
         };
         
         public Vector3Int[] dirVertical = 
         {
-            Vector3Int.back,Vector3Int.forward, Vector3Int.right,Vector3Int.left, 
+            new Vector3Int(0, 0, -1), new Vector3Int(0, 0, 1), new Vector3Int(1, 0, 0), new Vector3Int(-1, 0, 0),
         };
         
         public Vector3Int[] dirDepth = 
         {
-            Vector3Int.right, Vector3Int.left,Vector3Int.up, Vector3Int.down, 
+            new Vector3Int(1, 0, 0), new Vector3Int(-1, 0, 0), new Vector3Int(0, 1, 0), new Vector3Int(0, -1, 0),
         };
    
         public Vector3Int[] directions =
         {
-            Vector3Int.forward, Vector3Int.right, Vector3Int.back, Vector3Int.up, Vector3Int.left, Vector3Int.down,
+            new Vector3Int(1, 0, 0), new Vector3Int(-1, 0, 0), new Vector3Int(0, 1, 0), new Vector3Int(0, -1, 0),
+            new Vector3Int(0, 0, 1), new Vector3Int(0, 0, -1)
         };
     }
     

@@ -22,7 +22,7 @@ public class GetPath : MonoBehaviour
             Tile.Surface[] path = pathFinding.GetPath(currentSurface, targetPosition);
             foreach (var surface in path)
             {
-                // surface.InPath = true;
+                surface.InPath = true;
             }
         }
     }

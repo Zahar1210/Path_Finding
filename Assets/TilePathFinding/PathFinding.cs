@@ -63,7 +63,7 @@ public class PathFinding : MonoBehaviour
         return path;
     }
 
-    private void GetQueue(List<Vector3Int> queueTiles, Dictionary<Vector3Int, TileInfo> visitedTiles,
+    private void GetQueue(List<Vector3Int> queueTiles, Dictionary<Vector3Int, TileInfo> visitedTiles, 
         int step, Tile.Surface startSurface, List<Tile.Surface> visitedSurfaces)
     {
         Vector3Int[] tiles = queueTiles.ToArray();
@@ -78,6 +78,7 @@ public class PathFinding : MonoBehaviour
                 {
                     if (!visitedTiles.ContainsKey(tile.Position) && !queueTiles.Contains(tile.Position))
                     {
+                        tile.step = step;
                         queueTiles.Add(tile.Position);
                         SetDistance(tile._surfaces, startSurface, visitedSurfaces);
                     }
@@ -90,7 +91,7 @@ public class PathFinding : MonoBehaviour
     {
         List<Tile.Surface> path = new();
         List<Tile> selectTiles = new();
-        List<Tile> selectTilesCopy = new();
+        Dictionary<Vector3Int[], Tile> selectTilesCopy = new();
         Tile.Surface currentSurface = targetSurface;
         
         for (int i = 0; i < 55; i++) //итераций столько  сколько длина пути а вообще должен быть while()
@@ -98,6 +99,11 @@ public class PathFinding : MonoBehaviour
             selectTiles.Clear();
             selectTilesCopy.Clear();
             path.Add(currentSurface);
+            
+            if (currentSurface == startSurface) 
+            {
+                return path.ToArray();
+            }
             
             foreach (var direction in currentSurface.Directions.DirectionArray) 
             {
@@ -107,41 +113,36 @@ public class PathFinding : MonoBehaviour
                 {
                     if (_tiles.TryGetValue(tilePos, out Tile tile) && tile._surfaces.TryGetValue(currentSurface.Direction, out var surface))
                     {
-                        if (!path.Contains(surface) && surface.IsObstacle) 
+                        if (!path.Contains(surface) && !surface.IsObstacle) 
                         {
                             selectTiles.Add(tile);
-                            
-                            if (surface == startSurface) 
-                            {
-                                path.Add(surface);
-                                return path.ToArray(); 
-                            }
                         }
                     }
                 }
             }
+            
             foreach (var dir in currentSurface.Directions.Directions) 
             {
                 Vector3Int tilePosition = currentSurface.Tile.Position + dir;
-                if (_tiles.TryGetValue(tilePosition, out Tile tile))
-                    selectTilesCopy.Add(tile);
+                if (visited.TryGetValue(tilePosition, out var tileInfo) && tileInfo.Step == visited[currentSurface.Tile.Position].Step -1)
+                {
+                    if (_tiles.TryGetValue(tilePosition, out Tile tile))
+                    {
+                        selectTilesCopy.Add(currentSurface.Directions.Directions, tile);
+                    }
+                }
             }
             
             currentSurface = SelectTileSurfaces(selectTiles, currentSurface, selectTilesCopy, visited).OrderBy(s => s.Distance).FirstOrDefault();
-            
-            if (currentSurface == startSurface) 
-            {
-                path.Add(currentSurface);
-                return path.ToArray();
-            }
         }
+        
         return path.ToArray();
     }
     
-    private List<Tile.Surface> SelectTileSurfaces(List<Tile> tiles, Tile.Surface currentSurface, List<Tile> selectedTilesCopy,Dictionary<Vector3Int, TileInfo> visited)
+    private List<Tile.Surface> SelectTileSurfaces(List<Tile> tiles, Tile.Surface currentSurface, 
+        Dictionary<Vector3Int[], Tile> selectedTilesCopy,Dictionary<Vector3Int, TileInfo> visited)
     {
         List<Tile.Surface> selectedSurfaces = new();
-        
         foreach (Tile tile in tiles)
         {
             if (tile._surfaces.TryGetValue(currentSurface.Direction, out var surface) && !surface.IsObstacle)
@@ -152,7 +153,7 @@ public class PathFinding : MonoBehaviour
         
         foreach (KeyValuePair<Vector3Int, Tile.Surface> s in currentSurface.Tile._surfaces) 
         {
-            if (s.Value.Directions.Directions != currentSurface.Directions.Directions && !s.Value.IsObstacle)
+            if (s.Value.Directions.DirectionArray != currentSurface.Directions.DirectionArray && !s.Value.IsObstacle)
             {
                 selectedSurfaces.Add(s.Value);
             }
@@ -160,41 +161,60 @@ public class PathFinding : MonoBehaviour
         
         foreach (var tile in selectedTilesCopy) 
         {
-            if (visited.TryGetValue(tile.Position, out TileInfo tileInfo)) 
+            if (visited.TryGetValue(tile.Value.Position, out TileInfo tileInfo)) 
             {
-                selectedSurfaces.Add(SelectSurfacesTile(tile,currentSurface));
+                selectedSurfaces.Add(SelectSurfacesTile(tile.Value, currentSurface, tile.Key));
             }
         }
         return selectedSurfaces;
     }
     
-    private Tile.Surface SelectSurfacesTile(Tile tile, Tile.Surface currentSurface)
+    private Tile.Surface SelectSurfacesTile(Tile tile, Tile.Surface currentSurface, Vector3Int[] directionsArray)
     {
         Vector3Int direction = new();
-        if (currentSurface.Directions.DirectionArray == directions.dirGroup.dirHorizontal)
+        Vector3Int vector = currentSurface.Tile.Position - tile.Position;
+        if (directionsArray == directions.dir.dirBack || directionsArray == directions.dir.dirFront)
         {
-            if (tile.Position.z == currentSurface.Tile.Position.z)
-                direction = currentSurface.Tile.Position.y < tile.Position.y ? Vector3Int.down : Vector3Int.up;
-            if (tile.Position.y == currentSurface.Tile.Position.y)
-                direction= currentSurface.Tile.Position.z < tile.Position.z ? Vector3Int.back : Vector3Int.forward;
-        } 
-        else if(currentSurface.Directions.DirectionArray == directions.dirGroup.dirVertical) 
-        {
-            if (tile.Position.x == currentSurface.Tile.Position.x)
-                direction = currentSurface.Tile.Position.z < tile.Position.z ?Vector3Int.back : Vector3Int.forward;
-            if (tile.Position.z == currentSurface.Tile.Position.z)
-                direction = currentSurface.Tile.Position.x < tile.Position.x ? Vector3Int.left : Vector3Int.right;
+            
         }
-        else if (currentSurface.Directions.DirectionArray == directions.dirGroup.dirDepth)
+        else if (directionsArray == directions.dir.dirDown || directionsArray == directions.dir.dirUp)
         {
-            if (tile.Position.y == currentSurface.Tile.Position.y)
-                direction = currentSurface.Tile.Position.x < tile.Position.x ? Vector3Int.left : Vector3Int.right;
-            if (tile.Position.x == currentSurface.Tile.Position.x)
-                direction = currentSurface.Tile.Position.y < tile.Position.y ? Vector3Int.down : Vector3Int.up;
+            
         }
+        else if (directionsArray == directions.dir.dirRight || directionsArray == directions.dir.dirLeft)
+        {
+            
+        }
+        
+        
+        // if (currentSurface.Directions.DirectionArray == directionsArray.dirGroup.dirHorizontal)
+        // {
+        //     if (tile.Position.z == currentSurface.Tile.Position.z)
+        //         direction = currentSurface.Tile.Position.y < tile.Position.y ? Vector3Int.down : Vector3Int.up;
+        //     
+        //     if (tile.Position.y == currentSurface.Tile.Position.y)
+        //         direction= currentSurface.Tile.Position.z < tile.Position.z ? Vector3Int.back : Vector3Int.forward;
+        // } 
+        // else if(currentSurface.Directions.DirectionArray == directionsArray.dirGroup.dirVertical) 
+        // {
+        //     if (tile.Position.x == currentSurface.Tile.Position.x)
+        //         direction = currentSurface.Tile.Position.z < tile.Position.z ? Vector3Int.back : Vector3Int.forward;
+        //     
+        //     if (tile.Position.z == currentSurface.Tile.Position.z)
+        //         direction = currentSurface.Tile.Position.x < tile.Position.x ? Vector3Int.left : Vector3Int.right;
+        // }
+        // else if (currentSurface.Directions.DirectionArray == directionsArray.dirGroup.dirDepth)
+        // {
+        //     if (tile.Position.y == currentSurface.Tile.Position.y)
+        //         direction = currentSurface.Tile.Position.x < tile.Position.x ? Vector3Int.left : Vector3Int.right;
+        //     
+        //     if (tile.Position.x == currentSurface.Tile.Position.x)
+        //         direction = currentSurface.Tile.Position.y < tile.Position.y ? Vector3Int.down : Vector3Int.up;
+        // }
 
         if (tile._surfaces.TryGetValue(direction, out Tile.Surface sur) && !sur.IsObstacle) 
             return sur;
+        
         return null;
     }
     
@@ -210,12 +230,11 @@ public class PathFinding : MonoBehaviour
                     Vector3.Distance(
                     s.Tile.transform.position + s.Direction,
                     startSurface.Tile.transform.position + startSurface.Direction);
-                
+
                 visitedSurfaces.Add(s);
             }
         }
     }
-    
     
     private class TileInfo
     {
