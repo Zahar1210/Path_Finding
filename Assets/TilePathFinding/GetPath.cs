@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using UnityEngine;
 
 namespace FindPath
@@ -6,7 +8,6 @@ namespace FindPath
     {
         [SerializeField] private FindPathProject findPathProject;
         private Camera _camera;
-        private Tile.Surface[] _path;
 
         private void Start()
         {
@@ -17,20 +18,18 @@ namespace FindPath
         {
             if (Input.GetMouseButtonUp(0))
             {
-                if (_path != null)
+                if (findPathProject._path != null)
                 {
-                    foreach (var surface in _path)
-                    {
-                        surface.InPath = false;
-                    }
+                    Array.Clear(findPathProject._path, 0, findPathProject._path.Length);
                 }
-
+                
                 Tile.Surface targetSurface = GetTargetSurface();
                 Tile.Surface currentSurface = GetCurrentSurface();
                 if (targetSurface == null)
                     return;
                 
-                _path = PathFinding.GetPath(currentSurface, targetSurface, findPathProject, findPathProject.findMode);
+                findPathProject._path = 
+                    PathFinding.GetPath(currentSurface, targetSurface, findPathProject, findPathProject.findMode);
             }
         }
 

@@ -30,8 +30,8 @@ namespace FindPath
             Dictionary<Vector3Int, TileAStar> visitedTiles = new();
             path.Add(currentSurface);
 
-            
-            while (true)
+
+            for (int i = 0; i < 45; i++)
             {
                 selectTiles = SelectTiles(findPathProject, currentSurface, visitedTiles);
                 if (selectTiles.Count != 0)
@@ -57,19 +57,20 @@ namespace FindPath
                 List<Tile.Surface> selectSurface = 
                     SelectTileSurfaces(selectTiles, currentSurface, selectTilesCopy, findPathProject);
                 
-                Tile.Surface surfacesWithMinCost = 
-                    selectSurface
+                Tile.Surface surfacesWithMinCost = selectSurface
                     .OrderBy(s => visitedTiles[s.Tile.Position].FCost) 
-                    .FirstOrDefault();
-
+                    .FirstOrDefault(s => !path.Contains(s)); 
+                
                 currentSurface = surfacesWithMinCost;
-                
-                
+
+
                 if (currentSurface == null)
+                {
+                    Debug.LogError("xnj jfnj");
                     break;
+                }
                 
                 path.Add(currentSurface);
-                currentSurface.InPath = true;
                 
                 if (currentSurface == targetSurface) 
                 {
@@ -90,12 +91,12 @@ namespace FindPath
             AStarCost GetStep(Tile tile)
             {
                 float target = Vector3.Distance(targetSurface.Tile.Position, tile.Position);
-                float pos = Vector3.Distance(tile.Position ,currentSurface.Tile.Position);
+                // float pos = Vector3.Distance(tile.Position ,currentSurface.Tile.Position);
                 
                 return new AStarCost()
                 {
                     GCost = target,
-                    HCost = pos
+                    // HCost = pos
                 };
             }
             
@@ -205,7 +206,6 @@ namespace FindPath
                 selectTiles.Clear();
                 selectTilesCopy.Clear();
                 path.Add(currentSurface);
-                currentSurface.InPath = true;
 
                 foreach (var direction in currentSurface.Directions.DirectionArray)
                 {
@@ -325,7 +325,7 @@ namespace FindPath
 
             public TileAStar(float hCost ,float gCost)
             {
-                FCost = hCost + gCost;
+                FCost =  gCost;
             }
         }
         

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace FindPath
@@ -8,9 +9,12 @@ namespace FindPath
         public Vector3Int Position;
         public Dictionary<Vector3Int, Surface> _surfaces = new();
         [SerializeField] private Vector3Int[] surfacesArray;
+        private FindPathProject _findPathProject;
 
         public void SetSurface(FindPathProject pathFinding)
         {
+            _findPathProject = FindPathProject.Instance;
+            
             foreach (var surface in surfacesArray)
             {
                 AddSurface(surface, pathFinding);
@@ -36,7 +40,7 @@ namespace FindPath
             {
                 Surface s = surface.Value;
                 Vector3 dir = s.Direction;
-                if (s.InPath)
+                if (_findPathProject._path != null && _findPathProject._path.Contains(surface.Value))
                     Gizmos.color = new Color(0.1f, 1f, 0f, 1f);
                 else if (!s.IsObstacle)
                     Gizmos.color = new Color(0.1f, 1f, 0f, 0.1f);
@@ -53,9 +57,7 @@ namespace FindPath
         {
             public Tile Tile { get; set; }
             public bool IsObstacle { get; set; }
-            public float Distance { get; set; }
             public Vector3Int Direction { get; }
-            public bool InPath { get; set; }
 
             public Directions.DirectionArrayPair Directions { get; }
 

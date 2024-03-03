@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,8 +7,11 @@ namespace FindPath
 {
     public class FindPathProject : MonoBehaviour
     {
+        public static FindPathProject Instance { get; set; }
+        
         [Header("PathFinding Parameters")] 
         [SerializeField] private int tileSize;
+        public Tile.Surface[] _path;
         
         [Header("Path Find Mode")] 
         public FindMode findMode;
@@ -18,6 +22,17 @@ namespace FindPath
         public Dictionary<Vector3Int, Tile> _tiles = new();
         [SerializeField] private Directions directions;
 
+
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+                return;
+            }
+        
+            Destroy(gameObject);
+        }
 
         private void Start()
         {

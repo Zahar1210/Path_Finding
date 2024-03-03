@@ -17,7 +17,6 @@ namespace FindPath
                     _surfaces.Add(surface.Value);
                 }
             }
-            Debug.LogError(_surfaces.Count);
         }
 
 #if UNITY_EDITOR
