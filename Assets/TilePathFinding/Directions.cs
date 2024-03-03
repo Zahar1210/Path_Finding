@@ -7,7 +7,6 @@ public class Directions : ScriptableObject
 {
     public Dir dir;
     public DirGroup dirGroup;
-    
     public Dictionary<Vector3Int, DirectionArrayPair> dirDictionary = new();
 
     private void OnEnable()
