@@ -25,11 +25,10 @@ namespace FindPath
         {
             Directions.DirectionArrayPair dirs = new();
 
-            if (pathFinding.Directions.dirDictionary.TryGetValue(direction, out Directions.DirectionArrayPair _dirs))
+            if (pathFinding.Directions.DirDictionary.TryGetValue(direction, out Directions.DirectionArrayPair _dirs))
                 dirs = _dirs;
-
             Surface s = new Surface(direction, dirs, this);
-            s.IsObstacle = pathFinding._tiles.TryGetValue(s.Tile.Position + direction, out Tile tile);
+            s.IsObstacle = pathFinding.Tiles.TryGetValue(s.Tile.Position + direction, out Tile tile);
             _surfaces.Add(direction, s);
         }
 
@@ -40,13 +39,12 @@ namespace FindPath
             {
                 Surface s = surface.Value;
                 Vector3 dir = s.Direction;
-                if (_findPathProject._path != null && _findPathProject._path.Contains(surface.Value))
+                if (_findPathProject.Path != null && _findPathProject.Path.Contains(surface.Value))
                     Gizmos.color = new Color(0.1f, 1f, 0f, 1f);
                 else if (!s.IsObstacle)
                     Gizmos.color = new Color(0.1f, 1f, 0f, 0.1f);
                 else
                     Gizmos.color = new Color(1f, 0f, 0f, 0.1f);
-        
                 Gizmos.DrawCube(transform.position + dir * 0.5f, s.Size);
             }
         }
@@ -72,8 +70,10 @@ namespace FindPath
 
                 if (direction == Vector3Int.up || direction == Vector3Int.down)
                     Size = new Vector3(0.9f, 0.05f, 0.9f);
+                
                 else if (direction == Vector3Int.left || direction == Vector3Int.right)
                     Size = new Vector3(0.05f, 0.9f, 0.9f);
+                
                 else
                     Size = new Vector3(0.9f, 0.9f, 0.05f);
             }

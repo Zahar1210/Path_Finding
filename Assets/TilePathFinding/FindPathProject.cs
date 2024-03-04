@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace FindPath
@@ -8,23 +9,30 @@ namespace FindPath
     public class FindPathProject : MonoBehaviour
     {
         public static FindPathProject Instance { get; set; }
+        public Directions Directions => directions;
+        public Dictionary<Vector3Int, Tile> Tiles = new();
+        public int TileSize => tileSize;
+        public Tile.Surface[] Path { get; set; }
         
-        [Header("PathFinding Parameters")] 
-        [SerializeField] private int tileSize;
-        public Tile.Surface[] _path;
+        [BigHeader("Path Finding Parameters")] 
+        [SerializeField] [Range(1f, 3f)] private int tileSize;
         
-        [Header("Path Find Mode")] 
+        [BigHeader("Path Find Mode")] 
         public FindMode findMode;
 
-        [Header("Gizmos")]
+        [BigHeader("Gizmos")]
         [SerializeField] private PathGizmos pathGizmos;
-        public Directions Directions => directions;
-        public Dictionary<Vector3Int, Tile> _tiles = new();
         [SerializeField] private Directions directions;
 
 
+        private static void GetSize()
+        {
+        }
+        
         private void Awake()
         {
+            // Directions.TileSize = TileSize;
+
             if (Instance == null)
             {
                 Instance = this;
@@ -36,8 +44,10 @@ namespace FindPath
 
         private void Start()
         {
+            Debug.Log(Directions.TileSize);
+            Debug.Log(directions.dir.dirDown[1]);
             AddTiles();
-            pathGizmos.SetTiles(_tiles.Values.ToList());
+            pathGizmos.SetTiles(Tiles.Values.ToList());
         }
         
         private void AddTiles()
@@ -47,10 +57,10 @@ namespace FindPath
             foreach (var tile in tiles)
             {
                 Vector3Int tilePosition = Vector3Int.RoundToInt(tile.transform.position);
-                if (!_tiles.ContainsKey(tilePosition))
+                if (!Tiles.ContainsKey(tilePosition))
                 {
                     tile.Position = tilePosition;
-                    _tiles.Add(tilePosition, tile);
+                    Tiles.Add(tilePosition, tile);
                 }
             }
 
@@ -65,5 +75,48 @@ namespace FindPath
     {
         BreadthFirstSearch, 
         AStar
+    }
+    
+    
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = true)]
+    public class BigHeaderAttribute : PropertyAttribute
+    {
+        public string Text => _mText;
+        private string _mText = String.Empty;
+
+        public BigHeaderAttribute(string text)
+        {
+            _mText = text;
+        }
+    }
+    
+    
+    [CustomPropertyDrawer(typeof(BigHeaderAttribute))]
+    public class BigHeaderAttributeDrawer : DecoratorDrawer
+    {
+        public override void OnGUI(Rect position)
+        {
+            BigHeaderAttribute attributeHandle = (BigHeaderAttribute)attribute;
+
+            position.yMin += EditorGUIUtility.singleLineHeight * 0.5f;
+            
+            position = EditorGUI.IndentedRect(position);
+
+            GUIStyle headerTextStyle = new GUIStyle()
+            {
+                fontSize = 15,
+                fontStyle = FontStyle.Normal,
+                alignment = TextAnchor.MiddleLeft
+            };
+
+            headerTextStyle.normal.textColor = Color.cyan;
+            
+            GUI.Label(position, attributeHandle.Text, headerTextStyle);
+        }
+
+        public override float GetHeight()
+        {
+            return EditorGUIUtility.singleLineHeight * 1.8f;
+        }
     }
 }

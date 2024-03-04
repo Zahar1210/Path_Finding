@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace FindPath
 {
@@ -66,8 +68,7 @@ namespace FindPath
 
                 if (currentSurface == null)
                 {
-                    Debug.LogError("xnj jfnj");
-                    break;
+                    throw new ArgumentException($"No surface found for current surface");
                 }
                 
                 path.Add(currentSurface);
@@ -80,24 +81,19 @@ namespace FindPath
 
             void AddTileInfo(Tile tile)
             {
-                AStarCost weight = GetStep(tile);
+                float weight = GetStep(tile);
                 
                 if (!visitedTiles.ContainsKey(tile.Position))
                 {
-                    visitedTiles.Add(tile.Position, new TileAStar(weight.HCost, weight.GCost));
+                    visitedTiles.Add(tile.Position, new TileAStar(weight));
                 }
             }
 
-            AStarCost GetStep(Tile tile)
+            float GetStep(Tile tile)
             {
                 float target = Vector3.Distance(targetSurface.Tile.Position, tile.Position);
                 // float pos = Vector3.Distance(tile.Position ,currentSurface.Tile.Position);
-                
-                return new AStarCost()
-                {
-                    GCost = target,
-                    // HCost = pos
-                };
+                return target;
             }
             
             return path.ToArray();
@@ -133,7 +129,7 @@ namespace FindPath
         private static void AddTile(FindPathProject findPathProject, 
             List<Tile> selectTiles, Vector3Int tilePos, Dictionary<Vector3Int, TileAStar> visitedTiles )
         {
-            if (findPathProject._tiles.TryGetValue(tilePos, out var tile) && !visitedTiles.ContainsKey(tilePos))
+            if (findPathProject.Tiles.TryGetValue(tilePos, out var tile) && !visitedTiles.ContainsKey(tilePos))
             {
                 selectTiles.Add(tile);
             }
@@ -182,7 +178,7 @@ namespace FindPath
                 visitedTiles.Add(t, new TileBreadthFirstSearch(step));
                 foreach (var direction in findPathProject.Directions.dirGroup.directions)
                 {
-                    if (findPathProject._tiles.TryGetValue(t + direction, out var tile))
+                    if (findPathProject.Tiles.TryGetValue(t + direction, out var tile))
                     {
                         if (!visitedTiles.ContainsKey(tile.Position) && !queueTiles.Contains(tile.Position))
                         {
@@ -214,7 +210,7 @@ namespace FindPath
                     if (visited.TryGetValue(tilePos, out var tileSurface) &&
                         tileSurface.Step == visited[currentSurface.Tile.Position].Step - 1)
                     {
-                        if (findPathProject._tiles.TryGetValue(tilePos, out Tile tile) &&
+                        if (findPathProject.Tiles.TryGetValue(tilePos, out Tile tile) &&
                             tile._surfaces.TryGetValue(currentSurface.Direction, out var surface))
                         {
                             if (!path.Contains(surface) && !surface.IsObstacle)
@@ -232,7 +228,7 @@ namespace FindPath
                     if (visited.TryGetValue(tilePosition, out var tileSurface) &&
                         tileSurface.Step <= visited[currentSurface.Tile.Position].Step)
                     {
-                        if (findPathProject._tiles.TryGetValue(tilePosition, out Tile tile) && !selectTilesCopy.Contains(tile))
+                        if (findPathProject.Tiles.TryGetValue(tilePosition, out Tile tile) && !selectTilesCopy.Contains(tile))
                         {
                             selectTilesCopy.Add(tile);
                         }
@@ -323,16 +319,10 @@ namespace FindPath
         {
             public float FCost { get; private set; }
 
-            public TileAStar(float hCost ,float gCost)
+            public TileAStar(float gCost)
             {
                 FCost =  gCost;
             }
-        }
-        
-        private struct AStarCost
-        {
-            public float HCost;
-            public float GCost;
         }
     }
 }

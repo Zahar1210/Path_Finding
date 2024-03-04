@@ -11171,8 +11171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3226de46ba60d4430b791358cf336513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileSize: 1
-  findMode: 1
+  tileSize: 2
+  findMode: 0
   pathGizmos: {fileID: 257014526}
   directions: {fileID: 11400000, guid: e492c0b4e2d3e43af8c2a4f485769cbd, type: 2}
 --- !u!114 &257014526

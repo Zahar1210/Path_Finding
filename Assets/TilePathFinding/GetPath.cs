@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace FindPath
@@ -7,10 +7,21 @@ namespace FindPath
     public class GetPath : MonoBehaviour
     {
         [SerializeField] private FindPathProject findPathProject;
+        
         private Camera _camera;
-
+        private GUIStyle helperTextStyle;
+        
         private void Start()
         {
+            helperTextStyle = new GUIStyle()
+            {
+                fontSize = 8,
+                fontStyle = FontStyle.Bold,
+                alignment = TextAnchor.MiddleCenter
+            };
+            
+            helperTextStyle.normal.textColor = Color.blue;
+
             _camera = Camera.main;
         }
 
@@ -18,24 +29,25 @@ namespace FindPath
         {
             if (Input.GetMouseButtonUp(0))
             {
-                if (findPathProject._path != null)
+                if (findPathProject.Path != null)
                 {
-                    Array.Clear(findPathProject._path, 0, findPathProject._path.Length);
+                    Array.Clear(findPathProject.Path, 0, findPathProject.Path.Length);
                 }
                 
                 Tile.Surface targetSurface = GetTargetSurface();
                 Tile.Surface currentSurface = GetCurrentSurface();
+                
                 if (targetSurface == null)
                     return;
                 
-                findPathProject._path = 
-                    PathFinding.GetPath(currentSurface, targetSurface, findPathProject, findPathProject.findMode);
+                findPathProject.Path = PathFinding.GetPath(currentSurface,
+                    targetSurface, findPathProject, findPathProject.findMode);
             }
         }
 
         private Tile.Surface GetCurrentSurface()
         {
-            if (findPathProject._tiles.TryGetValue(Vector3Int.RoundToInt(transform.position) + Vector3Int.down, out var tile))
+            if (findPathProject.Tiles.TryGetValue(Vector3Int.RoundToInt(transform.position) + Vector3Int.down, out var tile))
             {
                 if (tile._surfaces.TryGetValue(Vector3Int.up, out var surface))
                 {
@@ -63,5 +75,23 @@ namespace FindPath
 
             return null;
         }
+        
+#if UNITY_EDITOR
+        
+        private void OnDrawGizmos()
+        {
+            if (findPathProject.Path == null || findPathProject.Path.Length <= 1) 
+                return;
+            
+            foreach (var s in findPathProject.Path)
+            {
+                if (s != null)
+                {
+                    Vector3 drawPos = s.Tile.Position + s.Direction;
+                    Handles.Label(drawPos, Array.IndexOf(findPathProject.Path, s).ToString(), helperTextStyle);
+                }
+            }
+        }
+#endif
     }
 }

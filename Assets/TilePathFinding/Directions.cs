@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using FindPath;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "NewInfo/ DirectionInfo", fileName = "Directions")]
@@ -7,41 +8,42 @@ public class Directions : ScriptableObject
 {
     public Dir dir;
     public DirGroup dirGroup;
-    public Dictionary<Vector3Int, DirectionArrayPair> dirDictionary = new();
+    public Dictionary<Vector3Int, DirectionArrayPair> DirDictionary = new();
+    public static int TileSize => FindPathProject.Instance.TileSize;
 
     private void OnEnable()
     {
-        dirDictionary.Add(Vector3Int.right, new DirectionArrayPair()
+        DirDictionary.Add(Vector3Int.right, new DirectionArrayPair()
         {
             DirectionArray = dirGroup.dirHorizontal,
             Directions = dir.dirRight
         } );
         
-        dirDictionary.Add(Vector3Int.left,new DirectionArrayPair()
+        DirDictionary.Add(Vector3Int.left,new DirectionArrayPair()
         {
             DirectionArray = dirGroup.dirHorizontal,
             Directions = dir.dirLeft
         } );
         
-        dirDictionary.Add(Vector3Int.up, new DirectionArrayPair()
+        DirDictionary.Add(Vector3Int.up, new DirectionArrayPair()
         {
             DirectionArray = dirGroup.dirVertical,
             Directions = dir.dirUp
         } );
         
-        dirDictionary.Add(Vector3Int.down,new DirectionArrayPair()
+        DirDictionary.Add(Vector3Int.down,new DirectionArrayPair()
         {
             DirectionArray = dirGroup.dirVertical,
             Directions = dir.dirDown
         } );
         
-        dirDictionary.Add(Vector3Int.forward,new DirectionArrayPair()
+        DirDictionary.Add(Vector3Int.forward,new DirectionArrayPair()
         {
             DirectionArray = dirGroup.dirDepth,
             Directions = dir.dirFront
         } );
         
-        dirDictionary.Add(Vector3Int.back,new DirectionArrayPair()
+        DirDictionary.Add(Vector3Int.back,new DirectionArrayPair()
         {
             DirectionArray = dirGroup.dirDepth,
             Directions = dir.dirBack
@@ -53,32 +55,38 @@ public class Directions : ScriptableObject
     {
         public Vector3Int[] dirRight = 
         {
-            new Vector3Int(1, 1, 0), new Vector3Int(1, 0, 1), new Vector3Int(1, -1, 0), new Vector3Int(1, 0, -1),
+            new Vector3Int(TileSize, TileSize, 0), new Vector3Int(TileSize, 0, TileSize),
+            new Vector3Int(TileSize, -TileSize, 0), new Vector3Int(TileSize, 0, -TileSize)
         };
         
         public Vector3Int[] dirLeft = 
         {
-            new Vector3Int(-1, 1, 0), new Vector3Int(-1, -1, 0), new Vector3Int(-1, 0, 1), new Vector3Int(-1, 0, -1),
+            new Vector3Int(-TileSize, TileSize, 0), new Vector3Int(-TileSize, -TileSize, 0),
+            new Vector3Int(-TileSize, 0, TileSize), new Vector3Int(-TileSize, 0, -TileSize)
         };
         
         public Vector3Int[] dirUp = 
         {
-            new Vector3Int(1, 1, 0), new Vector3Int(-1, 1, 0), new Vector3Int(0, 1, 1), new Vector3Int(0, 1, -1),
+            new Vector3Int(TileSize, TileSize, 0), new Vector3Int(-TileSize, TileSize, 0),
+            new Vector3Int(0, TileSize, TileSize), new Vector3Int(0, TileSize, -TileSize)
         };
         
         public Vector3Int[] dirDown = 
         {
-            new Vector3Int(1, -1, 0), new Vector3Int(-1, -1, 0), new Vector3Int(0, -1, 1), new Vector3Int(0, -1, -1),
+            new Vector3Int(TileSize, -TileSize, 0), new Vector3Int(-TileSize, -TileSize, 0),
+            new Vector3Int(0, -TileSize, TileSize), new Vector3Int(0, -TileSize, -TileSize)
         };
         
         public Vector3Int[] dirFront = 
         {
-            new Vector3Int(1, 0, 1), new Vector3Int(-1, 0, 1), new Vector3Int(0, 1, 1), new Vector3Int(0, -1, 1),
+            new Vector3Int(TileSize, 0, TileSize), new Vector3Int(-TileSize, 0, TileSize),
+            new Vector3Int(0, TileSize, TileSize), new Vector3Int(0, -TileSize, TileSize)
         };
         
         public Vector3Int[] dirBack = 
         {
-            new Vector3Int(1, 0, -1), new Vector3Int(-1, 0, -1), new Vector3Int(0, 1, -1), new Vector3Int(0, -1, -1),
+            new Vector3Int(TileSize, 0, -TileSize), new Vector3Int(-TileSize, 0, -TileSize),
+            new Vector3Int(0, TileSize, -TileSize), new Vector3Int(0, -TileSize, -TileSize)
         };
     }
     
@@ -87,23 +95,27 @@ public class Directions : ScriptableObject
     {
         public Vector3Int[] dirHorizontal =
         {
-            new Vector3Int(0, 0, 1), new Vector3Int(0, 0, -1), new Vector3Int(0, 1, 0), new Vector3Int(0, -1, 0),
+            new Vector3Int(0, 0, TileSize), new Vector3Int(0, 0, -TileSize),
+            new Vector3Int(0, TileSize, 0), new Vector3Int(0, -TileSize, 0),
         };
         
         public Vector3Int[] dirVertical = 
         {
-            new Vector3Int(0, 0, -1), new Vector3Int(0, 0, 1), new Vector3Int(1, 0, 0), new Vector3Int(-1, 0, 0),
+            new Vector3Int(0, 0, -TileSize), new Vector3Int(0, 0, TileSize),
+            new Vector3Int(TileSize, 0, 0), new Vector3Int(-TileSize, 0, 0),
         };
         
         public Vector3Int[] dirDepth = 
         {
-            new Vector3Int(1, 0, 0), new Vector3Int(-1, 0, 0), new Vector3Int(0, 1, 0), new Vector3Int(0, -1, 0),
+            new Vector3Int(TileSize, 0, 0), new Vector3Int(-TileSize, 0, 0),
+            new Vector3Int(0, TileSize, 0), new Vector3Int(0, -TileSize, 0),
         };
    
         public Vector3Int[] directions =
         {
-            new Vector3Int(1, 0, 0), new Vector3Int(-1, 0, 0), new Vector3Int(0, 1, 0), new Vector3Int(0, -1, 0),
-            new Vector3Int(0, 0, 1), new Vector3Int(0, 0, -1)
+            new Vector3Int(TileSize, 0, 0), new Vector3Int(-TileSize, 0, 0),
+            new Vector3Int(0, TileSize, 0), new Vector3Int(0, -TileSize, 0),
+            new Vector3Int(0, 0, TileSize), new Vector3Int(0, 0, -TileSize)
         };
     }
     
