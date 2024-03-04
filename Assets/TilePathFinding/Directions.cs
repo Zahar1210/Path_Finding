@@ -8,6 +8,7 @@ public class Directions : ScriptableObject
 {
     public Dir dir;
     public DirGroup dirGroup;
+    
     public Dictionary<Vector3Int, DirectionArrayPair> DirDictionary = new();
     public static int TileSize => FindPathProject.Instance.TileSize;
 
@@ -53,37 +54,37 @@ public class Directions : ScriptableObject
     [Serializable]
     public class Dir
     {
-        public Vector3Int[] dirRight = 
+        public Vector3Int[] dirRight => new Vector3Int[]
         {
             new Vector3Int(TileSize, TileSize, 0), new Vector3Int(TileSize, 0, TileSize),
             new Vector3Int(TileSize, -TileSize, 0), new Vector3Int(TileSize, 0, -TileSize)
         };
         
-        public Vector3Int[] dirLeft = 
+        public Vector3Int[] dirLeft => new Vector3Int[]
         {
             new Vector3Int(-TileSize, TileSize, 0), new Vector3Int(-TileSize, -TileSize, 0),
             new Vector3Int(-TileSize, 0, TileSize), new Vector3Int(-TileSize, 0, -TileSize)
         };
         
-        public Vector3Int[] dirUp = 
+        public Vector3Int[] dirUp => new Vector3Int[] 
         {
             new Vector3Int(TileSize, TileSize, 0), new Vector3Int(-TileSize, TileSize, 0),
             new Vector3Int(0, TileSize, TileSize), new Vector3Int(0, TileSize, -TileSize)
         };
         
-        public Vector3Int[] dirDown = 
+        public Vector3Int[] dirDown => new Vector3Int[] 
         {
             new Vector3Int(TileSize, -TileSize, 0), new Vector3Int(-TileSize, -TileSize, 0),
             new Vector3Int(0, -TileSize, TileSize), new Vector3Int(0, -TileSize, -TileSize)
         };
         
-        public Vector3Int[] dirFront = 
+        public Vector3Int[] dirFront => new Vector3Int[] 
         {
             new Vector3Int(TileSize, 0, TileSize), new Vector3Int(-TileSize, 0, TileSize),
             new Vector3Int(0, TileSize, TileSize), new Vector3Int(0, -TileSize, TileSize)
         };
         
-        public Vector3Int[] dirBack = 
+        public Vector3Int[] dirBack => new Vector3Int[] 
         {
             new Vector3Int(TileSize, 0, -TileSize), new Vector3Int(-TileSize, 0, -TileSize),
             new Vector3Int(0, TileSize, -TileSize), new Vector3Int(0, -TileSize, -TileSize)
@@ -93,25 +94,25 @@ public class Directions : ScriptableObject
     [Serializable]
     public class DirGroup
     {
-        public Vector3Int[] dirHorizontal =
+        public Vector3Int[] dirHorizontal => new Vector3Int[]
         {
             new Vector3Int(0, 0, TileSize), new Vector3Int(0, 0, -TileSize),
             new Vector3Int(0, TileSize, 0), new Vector3Int(0, -TileSize, 0),
         };
         
-        public Vector3Int[] dirVertical = 
+        public Vector3Int[] dirVertical => new Vector3Int[] 
         {
             new Vector3Int(0, 0, -TileSize), new Vector3Int(0, 0, TileSize),
             new Vector3Int(TileSize, 0, 0), new Vector3Int(-TileSize, 0, 0),
         };
         
-        public Vector3Int[] dirDepth = 
+        public Vector3Int[] dirDepth => new Vector3Int[] 
         {
             new Vector3Int(TileSize, 0, 0), new Vector3Int(-TileSize, 0, 0),
             new Vector3Int(0, TileSize, 0), new Vector3Int(0, -TileSize, 0),
         };
    
-        public Vector3Int[] directions =
+        public Vector3Int[] directions => new Vector3Int[]
         {
             new Vector3Int(TileSize, 0, 0), new Vector3Int(-TileSize, 0, 0),
             new Vector3Int(0, TileSize, 0), new Vector3Int(0, -TileSize, 0),
