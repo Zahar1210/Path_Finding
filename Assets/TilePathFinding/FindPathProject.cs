@@ -8,32 +8,28 @@ namespace FindPath
 {
     public class FindPathProject : MonoBehaviour
     {
+        #region Variables
+
+        public Dictionary<Vector3Int, Tile> Tiles = new();
         public static FindPathProject Instance { get; set; }
         public Directions Directions => directions;
-        public Dictionary<Vector3Int, Tile> Tiles = new();
         public int TileSize => tileSize;
         public Tile.Surface[] Path { get; set; }
         
         [BigHeader("Path Finding Parameters")] 
         [SerializeField] [Range(1f, 3f)] private int tileSize;
-        public LayerMask getComponentLayer;
+        [SerializeField] private Directions directions;
         
         [BigHeader("Path Find Mode")] 
         public FindMode findMode;
 
         [BigHeader("Gizmos")]
         [SerializeField] private PathGizmos pathGizmos;
-        [SerializeField] private Directions directions;
-
-
-        private static void GetSize()
-        {
-        }
+        
+        #endregion
         
         private void Awake()
         {
-            // Directions.TileSize = TileSize;
-
             if (Instance == null)
             {
                 Instance = this;
@@ -69,6 +65,7 @@ namespace FindPath
             }
         }
 
+        
         [MenuItem("PathFinding/ArrangeAll")]
         public static void ArrangeAll()
         {
@@ -83,20 +80,15 @@ namespace FindPath
         [MenuItem("PathFinding/GetComponentAll")]
         public static void GetComponentAll()
         {
-            List<Tile> tiles = new();
-            
             foreach (var item in FindObjectsOfType<GameObject>())
             {
                 Tile tile = item.gameObject.GetComponent<Tile>();
-                Debug.Log(item.gameObject.layer);
-                tiles.Add(tile);
+                
                 if (item.gameObject.layer == 3 && !tile)
                 {
                     item.gameObject.AddComponent<Tile>();
                 }
             }
-            
-            Debug.Log(tiles.Count);
         }
     }
 
@@ -107,15 +99,14 @@ namespace FindPath
     }
     
     
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
     public class BigHeaderAttribute : PropertyAttribute
     {
-        public string Text => _mText;
-        private string _mText = String.Empty;
-
+        public string Text { get; set; }
+        
         public BigHeaderAttribute(string text)
         {
-            _mText = text;
+            Text = text;
         }
     }
     

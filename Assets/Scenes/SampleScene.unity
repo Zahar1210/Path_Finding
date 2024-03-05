@@ -11172,12 +11172,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileSize: 1
-  getComponentLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  directions: {fileID: 11400000, guid: e492c0b4e2d3e43af8c2a4f485769cbd, type: 2}
   findMode: 0
   pathGizmos: {fileID: 257014526}
-  directions: {fileID: 11400000, guid: e492c0b4e2d3e43af8c2a4f485769cbd, type: 2}
 --- !u!114 &257014526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23607,6 +23604,7 @@ GameObject:
   - component: {fileID: 647587455}
   - component: {fileID: 647587454}
   - component: {fileID: 647587453}
+  - component: {fileID: 647587456}
   m_Layer: 3
   m_Name: Tile (39)
   m_TagString: Untagged
@@ -23692,6 +23690,26 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 647587450}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &647587456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647587450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9e0175b6c82d4ca2b4bcc0770ce2f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Position: {x: 0, y: 0, z: 0}
+  surfacesArray:
+  - {x: 1, y: 0, z: 0}
+  - {x: -1, y: 0, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: -1, z: 0}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: -1}
 --- !u!1 &649593135
 GameObject:
   m_ObjectHideFlags: 0

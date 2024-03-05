@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using FindPath;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "NewInfo/ DirectionInfo", fileName = "Directions")]

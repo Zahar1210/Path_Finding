@@ -8,8 +8,11 @@ namespace FindPath
     {
         public Vector3Int Position;
         public Dictionary<Vector3Int, Surface> _surfaces = new();
+        
         [SerializeField] private Vector3Int[] surfacesArray;
+        
         private FindPathProject _findPathProject;
+        private int TileSize => FindPathProject.Instance.TileSize;
 
         public void SetSurface(FindPathProject pathFinding)
         {
@@ -26,8 +29,11 @@ namespace FindPath
             Directions.DirectionArrayPair dirs = new();
 
             if (pathFinding.Directions.DirDictionary.TryGetValue(direction, out Directions.DirectionArrayPair _dirs))
+            {
                 dirs = _dirs;
-            Surface s = new Surface(direction, dirs, this);
+            }
+            Surface s = new Surface(direction, dirs, this, TileSize);
+            
             s.IsObstacle = pathFinding.Tiles.TryGetValue(s.Tile.Position + direction, out Tile tile);
             _surfaces.Add(direction, s);
         }
@@ -62,20 +68,18 @@ namespace FindPath
             //These variable are needed for Gizmos 
             public Vector3 Size { get; }
 
-            public Surface(Vector3Int direction, Directions.DirectionArrayPair directions, Tile tile)
+            public Surface(Vector3Int direction, Directions.DirectionArrayPair directions, Tile tile, int tileSize)
             {
+                Tile = tile;
                 Direction = direction;
                 Directions = directions;
-                Tile = tile;
 
                 if (direction == Vector3Int.up || direction == Vector3Int.down)
-                    Size = new Vector3(0.9f, 0.05f, 0.9f);
-                
+                    Size = new Vector3(tileSize - 0.1f, 0.05f, tileSize - 0.1f);
                 else if (direction == Vector3Int.left || direction == Vector3Int.right)
-                    Size = new Vector3(0.05f, 0.9f, 0.9f);
-                
+                    Size = new Vector3(0.05f, tileSize - 0.1f, tileSize - 0.1f);
                 else
-                    Size = new Vector3(0.9f, 0.9f, 0.05f);
+                    Size = new Vector3(tileSize - 0.1f, tileSize - 0.1f, 0.05f);
             }
         }
     }
