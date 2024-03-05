@@ -6,8 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "NewInfo/ DirectionInfo", fileName = "Directions")]
 public class Directions : ScriptableObject
 {
-    public Dir dir;
-    public DirGroup dirGroup;
+    public Dir dir { get; set; }
+    public DirGroup dirGroup { get; set; }
     
     public Dictionary<Vector3Int, DirectionArrayPair> DirDictionary = new();
     private static int TileSize => FindPathProject.Instance.TileSize;

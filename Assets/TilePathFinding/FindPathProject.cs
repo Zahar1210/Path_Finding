@@ -11,10 +11,10 @@ namespace FindPath
         #region Variables
 
         public Dictionary<Vector3Int, Tile> Tiles = new();
-        public static FindPathProject Instance { get; set; }
-        public Directions Directions => directions;
-        public int TileSize => tileSize;
         public Tile.Surface[] Path { get; set; }
+        public static FindPathProject Instance { get; set; }
+        public int TileSize => tileSize;
+        public Directions Directions => directions;
         
         [BigHeader("Path Finding Parameters")] 
         [SerializeField] [Range(1f, 3f)] private int tileSize;
@@ -64,26 +64,35 @@ namespace FindPath
                 tile.SetSurface(this);
             }
         }
-
         
-        [MenuItem("PathFinding/ArrangeAll")]
+        #region MenuFunctions
+
+        [MenuItem("PathFinding/Utility Functions/Set Position All")]
         public static void ArrangeAll()
         {
-            foreach (var tile in FindObjectsOfType<Tile>())
+            Tile[] tiles = FindObjectsOfType<Tile>();
+            if (tiles.Length > 0)
             {
-                Vector3 tilePos = tile.transform.position;
+                foreach (var tile in tiles)
+                {
+                    Vector3 tilePos = tile.transform.position;
                 
-                Vector3Int roundedPosition = new Vector3Int(
-                    Mathf.RoundToInt(tilePos.x),
-                    Mathf.RoundToInt(tilePos.y),
-                    Mathf.RoundToInt(tilePos.z)
-                );
+                    Vector3Int roundedPosition = new Vector3Int(
+                        Mathf.RoundToInt(tilePos.x),
+                        Mathf.RoundToInt(tilePos.y),
+                        Mathf.RoundToInt(tilePos.z)
+                    );
                 
-                tile.transform.position = roundedPosition;
+                    tile.transform.position = roundedPosition;
+                }
+            }
+            else
+            {
+                throw new ArgumentException($"Tiles are not found");
             }
         }
         
-        [MenuItem("PathFinding/GetComponentAll")]
+        [MenuItem("PathFinding/Utility Functions/Set Component All")]
         public static void GetComponentAll()
         {
             foreach (var item in FindObjectsOfType<GameObject>())
@@ -96,6 +105,47 @@ namespace FindPath
                 }
             }
         }
+        
+        [MenuItem("PathFinding/Utility Functions/Set Tile Surfaces All")]
+        public static void SetTileSurfaces()
+        { 
+            Tile[] tiles = FindObjectsOfType<Tile>();
+            if (tiles.Length > 0)
+            {
+                int size = FindObjectOfType<FindPathProject>().tileSize;
+
+                foreach (var tile in tiles)
+                {
+                    if (tile.surfacesArray.Length == 0)
+                    {
+                        HashSet<Vector3Int> surfaces = new HashSet<Vector3Int>();
+                    
+                        surfaces.Add(new Vector3Int(size, 0, 0));
+                        surfaces.Add(new Vector3Int(-size, 0, 0));
+                    
+                        surfaces.Add(new Vector3Int(0, size, 0));
+                        surfaces.Add(new Vector3Int(0, -size, 0));
+                    
+                        surfaces.Add(new Vector3Int(0, 0, size));
+                        surfaces.Add(new Vector3Int(0, 0, -size));
+            
+                        tile.surfacesArray = surfaces.ToArray();
+                    }
+                }
+            }
+            else
+            {
+                throw new ArgumentException($"Tiles without surfaces are not found");
+            }
+        }
+        
+        [MenuItem("PathFinding/Open Documentation")]
+        public static void OpenDocumentation()
+        {
+            throw new ArgumentException($"No documentation yet ");
+        }
+        
+        #endregion 
     }
 
     public enum FindMode

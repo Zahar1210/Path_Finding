@@ -6,10 +6,9 @@ namespace FindPath
 {
     public class Tile : MonoBehaviour
     {
-        public Vector3Int Position;
+        public Vector3Int Position { get; set; }
+        public Vector3Int[] surfacesArray;
         public Dictionary<Vector3Int, Surface> _surfaces = new();
-        
-        [SerializeField] private Vector3Int[] surfacesArray;
         
         private FindPathProject _findPathProject;
         private int TileSize => FindPathProject.Instance.TileSize;
