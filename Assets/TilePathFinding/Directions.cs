@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using FindPath;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "NewInfo/ DirectionInfo", fileName = "Directions")]
@@ -13,7 +14,7 @@ public class Directions : ScriptableObject
     public static int TileSize => FindPathProject.Instance.TileSize;
 
     private void OnEnable()
-    {
+    { 
         DirDictionary.Add(Vector3Int.right, new DirectionArrayPair()
         {
             DirectionArray = dirGroup.dirHorizontal,

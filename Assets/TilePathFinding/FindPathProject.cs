@@ -16,6 +16,7 @@ namespace FindPath
         
         [BigHeader("Path Finding Parameters")] 
         [SerializeField] [Range(1f, 3f)] private int tileSize;
+        public LayerMask getComponentLayer;
         
         [BigHeader("Path Find Mode")] 
         public FindMode findMode;
@@ -44,8 +45,6 @@ namespace FindPath
 
         private void Start()
         {
-            Debug.Log(Directions.TileSize);
-            Debug.Log(directions.dir.dirDown[1]);
             AddTiles();
             pathGizmos.SetTiles(Tiles.Values.ToList());
         }
@@ -68,6 +67,36 @@ namespace FindPath
             {
                 tile.SetSurface(this);
             }
+        }
+
+        [MenuItem("PathFinding/ArrangeAll")]
+        public static void ArrangeAll()
+        {
+            List<Tile> tiles = new();
+            foreach (var tile in FindObjectsOfType<Tile>())
+            {
+                tiles.Add(tile);
+            }
+            Debug.Log(tiles.Count);
+        }
+        
+        [MenuItem("PathFinding/GetComponentAll")]
+        public static void GetComponentAll()
+        {
+            List<Tile> tiles = new();
+            
+            foreach (var item in FindObjectsOfType<GameObject>())
+            {
+                Tile tile = item.gameObject.GetComponent<Tile>();
+                Debug.Log(item.gameObject.layer);
+                tiles.Add(tile);
+                if (item.gameObject.layer == 3 && !tile)
+                {
+                    item.gameObject.AddComponent<Tile>();
+                }
+            }
+            
+            Debug.Log(tiles.Count);
         }
     }
 
