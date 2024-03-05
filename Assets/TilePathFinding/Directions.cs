@@ -10,7 +10,7 @@ public class Directions : ScriptableObject
     public DirGroup dirGroup;
     
     public Dictionary<Vector3Int, DirectionArrayPair> DirDictionary = new();
-    public static int TileSize => FindPathProject.Instance.TileSize;
+    private static int TileSize => FindPathProject.Instance.TileSize;
 
     private void OnEnable()
     { 

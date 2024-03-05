@@ -38,7 +38,7 @@ namespace FindPath
         
             Destroy(gameObject);
         }
-
+        
         private void Start()
         {
             AddTiles();
@@ -69,12 +69,18 @@ namespace FindPath
         [MenuItem("PathFinding/ArrangeAll")]
         public static void ArrangeAll()
         {
-            List<Tile> tiles = new();
             foreach (var tile in FindObjectsOfType<Tile>())
             {
-                tiles.Add(tile);
+                Vector3 tilePos = tile.transform.position;
+                
+                Vector3Int roundedPosition = new Vector3Int(
+                    Mathf.RoundToInt(tilePos.x),
+                    Mathf.RoundToInt(tilePos.y),
+                    Mathf.RoundToInt(tilePos.z)
+                );
+                
+                tile.transform.position = roundedPosition;
             }
-            Debug.Log(tiles.Count);
         }
         
         [MenuItem("PathFinding/GetComponentAll")]
