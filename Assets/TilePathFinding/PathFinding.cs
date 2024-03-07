@@ -30,9 +30,9 @@ namespace FindPath
             List<Tile> selectTilesCopy = new();
             Tile.Surface currentSurface = startSurface;
             Dictionary<Vector3Int, TileAStar> visitedTiles = new();
+            
             path.Add(currentSurface);
-
-
+            
             for (int i = 0; i < 45; i++)
             {
                 selectTiles = SelectTiles(findPathProject, currentSurface, visitedTiles);
@@ -202,7 +202,7 @@ namespace FindPath
                 selectTiles.Clear();
                 selectTilesCopy.Clear();
                 path.Add(currentSurface);
-
+                
                 foreach (var direction in currentSurface.Directions.DirectionArray)
                 {
                     Vector3Int tilePos = currentSurface.Tile.Position + direction;
@@ -307,7 +307,7 @@ namespace FindPath
         
         private class TileBreadthFirstSearch
         {
-            public int Step { get; private set; }
+            public int Step { get; }
 
             public TileBreadthFirstSearch(int step)
             {
@@ -317,7 +317,7 @@ namespace FindPath
 
         private class TileAStar
         {
-            public float FCost { get; private set; }
+            public float FCost { get; }
 
             public TileAStar(float gCost)
             {

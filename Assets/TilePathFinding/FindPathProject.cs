@@ -28,23 +28,23 @@ namespace FindPath
         
         #endregion
         
-        private void Awake()
+        public void Initialize()
         {
             if (Instance == null)
             {
                 Instance = this;
                 return;
             }
-        
+
             Destroy(gameObject);
         }
-        
+
+
         private void Start()
         {
             AddTiles();
-            pathGizmos.SetTiles(Tiles.Values.ToList());
         }
-        
+
         private void AddTiles()
         {
             Tile[] tiles = FindObjectsOfType<Tile>();

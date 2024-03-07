@@ -6,120 +6,139 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "NewInfo/ DirectionInfo", fileName = "Directions")]
 public class Directions : ScriptableObject
 {
-    public Dir dir { get; set; }
-    public DirGroup dirGroup { get; set; }
-    
+    public Dir dir;
+    public DirGroup dirGroup;
     public Dictionary<Vector3Int, DirectionArrayPair> DirDictionary = new();
-    private static int TileSize => FindPathProject.Instance.TileSize;
 
-    private void OnEnable()
-    { 
-        DirDictionary.Add(Vector3Int.right, new DirectionArrayPair()
+    public void Initialize()
+    {
+        int tileSize = FindPathProject.Instance.TileSize;
+        dir.SetVector(tileSize);
+        dirGroup.SetVector(tileSize);
+        SetDirDictionary();
+    }
+
+    private void SetDirDictionary()
+    {
+        DirDictionary.Add(Vector3Int.right, new DirectionArrayPair
         {
             DirectionArray = dirGroup.dirHorizontal,
             Directions = dir.dirRight
-        } );
-        
-        DirDictionary.Add(Vector3Int.left,new DirectionArrayPair()
+        });
+
+        DirDictionary.Add(Vector3Int.left, new DirectionArrayPair
         {
             DirectionArray = dirGroup.dirHorizontal,
             Directions = dir.dirLeft
-        } );
-        
-        DirDictionary.Add(Vector3Int.up, new DirectionArrayPair()
+        });
+
+        DirDictionary.Add(Vector3Int.up, new DirectionArrayPair
         {
             DirectionArray = dirGroup.dirVertical,
             Directions = dir.dirUp
-        } );
-        
-        DirDictionary.Add(Vector3Int.down,new DirectionArrayPair()
+        });
+
+        DirDictionary.Add(Vector3Int.down, new DirectionArrayPair
         {
             DirectionArray = dirGroup.dirVertical,
             Directions = dir.dirDown
-        } );
-        
-        DirDictionary.Add(Vector3Int.forward,new DirectionArrayPair()
+        });
+
+        DirDictionary.Add(Vector3Int.forward, new DirectionArrayPair
         {
             DirectionArray = dirGroup.dirDepth,
             Directions = dir.dirFront
-        } );
-        
-        DirDictionary.Add(Vector3Int.back,new DirectionArrayPair()
+        });
+
+        DirDictionary.Add(Vector3Int.back, new DirectionArrayPair
         {
             DirectionArray = dirGroup.dirDepth,
             Directions = dir.dirBack
-        } );
+        });
     }
 
     [Serializable]
     public class Dir
     {
-        public Vector3Int[] dirRight => new Vector3Int[]
+        public Vector3Int[] dirRight;
+        public Vector3Int[] dirLeft;
+        public Vector3Int[] dirUp;
+        public Vector3Int[] dirDown;
+        public Vector3Int[] dirFront;
+        public Vector3Int[] dirBack;
+        public void SetVector(int _tileSize)
         {
-            new Vector3Int(TileSize, TileSize, 0), new Vector3Int(TileSize, 0, TileSize),
-            new Vector3Int(TileSize, -TileSize, 0), new Vector3Int(TileSize, 0, -TileSize)
-        };
-        
-        public Vector3Int[] dirLeft => new Vector3Int[]
-        {
-            new Vector3Int(-TileSize, TileSize, 0), new Vector3Int(-TileSize, -TileSize, 0),
-            new Vector3Int(-TileSize, 0, TileSize), new Vector3Int(-TileSize, 0, -TileSize)
-        };
-        
-        public Vector3Int[] dirUp => new Vector3Int[] 
-        {
-            new Vector3Int(TileSize, TileSize, 0), new Vector3Int(-TileSize, TileSize, 0),
-            new Vector3Int(0, TileSize, TileSize), new Vector3Int(0, TileSize, -TileSize)
-        };
-        
-        public Vector3Int[] dirDown => new Vector3Int[] 
-        {
-            new Vector3Int(TileSize, -TileSize, 0), new Vector3Int(-TileSize, -TileSize, 0),
-            new Vector3Int(0, -TileSize, TileSize), new Vector3Int(0, -TileSize, -TileSize)
-        };
-        
-        public Vector3Int[] dirFront => new Vector3Int[] 
-        {
-            new Vector3Int(TileSize, 0, TileSize), new Vector3Int(-TileSize, 0, TileSize),
-            new Vector3Int(0, TileSize, TileSize), new Vector3Int(0, -TileSize, TileSize)
-        };
-        
-        public Vector3Int[] dirBack => new Vector3Int[] 
-        {
-            new Vector3Int(TileSize, 0, -TileSize), new Vector3Int(-TileSize, 0, -TileSize),
-            new Vector3Int(0, TileSize, -TileSize), new Vector3Int(0, -TileSize, -TileSize)
-        };
+            dirRight = new[]
+            {
+                new Vector3Int(_tileSize, _tileSize, 0), new Vector3Int(_tileSize, 0, _tileSize),
+                new Vector3Int(_tileSize, -_tileSize, 0), new Vector3Int(_tileSize, 0, -_tileSize)
+            };
+
+            dirLeft = new[]
+            {
+                new Vector3Int(-_tileSize, _tileSize, 0), new Vector3Int(-_tileSize, -_tileSize, 0),
+                new Vector3Int(-_tileSize, 0, _tileSize), new Vector3Int(-_tileSize, 0, -_tileSize)
+            };
+            
+            dirUp = new[]
+            {
+                new Vector3Int(_tileSize, _tileSize, 0), new Vector3Int(-_tileSize, _tileSize, 0),
+                new Vector3Int(0, _tileSize, _tileSize), new Vector3Int(0, _tileSize, -_tileSize)
+            };
+            
+            dirDown = new[]
+            {
+                new Vector3Int(_tileSize, -_tileSize, 0), new Vector3Int(-_tileSize, -_tileSize, 0),
+                new Vector3Int(0, -_tileSize, _tileSize), new Vector3Int(0, -_tileSize, -_tileSize)
+            };
+            
+            dirFront = new[]
+            {
+                new Vector3Int(_tileSize, 0, _tileSize), new Vector3Int(-_tileSize, 0, _tileSize),
+                new Vector3Int(0, _tileSize, _tileSize), new Vector3Int(0, -_tileSize, _tileSize)
+            };
+            
+            dirBack = new[]
+            {
+                new Vector3Int(_tileSize, 0, -_tileSize), new Vector3Int(-_tileSize, 0, -_tileSize), 
+                new Vector3Int(0, _tileSize, -_tileSize), new Vector3Int(0, -_tileSize, -_tileSize)
+            };
+        }
     }
-    
+
     [Serializable]
     public class DirGroup
     {
-        public Vector3Int[] dirHorizontal => new Vector3Int[]
+        public Vector3Int[] dirHorizontal;
+        public Vector3Int[] dirVertical;
+        public Vector3Int[] dirDepth;
+        public Vector3Int[] directions;
+        public void SetVector(int _tileSize)
         {
-            new Vector3Int(0, 0, TileSize), new Vector3Int(0, 0, -TileSize),
-            new Vector3Int(0, TileSize, 0), new Vector3Int(0, -TileSize, 0),
-        };
-        
-        public Vector3Int[] dirVertical => new Vector3Int[] 
-        {
-            new Vector3Int(0, 0, -TileSize), new Vector3Int(0, 0, TileSize),
-            new Vector3Int(TileSize, 0, 0), new Vector3Int(-TileSize, 0, 0),
-        };
-        
-        public Vector3Int[] dirDepth => new Vector3Int[] 
-        {
-            new Vector3Int(TileSize, 0, 0), new Vector3Int(-TileSize, 0, 0),
-            new Vector3Int(0, TileSize, 0), new Vector3Int(0, -TileSize, 0),
-        };
-   
-        public Vector3Int[] directions => new Vector3Int[]
-        {
-            new Vector3Int(TileSize, 0, 0), new Vector3Int(-TileSize, 0, 0),
-            new Vector3Int(0, TileSize, 0), new Vector3Int(0, -TileSize, 0),
-            new Vector3Int(0, 0, TileSize), new Vector3Int(0, 0, -TileSize)
-        };
+            dirHorizontal = new[]
+            {
+                new Vector3Int(0, 0, _tileSize), new Vector3Int(0, 0, -_tileSize),
+                new Vector3Int(0, _tileSize, 0), new Vector3Int(0, -_tileSize, 0),
+            };
+            dirVertical = new[]
+            {
+                new Vector3Int(0, 0, -_tileSize), new Vector3Int(0, 0, _tileSize),
+                new Vector3Int(_tileSize, 0, 0), new Vector3Int(-_tileSize, 0, 0),
+            };
+            dirDepth = new[]
+            {
+                new Vector3Int(_tileSize, 0, 0), new Vector3Int(-_tileSize, 0, 0),
+                new Vector3Int(0, _tileSize, 0), new Vector3Int(0, -_tileSize, 0),
+            };
+            directions = new[]
+            {
+                new Vector3Int(_tileSize, 0, 0), new Vector3Int(-_tileSize, 0, 0),
+                new Vector3Int(0, _tileSize, 0), new Vector3Int(0, -_tileSize, 0),
+                new Vector3Int(0, 0, _tileSize), new Vector3Int(0, 0, -_tileSize)
+            };
+        }
     }
-    
+
     public struct DirectionArrayPair
     {
         public Vector3Int[] DirectionArray;

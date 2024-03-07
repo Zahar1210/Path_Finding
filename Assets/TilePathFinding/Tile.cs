@@ -6,17 +6,17 @@ namespace FindPath
 {
     public class Tile : MonoBehaviour
     {
-        public Vector3Int Position { get; set; }
         public Vector3Int[] surfacesArray;
+        public Vector3Int Position;
         public Dictionary<Vector3Int, Surface> _surfaces = new();
         
         private FindPathProject _findPathProject;
-        private int TileSize => FindPathProject.Instance.TileSize;
+        private int TileSize;
 
         public void SetSurface(FindPathProject pathFinding)
         {
             _findPathProject = FindPathProject.Instance;
-            
+            TileSize = _findPathProject.TileSize;
             foreach (var surface in surfacesArray)
             {
                 AddSurface(surface, pathFinding);
@@ -47,9 +47,9 @@ namespace FindPath
                 if (_findPathProject.Path != null && _findPathProject.Path.Contains(surface.Value))
                     Gizmos.color = new Color(0.1f, 1f, 0f, 1f);
                 else if (!s.IsObstacle)
-                    Gizmos.color = new Color(0.1f, 1f, 0f, 0.1f);
+                    Gizmos.color = new Color(0.1f, 1f, 0f, 0.15f);
                 else
-                    Gizmos.color = new Color(1f, 0f, 0f, 0.1f);
+                    Gizmos.color = new Color(1f, 0f, 0f, 0.15f);
                 Gizmos.DrawCube(transform.position + dir * 0.5f, s.Size);
             }
         }
