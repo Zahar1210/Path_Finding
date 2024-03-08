@@ -12,7 +12,7 @@ namespace FindPath
         {
             foreach (var t in tiles)
             {
-                foreach (KeyValuePair<Vector3Int, Tile.Surface> surface in t._surfaces)
+                foreach (KeyValuePair<Vector3Int, Tile.Surface> surface in t.Surfaces)
                 {
                     _surfaces.Add(surface.Value);
                 }
