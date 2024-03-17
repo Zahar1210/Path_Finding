@@ -6,10 +6,11 @@ using UnityEngine;
 namespace FindPath
 {
     public class Tile : MonoBehaviour
-    {
-        public Vector3Int Position { get; set; }
-        public Surface[] _surfaces;
-        public Dictionary<Vector3Int, Surface> Surfaces = new();
+    { 
+        public Vector3Int position;
+        public Surface[] surfaces;
+        
+        public readonly Dictionary<Vector3Int, Surface> Surfaces = new();
 
         private FindPathProject _findPathProject;
         private int _tileSize;
@@ -19,13 +20,13 @@ namespace FindPath
             _findPathProject = FindPathProject.Instance;
             int tileSize = _findPathProject.TileSize;
             
-            foreach (var surface in _surfaces)
+            foreach (var surface in surfaces)
             {
-                AddSurface2(surface.direction, pathFinding, tileSize);
+                AddSurface(surface.direction, pathFinding, tileSize);
             }
         }
         
-        private void AddSurface2(Vector3Int direction, FindPathProject pathFinding, int tileSize)
+        private void AddSurface(Vector3Int direction, FindPathProject pathFinding, int tileSize)
         {
             Directions.DirectionArrayPair directions = new();
 
@@ -35,8 +36,7 @@ namespace FindPath
             }
             
             Surface s = new Surface(direction, directions, this, tileSize);
-            
-            s.isObstacle = pathFinding.Tiles.TryGetValue(s.Tile.Position + direction, out Tile tile);
+            s.isObstacle = pathFinding.Tiles.TryGetValue(position + direction, out Tile tile);
             Surfaces.Add(direction, s);
         }
 
@@ -51,9 +51,9 @@ namespace FindPath
                 if (_findPathProject.Path != null && _findPathProject.Path.Contains(surface.Value))
                     Gizmos.color = new Color(0.1f, 1f, 0f, 1f);
                 else if (!s.isObstacle)
-                    Gizmos.color = new Color(0.1f, 1f, 0f, 0.1f);
+                    Gizmos.color = new Color(0.1f, 1f, 0f, 0.2f);
                 else
-                    Gizmos.color = new Color(1f, 0f, 0f, 0.1f);
+                    Gizmos.color = new Color(1f, 0f, 0f, 0.2f);
                 
                 Gizmos.DrawCube(transform.position + dir * 0.5f, s.Size);
             }
@@ -66,6 +66,7 @@ namespace FindPath
         {
             //variable for Path Finding 
             public Tile Tile { get; set; }
+            public bool obstacleLock;
             public bool isObstacle;
             public Vector3Int direction;
 

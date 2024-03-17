@@ -9,11 +9,11 @@ namespace FindPath
     public class FindPathProject : MonoBehaviour
     {
         public Tile.Surface[] Path { get; set; } //this is where all the paths that have been traveled
-        public static FindPathProject Instance { get; set; }//singleton
+        public static FindPathProject Instance { get; private set; } //singleton
         public int TileSize => tileSize; //property for use in other classes
         public Directions Directions => directions; //property for use in other classes
         
-        public Dictionary<Vector3Int, Tile> Tiles = new();//this is where all the tiles are stored 
+        public readonly Dictionary<Vector3Int, Tile> Tiles = new();//this is where all the tiles are stored 
 
         [BigHeader("Path Finding Parameters")]
         [SerializeField] [Range(1f, 3f)] private int tileSize;
@@ -24,7 +24,7 @@ namespace FindPath
 
         [BigHeader("Gizmos")]
         [SerializeField] private PathGizmos pathGizmos;
-
+        
 
         #region Initialize
 
@@ -43,19 +43,27 @@ namespace FindPath
         private void Start()
         {
             AddTiles();
+            FindObstacleObjects();
         }
-
+        
+        private void FindObstacleObjects()
+        {
+            foreach (var obstacle in FindObjectsOfType<NewObstacle>())
+            {
+                obstacle.Initialize();
+            }
+        }
+        
         private void AddTiles()
         {
             //here the "Tiles" dictionary is filled in and the found tiles are initialized
-            
             Tile[] tiles = FindObjectsOfType<Tile>();
             foreach (var tile in tiles)
             {
                 Vector3Int tilePosition = Vector3Int.RoundToInt(tile.transform.position);
                 if (!Tiles.ContainsKey(tilePosition))
                 {
-                    tile.Position = tilePosition;
+                    tile.position = tilePosition;
                     Tiles.Add(tilePosition, tile);
                 }
             }
@@ -122,7 +130,7 @@ namespace FindPath
                 
                 foreach (var tile in tiles)
                 {
-                    if (tile._surfaces == null || tile._surfaces.Length == 0)
+                    if (tile.surfaces == null || tile.surfaces.Length == 0)
                     {
                         HashSet<Tile.Surface> surfaces = new();
                     
@@ -133,7 +141,7 @@ namespace FindPath
                         surfaces.Add(new Tile.Surface(new Vector3Int(0, 0, size)));
                         surfaces.Add(new Tile.Surface(new Vector3Int(0, 0, -size)));
                 
-                        tile._surfaces = surfaces.ToArray();
+                        tile.surfaces = surfaces.ToArray();
                     }
                 }
             }
@@ -149,7 +157,7 @@ namespace FindPath
             throw new ArgumentException($"No documentation yet ");
         }
 
-        #endregion
+        #endregion//это в Editor
     }
 
     #region Mode

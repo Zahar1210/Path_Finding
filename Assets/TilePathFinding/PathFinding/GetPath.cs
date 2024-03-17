@@ -18,20 +18,17 @@ namespace FindPath
         {
             if (Input.GetMouseButtonUp(0))
             {
-                Debug.Log("попытка");
                 if (findPathProject.Path != null)
                 {
                     Array.Clear(findPathProject.Path, 0, findPathProject.Path.Length);
                 }
 
                 Tile.Surface targetSurface = GetTargetSurface();
-                Debug.Log("попытка");
 
                 Tile.Surface currentSurface = GetCurrentSurface();
 
                 if (targetSurface == null)
                 {
-                    Debug.Log("не повезло");
                     return;
                 }
 
