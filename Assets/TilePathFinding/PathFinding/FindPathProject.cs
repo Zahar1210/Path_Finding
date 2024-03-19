@@ -3,27 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace FindPath
 {
     public class FindPathProject : MonoBehaviour
     {
-        public Tile.Surface[] Path { get; set; } //this is where all the paths that have been traveled
         public static FindPathProject Instance { get; private set; } //singleton
+        public Tile.Surface[] Path { get; set; } //this is where all the paths that have been traveled
         public int TileSize => tileSize; //property for use in other classes
         public Directions Directions => directions; //property for use in other classes
         
         public readonly Dictionary<Vector3Int, Tile> Tiles = new();//this is where all the tiles are stored 
 
-        [BigHeader("Path Finding Parameters")]
         [SerializeField] [Range(1f, 3f)] private int tileSize;
         [SerializeField] private Directions directions;
-
-        [BigHeader("Path Find Mode")] 
+ 
         public FindMode findMode;
-
-        [BigHeader("Gizmos")]
-        [SerializeField] private PathGizmos pathGizmos;
+        
+        private FindPathGizmos _findPathGizmos;
+        public Color obstacleColor;
+        public Color noObstacleColor;
+        public Color pathColor;
         
 
         #region Initialize
@@ -42,13 +43,14 @@ namespace FindPath
 
         private void Start()
         {
+            _findPathGizmos = FindPathGizmos.Instance;
             AddTiles();
             FindObstacleObjects();
         }
         
         private void FindObstacleObjects()
         {
-            foreach (var obstacle in FindObjectsOfType<NewObstacle>())
+            foreach (var obstacle in FindObjectsOfType<ObstacleObjects>())
             {
                 obstacle.Initialize();
             }
@@ -72,6 +74,8 @@ namespace FindPath
             {
                 tile.SetSurface(this);
             }
+            
+            _findPathGizmos.Initialize(tiles.ToList());
         }
 
         #endregion

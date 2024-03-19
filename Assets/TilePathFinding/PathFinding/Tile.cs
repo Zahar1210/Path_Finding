@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace FindPath
@@ -18,8 +17,8 @@ namespace FindPath
         public void SetSurface(FindPathProject pathFinding)
         {
             _findPathProject = FindPathProject.Instance;
-            int tileSize = _findPathProject.TileSize;
             
+            int tileSize = _findPathProject.TileSize;
             foreach (var surface in surfaces)
             {
                 AddSurface(surface.direction, pathFinding, tileSize);
@@ -34,33 +33,12 @@ namespace FindPath
             {
                 directions = _directions;
             }
-            
-            Surface s = new Surface(direction, directions, this, tileSize);
-            s.isObstacle = pathFinding.Tiles.TryGetValue(position + direction, out Tile tile);
+
+            bool isObstacle = pathFinding.Tiles.TryGetValue(position + direction, out Tile tile);
+            Surface s = new Surface(direction, directions, this, tileSize, isObstacle, isObstacle);
             Surfaces.Add(direction, s);
         }
-
-#if UNITY_EDITOR
-        private void OnDrawGizmos()
-        {
-            foreach (KeyValuePair<Vector3Int, Surface> surface in Surfaces)
-            {
-                Surface s = surface.Value;
-                Vector3 dir = s.direction;
-                
-                if (_findPathProject.Path != null && _findPathProject.Path.Contains(surface.Value))
-                    Gizmos.color = new Color(0.1f, 1f, 0f, 1f);
-                else if (!s.isObstacle)
-                    Gizmos.color = new Color(0.1f, 1f, 0f, 0.2f);
-                else
-                    Gizmos.color = new Color(1f, 0f, 0f, 0.2f);
-                
-                Gizmos.DrawCube(transform.position + dir * 0.5f, s.Size);
-            }
-        }
-#endif
-
-
+        
         [Serializable]
         public class Surface
         {
@@ -82,11 +60,13 @@ namespace FindPath
             }
             
             //this constructor initializes the surface to find the path
-            public Surface(Vector3Int direction ,Directions.DirectionArrayPair directions, Tile tile, int tileSize)
+            public Surface(Vector3Int direction ,Directions.DirectionArrayPair directions, Tile tile, int tileSize, bool obstacleLock, bool isObstacle)
             {
                 Tile = tile;
                 Directions = directions;
                 this.direction = direction;
+                this.obstacleLock = obstacleLock;
+                this.isObstacle = isObstacle;
                 
                 //for Gizmos 
                 if (direction == Vector3Int.up || direction == Vector3Int.down)

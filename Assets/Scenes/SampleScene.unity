@@ -15218,7 +15218,9 @@ MonoBehaviour:
   tileSize: 1
   directions: {fileID: 11400000, guid: e492c0b4e2d3e43af8c2a4f485769cbd, type: 2}
   findMode: 1
-  pathGizmos: {fileID: 257014526}
+  obstacleColor: {r: 1, g: 0.22423732, b: 0, a: 0.7176471}
+  noObstacleColor: {r: 0.2003901, g: 1, b: 0, a: 0.4392157}
+  pathColor: {r: 0, g: 1, b: 0.029119253, a: 1}
 --- !u!114 &257014526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15231,6 +15233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4373e9669f316442b8e4949870f82d58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawTileGizmos: 1
 --- !u!1 &260276370
 GameObject:
   m_ObjectHideFlags: 0
@@ -98298,12 +98301,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee71f5ef80da44b68aa57b2f4fcb489e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCheck: 1
   obstacleObjectType: 1
+  checkTime: 0.571
+  checkSize: 0.56
+  isCheck: 1
   colliders:
   - {fileID: 1784973634}
-  - {fileID: 0}
-  checkTime: 0.571
   layerMask:
     serializedVersion: 2
     m_Bits: 64
