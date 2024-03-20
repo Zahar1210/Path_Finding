@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace FindPath
     {
         public ObstacleObjectType obstacleObjectType = ObstacleObjectType.Static;
         [SerializeField] [Range(0.1f, 1f)] private float checkTime = 0.3f;
-        [SerializeField] [Range(0.2f, 2)] private float checkSize = 0.5f;
+        [SerializeField] [Range(0.3f, 2)] private float checkRadius = 0.5f;
         [SerializeField] private bool isCheck = true;
         [SerializeField] private Collider[] colliders;
         [SerializeField] private LayerMask layerMask;
@@ -46,6 +47,7 @@ namespace FindPath
 
         private void Check()
         {
+            Debug.Log("mflwmflewfklwe");
             _tiles.Clear();
             _surfaces.Clear();
 
@@ -103,13 +105,14 @@ namespace FindPath
         {
             foreach (var surface in _surfaces)
             {
-                Vector3 pos = surface.Tile.position + surface.direction;
-                Collider[] colls = Physics.OverlapSphere(pos, checkSize, layerMask);
+                Vector3 pos = surface.Tile.position + (surface.direction);
+                Collider[] colls = Physics.OverlapSphere(pos, checkRadius, layerMask);
 
                 surface.isObstacle = (colls.Length > 0);
             }
         }
     }
+    
 
     public enum ObstacleObjectType
     {

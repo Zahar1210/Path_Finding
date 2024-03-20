@@ -23,7 +23,7 @@ namespace FindPath
             _colliders = serializedObject.FindProperty("colliders");
             _layerMask = serializedObject.FindProperty("layerMask");
             _isCheck = serializedObject.FindProperty("isCheck");
-            _checkSize = serializedObject.FindProperty("checkSize");
+            _checkSize = serializedObject.FindProperty("checkRadius");
         }
         
         public override void OnInspectorGUI()
@@ -35,10 +35,10 @@ namespace FindPath
             
             EditorGUILayout.PropertyField(_layerMask);
             EditorGUILayout.PropertyField(_colliders);
-            EditorGUILayout.PropertyField(_checkSize);
             EditorGUILayout.PropertyField(_obstacleType);
+            EditorGUILayout.PropertyField(_checkSize);
             
-            EditorGUILayout.Space(5);
+            EditorGUILayout.Space(3);
     
             if (obstacleObjects.obstacleObjectType == ObstacleObjectType.Dynamic)
             {

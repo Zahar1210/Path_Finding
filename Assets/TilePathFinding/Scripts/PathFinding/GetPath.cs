@@ -51,7 +51,7 @@ namespace FindPath
 
         private Tile.Surface GetTargetSurface()
         {
-            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, layerMask))
+            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
             {
                 if (hit.collider.TryGetComponent(out Tile tile))
                 {

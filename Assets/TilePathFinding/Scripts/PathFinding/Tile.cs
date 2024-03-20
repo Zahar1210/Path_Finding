@@ -40,7 +40,7 @@ namespace FindPath
         }
         
         [Serializable]
-        public class Surface
+        public class Surface 
         {
             //variable for Path Finding 
             public Tile Tile { get; set; }
