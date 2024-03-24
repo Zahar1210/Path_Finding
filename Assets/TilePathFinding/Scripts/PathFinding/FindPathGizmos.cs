@@ -2,12 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-
 namespace FindPath
 {
     public class FindPathGizmos : MonoBehaviour
     {
-        public static FindPathGizmos Instance { get; set; }
+        public static FindPathGizmos Instance { get; private set; }
 
         public bool drawTileGizmos;
         private List<Tile> _tiles = new();

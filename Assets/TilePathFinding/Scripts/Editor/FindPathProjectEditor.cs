@@ -12,7 +12,6 @@ namespace FindPath
         private SerializedProperty _obstacleColor;
         private SerializedProperty _noObstacleColor;
         private SerializedProperty _pathColor;
-        private SerializedProperty _findMode;
 
         private bool _showTileParameters;
         private bool _showFindPathParameters;
@@ -28,7 +27,6 @@ namespace FindPath
             _obstacleColor = serializedObject.FindProperty("obstacleColor");
             _noObstacleColor = serializedObject.FindProperty("noObstacleColor");
             _pathColor = serializedObject.FindProperty("pathColor");
-            _findMode = serializedObject.FindProperty("findMode");
         }
 
         public override void OnInspectorGUI()
@@ -45,24 +43,24 @@ namespace FindPath
             EditorGUILayout.BeginVertical("box");
             EditorGUI.indentLevel = 1;
 
-            #region FindPathParameters
-
-            EditorGUILayout.BeginVertical("box");
-            EditorGUILayout.Space(3);
-
-            _showFindPathParameters = EditorGUILayout.Foldout(_showFindPathParameters, "Find Path Parameters", true);
-            if (_showFindPathParameters)
-            {
-                EditorGUI.indentLevel = 0;
-                
-                EditorGUILayout.PropertyField(_findMode);
-
-                EditorGUI.indentLevel = 1;
-            }
-
-            EditorGUILayout.EndVertical();
-
-            #endregion
+            // #region FindPathParameters
+            //
+            // EditorGUILayout.BeginVertical("box");
+            // EditorGUILayout.Space(3);
+            //
+            // _showFindPathParameters = EditorGUILayout.Foldout(_showFindPathParameters, "Find Path Parameters", true);
+            // if (_showFindPathParameters)
+            // {
+            //     EditorGUI.indentLevel = 0;
+            //     
+            //     EditorGUILayout.PropertyField(_findMode);
+            //
+            //     EditorGUI.indentLevel = 1;
+            // }
+            //
+            // EditorGUILayout.EndVertical();
+            //
+            // #endregion
 
             #region TileParameters
 

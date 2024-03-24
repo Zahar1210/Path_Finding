@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,10 +16,12 @@ namespace FindPath
         private readonly List<Tile> _tiles = new();
         private readonly List<Tile.Surface> _surfaces = new();
         private FindPathProject _findPathProjectInstance;
+        private ObstacleObjectType _startObjectObstacleType;
 
         public void Initialize()
         {
             _findPathProjectInstance = FindPathProject.Instance;
+            _startObjectObstacleType = obstacleObjectType;
             StartChecking();
         }
 
@@ -47,7 +48,11 @@ namespace FindPath
 
         private void Check()
         {
-            Debug.Log("mflwmflewfklwe");
+            if (obstacleObjectType != _startObjectObstacleType)
+            {
+                StartChecking();
+            }
+            
             _tiles.Clear();
             _surfaces.Clear();
 

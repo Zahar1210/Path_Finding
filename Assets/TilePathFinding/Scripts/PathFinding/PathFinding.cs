@@ -30,8 +30,6 @@ namespace FindPath
         private static Tile.Surface[] AStar(Tile.Surface startSurface, Tile.Surface targetSurface, FindPathProject findPathProject)
         {
             List<Tile.Surface> path = new();
-            List<Tile> selectedTiles = new();
-            List<Tile> selectedTilesCopy = new();
             Tile.Surface currentSurface = startSurface;
             Dictionary<Vector3Int, TileAStar> visitedTiles = new();
             
@@ -39,7 +37,7 @@ namespace FindPath
             
             for (int i = 0; i < 45; i++)
             {
-                selectedTiles = SelectTiles(findPathProject, currentSurface, visitedTiles);
+                List<Tile> selectedTiles = SelectTiles(findPathProject, currentSurface, visitedTiles);
                 if (selectedTiles.Count != 0)
                 {
                     foreach (var tile in selectedTiles)
@@ -48,7 +46,7 @@ namespace FindPath
                     }
                 }
                 
-                selectedTilesCopy = SelectTilesCopy(findPathProject, currentSurface, visitedTiles);
+                List<Tile> selectedTilesCopy = SelectTilesCopy(findPathProject, currentSurface, visitedTiles);
                 if (selectedTilesCopy.Count != 0)
                 {
                     foreach (var tile in selectedTilesCopy)
@@ -95,7 +93,7 @@ namespace FindPath
 
             float GetStep(Tile tile)
             {
-                return Vector3.Distance(targetSurface.Tile.position, tile.position);;
+                return Vector3.Distance(targetSurface.Tile.position, tile.position);
             }
             
             return path.ToArray();

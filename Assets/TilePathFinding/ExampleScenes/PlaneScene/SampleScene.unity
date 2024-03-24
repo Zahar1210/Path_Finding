@@ -16632,7 +16632,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileSize: 1
   directions: {fileID: 11400000, guid: e492c0b4e2d3e43af8c2a4f485769cbd, type: 2}
-  findMode: 1
   obstacleColor: {r: 1, g: 0.19607843, b: 0, a: 0.09803922}
   noObstacleColor: {r: 0.19607843, g: 1, b: 0, a: 0.09803922}
   pathColor: {r: 0, g: 1, b: 0.029119253, a: 1}
@@ -42420,7 +42419,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &705507994
 Light:
   m_ObjectHideFlags: 0
@@ -64870,7 +64869,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1104317495}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 8}
+  m_LocalPosition: {x: 0, y: 0, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -88387,8 +88386,9 @@ GameObject:
   - component: {fileID: 1469914840}
   - component: {fileID: 1469914839}
   - component: {fileID: 1469914843}
+  - component: {fileID: 1469914844}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Bot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88484,10 +88484,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcdfef94757be4899a7c2ea0c62ff907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  findPathProject: {fileID: 257014525}
   layerMask:
     serializedVersion: 2
     m_Bits: 8
+  findMode: 0
+--- !u!114 &1469914844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469914838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 836909e31c6a046e2afaf1f5a7194d89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventType: 0
+  speed: 0
+  findMode: 1
+  mouseSide: 1
+  interval: 0
+  target: {fileID: 0}
 --- !u!1 &1470525929
 GameObject:
   m_ObjectHideFlags: 0

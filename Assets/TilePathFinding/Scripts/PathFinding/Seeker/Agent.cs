@@ -3,14 +3,16 @@ using UnityEngine;
 
 namespace FindPath
 {
-    public class GetPath : MonoBehaviour
+    public class Agent : MonoBehaviour
     {
-        [SerializeField] private FindPathProject findPathProject;
         [SerializeField] private LayerMask layerMask;
+        public FindMode findMode;
         private Camera _camera;
+        private FindPathProject _findPathProject;
 
         private void Start()
         {
+            _findPathProject = FindPathProject.Instance;
             _camera = Camera.main;
         }
 
@@ -18,27 +20,27 @@ namespace FindPath
         {
             if (Input.GetMouseButtonUp(0))
             {
-                if (findPathProject.Path != null)
+                if (_findPathProject.Path != null)
                 {
-                    Array.Clear(findPathProject.Path, 0, findPathProject.Path.Length);
+                    Array.Clear(_findPathProject.Path, 0, _findPathProject.Path.Length);
                 }
-
+        
                 Tile.Surface targetSurface = GetTargetSurface();
-
+        
                 Tile.Surface currentSurface = GetCurrentSurface();
-
+        
                 if (targetSurface == null)
                 {
                     return;
                 }
-
-                findPathProject.Path = PathFinding.GetPath(currentSurface, targetSurface, findPathProject, findPathProject.findMode);
+        
+                _findPathProject.Path = PathFinding.GetPath(currentSurface, targetSurface, _findPathProject, findMode);
             }
         }
 
         private Tile.Surface GetCurrentSurface()
         {
-            if (findPathProject.Tiles.TryGetValue(Vector3Int.RoundToInt(transform.position) + Vector3Int.down, out var tile))
+            if (_findPathProject.Tiles.TryGetValue(Vector3Int.RoundToInt(transform.position) + Vector3Int.down, out var tile))
             {
                 if (tile.Surfaces.TryGetValue(Vector3Int.up, out var surface))
                 {

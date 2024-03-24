@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace FindPath
 {
@@ -18,8 +17,7 @@ namespace FindPath
 
         [SerializeField] [Range(1f, 3f)] private int tileSize;
         [SerializeField] private Directions directions;
- 
-        public FindMode findMode;
+        
         
         private FindPathGizmos _findPathGizmos;
         public Color obstacleColor;
@@ -46,8 +44,23 @@ namespace FindPath
             _findPathGizmos = FindPathGizmos.Instance;
             AddTiles();
             FindObstacleObjects();
+            SeekerSystem.Initialize();
+            
+            SeekerInitialize();
         }
-        
+
+        private void SeekerInitialize()
+        {
+            Seeker[] seekers = FindObjectsOfType<Seeker>();
+            if (seekers.Length > 0)
+            {
+                foreach (var seeker in seekers)
+                {
+                    seeker.Initialize();
+                }
+            }
+        }
+
         private void FindObstacleObjects()
         {
             foreach (var obstacle in FindObjectsOfType<ObstacleObjects>())
@@ -174,44 +187,44 @@ namespace FindPath
 
     #endregion
 
-    #region Inspector
-
-    [CustomPropertyDrawer(typeof(BigHeaderAttribute))]
-    public class BigHeaderAttributeDrawer : DecoratorDrawer
-    {
-        public override void OnGUI(Rect position)
-        {
-            BigHeaderAttribute attributeHandle = (BigHeaderAttribute)attribute;
-            position.yMin += EditorGUIUtility.singleLineHeight * 0.5f;
-            position = EditorGUI.IndentedRect(position);
-
-            GUIStyle headerTextStyle = new GUIStyle()
-            {
-                fontSize = 15,
-                fontStyle = FontStyle.Normal,
-                alignment = TextAnchor.MiddleLeft
-            };
-
-            headerTextStyle.normal.textColor = Color.cyan;
-            GUI.Label(position, attributeHandle.Text, headerTextStyle);
-        }
-
-        public override float GetHeight()
-        {
-            return EditorGUIUtility.singleLineHeight * 1.8f;
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
-    public class BigHeaderAttribute : PropertyAttribute
-    {
-        public string Text { get; }
-
-        public BigHeaderAttribute(string text)
-        {
-            Text = text;
-        }
-    }
-
-    #endregion
+    // #region Inspector
+    //
+    // [CustomPropertyDrawer(typeof(BigHeaderAttribute))]
+    // public class BigHeaderAttributeDrawer : DecoratorDrawer
+    // {
+    //     public override void OnGUI(Rect position)
+    //     {
+    //         BigHeaderAttribute attributeHandle = (BigHeaderAttribute)attribute;
+    //         position.yMin += EditorGUIUtility.singleLineHeight * 0.5f;
+    //         position = EditorGUI.IndentedRect(position);
+    //
+    //         GUIStyle headerTextStyle = new GUIStyle()
+    //         {
+    //             fontSize = 15,
+    //             fontStyle = FontStyle.Normal,
+    //             alignment = TextAnchor.MiddleLeft
+    //         };
+    //
+    //         headerTextStyle.normal.textColor = Color.cyan;
+    //         GUI.Label(position, attributeHandle.Text, headerTextStyle);
+    //     }
+    //
+    //     public override float GetHeight()
+    //     {
+    //         return EditorGUIUtility.singleLineHeight * 1.8f;
+    //     }
+    // }
+    //
+    // [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
+    // public class BigHeaderAttribute : PropertyAttribute
+    // {
+    //     public string Text { get; }
+    //
+    //     public BigHeaderAttribute(string text)
+    //     {
+    //         Text = text;
+    //     }
+    // }
+    //
+    // #endregion
 }
