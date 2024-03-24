@@ -104,8 +104,7 @@ namespace FindPath
                 }
             }
         }
-
-
+        
         private List<Tile.Surface> CalculateSurfaces(Seeker seeker)
         {
             List<Tile.Surface> selectSurfaces = new();
