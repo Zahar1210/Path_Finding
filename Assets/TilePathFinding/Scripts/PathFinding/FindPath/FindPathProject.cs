@@ -62,7 +62,7 @@ namespace FindPath
 
         private void FindObstacleObjects()
         {
-            foreach (var obstacle in FindObjectsOfType<ObstacleObjects>())
+            foreach (var obstacle in FindObjectsOfType<ObstacleObject>())
             {
                 obstacle.Initialize();
             }

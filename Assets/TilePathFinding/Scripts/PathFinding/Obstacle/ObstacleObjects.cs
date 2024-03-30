@@ -6,7 +6,7 @@ namespace FindPath
 {
     public class ObstacleObjects : MonoBehaviour
     {
-        public ObstacleObjectType obstacleObjectType = ObstacleObjectType.Static;
+        public ObstacleObjectType obstacleObjectType;
         [SerializeField] [Range(0.1f, 1f)] private float checkTime = 0.3f;
         [SerializeField] [Range(0.3f, 2)] private float checkRadius = 0.5f;
         [SerializeField] private bool isCheck = true;
@@ -116,12 +116,5 @@ namespace FindPath
                 surface.isObstacle = (colls.Length > 0);
             }
         }
-    }
-    
-
-    public enum ObstacleObjectType
-    {
-        Static,
-        Dynamic
     }
 }

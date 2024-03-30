@@ -2,11 +2,6 @@ namespace FindPath
 {
     public class Agent : Seeker
     {
-        private void Start()
-        {
-            Initialize();
-        }
-
         public override void Initialize()
         {
             SeekerData.Initialization(this);
@@ -19,12 +14,28 @@ namespace FindPath
         private void Update()
         {
             TargetSurface = FindPathTrigger.CheckEvent();
+            FindPath(CurrentSurface, TargetSurface);
+        }
 
-            if (TargetSurface != null)
+        private void FindPath(Tile.Surface startSurface, Tile.Surface targetSurface)
+        {
+            if ((targetSurface != null && startSurface != null) && FindPathMode.CheckFind(this))
             {
-                if (FindPathMode.CheckFind(this))
+                StartSurface = startSurface;
+                CurrentSurface = startSurface;
+                TargetSurface = targetSurface;
+                
+                FindPathTrigger.GetPathParams();
+            }
+        }
+
+        public override void CheckPath(PathDynamic pathDynamic)
+        {
+            if (PathDynamic == pathDynamic && Path?.Length > 0)
+            {
+                if (DynamicPath.VerificationPath(this))
                 {
-                    FindPathTrigger.GetPathParams();
+                    FindPath(CurrentSurface, TargetSurface);
                 }
             }
         }

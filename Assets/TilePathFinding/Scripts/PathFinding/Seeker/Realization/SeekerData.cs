@@ -67,7 +67,6 @@ namespace FindPath
     public enum PathMode
     {
         Always,
-        DistancePath,
         Distance,
         Radius,
         Monitoring

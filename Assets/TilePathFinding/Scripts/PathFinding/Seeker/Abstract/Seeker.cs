@@ -86,5 +86,6 @@ namespace FindPath
         #endregion
 
         public abstract void Initialize();
+        public abstract void CheckPath(PathDynamic pathDynamic);
     }
 }
