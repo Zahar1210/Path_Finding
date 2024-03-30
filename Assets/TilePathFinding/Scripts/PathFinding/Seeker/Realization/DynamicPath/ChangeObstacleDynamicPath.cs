@@ -1,4 +1,8 @@
-public class ChangeObstacleDynamicPath : DynamicPath
+namespace FindPath
 {
+    public class ChangeObstacleDynamicPath : DynamicPath
+    {
     
+    }
+
 }

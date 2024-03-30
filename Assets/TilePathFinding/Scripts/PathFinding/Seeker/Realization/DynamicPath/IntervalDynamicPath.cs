@@ -1,3 +1,6 @@
-public class IntervalDynamicPath : DynamicPath
+namespace FindPath
 {
+    public class IntervalDynamicPath : DynamicPath
+    {
+    }
 }

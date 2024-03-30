@@ -1,7 +1,10 @@
-public class RadiusFindMode : FindPathMode
+namespace FindPath
 {
-    public override bool CheckFind(Seeker2 seeker)
+    public class RadiusFindMode : FindPathMode
     {
-        throw new System.NotImplementedException();
+        public override bool CheckFind(Seeker seeker)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

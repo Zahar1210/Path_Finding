@@ -1,3 +1,6 @@
-public class InitialFindingPath : DynamicPath
+namespace FindPath
 {
+    public class InitialFindingPath : DynamicPath
+    {
+    }
 }

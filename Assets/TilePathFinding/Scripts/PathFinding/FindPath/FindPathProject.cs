@@ -9,7 +9,7 @@ namespace FindPath
     public class FindPathProject : MonoBehaviour
     {
         public static FindPathProject Instance { get; private set; } //singleton
-        public Tile.Surface[] Path { get; set; } //this is where all the paths that have been traveled
+        public Tile.Surface[] Path { get; set; } //this is where all the paths that have been traveled будет не нужным это точно ей тут не место
         public int TileSize => tileSize; //property for use in other classes
         public Directions Directions => directions; //property for use in other classes
         
@@ -42,10 +42,9 @@ namespace FindPath
         private void Start()
         {
             _findPathGizmos = FindPathGizmos.Instance;
+            
             AddTiles();
             FindObstacleObjects();
-            SeekerSystem.Initialize();
-            
             SeekerInitialize();
         }
 

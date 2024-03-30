@@ -1,5 +1,8 @@
-public abstract class FindPathMode
+namespace FindPath
 {
-    //это типо навые условия для поиска пути 
-    public abstract bool CheckFind(Seeker2 seeker2);
+    public abstract class FindPathMode
+    {
+        //это типо навые условия для поиска пути 
+        public abstract bool CheckFind(Seeker seeker);
+    }
 }

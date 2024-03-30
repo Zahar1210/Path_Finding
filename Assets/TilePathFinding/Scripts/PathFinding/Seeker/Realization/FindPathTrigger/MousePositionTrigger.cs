@@ -1,42 +1,45 @@
 using FindPath;
 using UnityEngine;
 
-public class MousePositionTrigger : FindPathTrigger
+namespace FindPath
 {
-    private Tile.Surface _currentTargetSurface;
-    private readonly LayerMask _layerMask;
-    private readonly Camera _camera;
-    
-    public MousePositionTrigger(LayerMask layerMask, Camera camera, Tile.Surface currentTargetSurface)
+    public class MousePositionTrigger : FindPathTrigger
     {
-        _currentTargetSurface = currentTargetSurface;
-        _layerMask = layerMask;
-        _camera = camera;
-    }
+        private Tile.Surface _currentTargetSurface;
+        private readonly LayerMask _layerMask;
+        private readonly Camera _camera;
     
-    public override Tile.Surface CheckEvent()
-    {
-        if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, _layerMask))
+        public MousePositionTrigger(LayerMask layerMask, Camera camera, Tile.Surface currentTargetSurface)
         {
-            if (hit.collider.TryGetComponent(out Tile tile))
+            _currentTargetSurface = currentTargetSurface;
+            _layerMask = layerMask;
+            _camera = camera;
+        }
+    
+        public override Tile.Surface CheckEvent()
+        {
+            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, _layerMask))
             {
-                Vector3 hitOffset = hit.point - tile.transform.position;
-                Vector3Int direction = Vector3Int.RoundToInt(hitOffset.normalized);
-                
-                if ((tile.Surfaces.TryGetValue(direction, out var surface) && _currentTargetSurface != surface) || _currentTargetSurface == null)
+                if (hit.collider.TryGetComponent(out Tile tile))
                 {
-                    _currentTargetSurface = surface;
+                    Vector3 hitOffset = hit.point - tile.transform.position;
+                    Vector3Int direction = Vector3Int.RoundToInt(hitOffset.normalized);
+                
+                    if ((tile.Surfaces.TryGetValue(direction, out var surface) && _currentTargetSurface != surface) || _currentTargetSurface == null)
+                    {
+                        _currentTargetSurface = surface;
 
-                    return surface;
+                        return surface;
+                    }
                 }
             }
-        }
 
-        return null;
-    }
+            return null;
+        }
     
-    public override PathParams GetPathParams()
-    {
-        throw new System.NotImplementedException();
+        public override PathParams GetPathParams()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

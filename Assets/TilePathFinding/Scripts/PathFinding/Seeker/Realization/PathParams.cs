@@ -1,13 +1,14 @@
-using FindPath;
-
-public class PathParams 
+namespace FindPath
 {
-    public Tile.Surface StartSurface { get; set; }
-    public Tile.Surface TargetSurface { get; set; }
-
-    public PathParams(Tile.Surface startSurface, Tile.Surface targetSurface)
+    public class PathParams 
     {
-        StartSurface = startSurface;
-        TargetSurface = targetSurface;
+        public Tile.Surface StartSurface { get; set; }
+        public Tile.Surface TargetSurface { get; set; }
+
+        public PathParams(Tile.Surface startSurface, Tile.Surface targetSurface)
+        {
+            StartSurface = startSurface;
+            TargetSurface = targetSurface;
+        }
     }
 }

@@ -1,4 +1,7 @@
-public class CombinedIntervalObstacle : DynamicPath
+namespace FindPath
 {
+    public class CombinedIntervalObstacle : DynamicPath
+    {
     
+    }
 }

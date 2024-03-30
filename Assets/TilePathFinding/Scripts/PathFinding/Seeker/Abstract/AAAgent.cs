@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace FindPath
 {
-    public class Agent : MonoBehaviour
+    public class AAAgent : MonoBehaviour
     {
         [SerializeField] private LayerMask layerMask;
         public FindMode findMode;

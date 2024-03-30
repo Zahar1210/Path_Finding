@@ -1,4 +1,8 @@
-public class CombinedIntevalTargetPosition : DynamicPath
+namespace FindPath
 {
+    public class CombinedIntevalTargetPosition : DynamicPath
+    {
     
+    }
+
 }

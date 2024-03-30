@@ -1,8 +1,10 @@
-
-public class AlwaysFindMode : FindPathMode
+namespace FindPath
 {
-    public override bool CheckFind(Seeker2 seeker)
+    public class AlwaysFindMode : FindPathMode
     {
-        return true;
+        public override bool CheckFind(Seeker seeker)
+        {
+            return true;
+        }
     }
 }
