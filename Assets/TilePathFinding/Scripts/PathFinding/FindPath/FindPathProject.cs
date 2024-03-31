@@ -18,7 +18,6 @@ namespace FindPath
         [SerializeField] [Range(1f, 3f)] private int tileSize;
         [SerializeField] private Directions directions;
         
-        
         private FindPathGizmos _findPathGizmos;
         public Color obstacleColor;
         public Color noObstacleColor;

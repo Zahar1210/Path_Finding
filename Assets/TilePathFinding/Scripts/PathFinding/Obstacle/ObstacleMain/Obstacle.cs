@@ -6,7 +6,9 @@ namespace FindPath
     public abstract class Obstacle : MonoBehaviour
     {
         #region Data
-        
+
+        #region propertys
+
         public ObstacleType ObstacleType { get; set; }
         
         public bool IsCheck { get; set; } = true;
@@ -14,6 +16,8 @@ namespace FindPath
         public List<Tile.Surface> Surfaces { get; set; }
         public FindPathProject FindPathProjectInstance { get; set; }
         public ObstacleObjectType StartObjectObstacleType { get; set; }
+        
+        #endregion
         
         public ObstacleObjectType ObstacleObjectType => obstacleObjectType;
         [SerializeField] private ObstacleObjectType obstacleObjectType;
