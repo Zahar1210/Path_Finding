@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace FindPath
@@ -6,7 +8,15 @@ namespace FindPath
     {
         public override Transform GetTargetObject(Seeker seeker)
         {
-            throw new System.NotImplementedException();
+            Dictionary<Transform, float> distanceToTargets = new();
+            
+            foreach (var target in seeker.ArrayTargets)
+            {
+                float distance = seeker.SelectTargetMode.SelectTarget(seeker, target);
+                distanceToTargets.Add(target, distance);
+            }
+            
+            return distanceToTargets.OrderBy(kv => kv.Value).FirstOrDefault().Key;
         }
     }
 }

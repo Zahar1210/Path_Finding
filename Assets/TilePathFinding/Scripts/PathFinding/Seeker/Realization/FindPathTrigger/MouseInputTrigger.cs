@@ -4,24 +4,19 @@ namespace FindPath
 {
     public class MouseInputTrigger : FindPathTrigger
     {
-        private readonly int _mouseSide;
         private Tile.Surface _currentTargetSurface;
-        private readonly LayerMask _layerMask;
         private readonly Camera _camera;
 
-        public MouseInputTrigger(int mouseSide, LayerMask layerMask, Camera camera, Tile.Surface currentTargetSurface)
+        public MouseInputTrigger(Camera camera)
         {
-            _currentTargetSurface = currentTargetSurface;
-            _layerMask = layerMask;
             _camera = camera;
-            _mouseSide = mouseSide;
         }
 
         public override Tile.Surface GetTargetSurface(Seeker seeker)
         {
-            if (Input.GetMouseButtonUp(_mouseSide))
+            if (Input.GetMouseButtonUp(seeker.MouseSide))
             {
-                if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, _layerMask))
+                if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, seeker.MouseLayerMask))
                 {
                     if (hit.collider.TryGetComponent(out Tile tile))
                     {

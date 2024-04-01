@@ -14,7 +14,7 @@ namespace FindPath
         #region Initialize
         
         //This function is called at the beginning to ensure everything functions correctly in the future.
-        public void Initialize()
+        public void Initialize()//точка входа
         {
             //Here we determine the size of the tile so that the directions can be adjusted accordingly
             int tileSize = FindPathProject.Instance.TileSize;

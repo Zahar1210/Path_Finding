@@ -21,19 +21,19 @@ namespace FindPath
                 Instance = this;
                 return;
             }
+
             Destroy(gameObject);
         }
 
-        public void Initialize(List<Tile> tiles)
+        public void Initialize(List<Tile> tiles) //точка входа
         {
             _findPathProject = FindPathProject.Instance;
             _tiles = tiles;
         }
-        
-        
-        
+
+
 #if UNITY_EDITOR
-        
+
         private void OnDrawGizmos()
         {
             if (drawTileGizmos)
@@ -45,13 +45,13 @@ namespace FindPath
                         Tile.Surface s = surface.Value;
                         Vector3 dir = s.direction;
 
-                        if (_findPathProject.Path != null && _findPathProject.Path.Contains(s))//если он часть пути
+                        if (_findPathProject.Path != null && _findPathProject.Path.Contains(s)) //если он часть пути
                             Gizmos.color = _findPathProject.pathColor;
-                        else if (!s.isObstacle)//если он совбоден
+                        else if (!s.isObstacle) //если он совбоден
                             Gizmos.color = _findPathProject.noObstacleColor;
-                        else//если не свободен
+                        else //если не свободен
                             Gizmos.color = _findPathProject.obstacleColor;
-                
+
                         Gizmos.DrawCube(tile.transform.position + dir * 0.5f, s.Size);
                     }
                 }

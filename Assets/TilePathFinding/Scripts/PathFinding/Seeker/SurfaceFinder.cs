@@ -19,8 +19,7 @@ namespace FindPath
             _vector.Add(TargetDirection.Down, Vector3Int.down);
         }
 
-        public static Tile.Surface GetSurface(Vector3 pos, TargetDirection targetDirection, int count,
-            FindPathProject findPathProject, Transform target)
+        public static Tile.Surface GetSurface(Vector3 pos, TargetDirection targetDirection, int count, FindPathProject findPathProject, Transform target)
         {
             List<Vector3Int> queueTiles = new();
             List<Tile> visitedTiles = new();

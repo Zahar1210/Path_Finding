@@ -11,19 +11,18 @@ namespace FindPath
         private static readonly Dictionary<PathTrigger, FindPathTrigger> _FindPathTrigger = new();
         private static readonly Dictionary<TargetType, FindTargetType> _FindTargetType = new();
         private static readonly Dictionary<PathDynamic, DynamicPath> _FindPathDynamic = new();
+        private static readonly Dictionary<TargetSelectMode, SelectTargetMode> _SelectMode = new();
 
         #endregion
 
         #region Initialization
 
-        public static void Initialization(Seeker seeker)
+        public static void Initialization()// точка входа 
         {
             //Find Path Trigger
-            _FindPathTrigger.Add(PathTrigger.MouseInput,
-                new MouseInputTrigger(seeker.MouseSide, seeker.LayerMask, Camera.main, null));
-            _FindPathTrigger.Add(PathTrigger.MousePosition,
-                new MousePositionTrigger(seeker.LayerMask, Camera.main, null));
-            _FindPathTrigger.Add(PathTrigger.TargetPosition, new TargetPositionTrigger(seeker));
+            _FindPathTrigger.Add(PathTrigger.MouseInput, new MouseInputTrigger(Camera.main));
+            _FindPathTrigger.Add(PathTrigger.MousePosition, new MousePositionTrigger(Camera.main));
+            _FindPathTrigger.Add(PathTrigger.TargetPosition, new TargetPositionTrigger(FindPathProject.Instance));
 
             //Find Path Mode
             _FindPathMode.Add(PathMode.Always, new AlwaysFindMode());
@@ -44,6 +43,10 @@ namespace FindPath
             _FindTargetType.Add(TargetType.ArrayMode, new ArrayMode());
             _FindTargetType.Add(TargetType.SelectMode, new SelectMode());
             _FindTargetType.Add(TargetType.RandomMode, new RandomMode());
+            
+            //Select Mode
+            _SelectMode.Add(TargetSelectMode.Distance, new DistanceSelectMode());
+            _SelectMode.Add(TargetSelectMode.PathDistance, new PathDistanceSelectMode());
         }
 
         #endregion
@@ -63,6 +66,16 @@ namespace FindPath
         public static DynamicPath GetFindPathModeDynamicPath(PathDynamic pathDynamic)
         {
             return _FindPathDynamic.TryGetValue(pathDynamic, out DynamicPath dynamicPath) ? dynamicPath : default;
+        }
+        
+        public static FindTargetType GetFindPathTargetType(TargetType targetType)
+        {
+            return _FindTargetType.TryGetValue(targetType, out FindTargetType type) ? type : default;
+        }
+
+        public static SelectTargetMode GetTargetSelectMode(TargetSelectMode selectMode)
+        {
+            return _SelectMode.TryGetValue(selectMode, out SelectTargetMode selectTargetMode) ? selectTargetMode : default;
         }
 
         #endregion
@@ -112,6 +125,12 @@ namespace FindPath
         ArrayMode,
         SelectMode,
         RandomMode
+    }
+
+    public enum TargetSelectMode
+    {
+        Distance,
+        PathDistance
     }
 
     #endregion

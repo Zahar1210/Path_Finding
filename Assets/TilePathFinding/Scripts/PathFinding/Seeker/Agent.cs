@@ -4,7 +4,7 @@ namespace FindPath
     {
         public override void Initialize()
         {
-            SeekerData.Initialization(this);
+            SeekerData.Initialization();//точка входа 
 
             FindPathMode = SeekerData.GetFindPathMode(PathMode);
             FindPathTrigger = SeekerData.GetFindPathTrigger(PathTrigger);

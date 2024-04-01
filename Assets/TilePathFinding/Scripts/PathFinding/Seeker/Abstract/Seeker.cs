@@ -4,72 +4,109 @@ namespace FindPath
 {
     public abstract class Seeker : MonoBehaviour
     {
-        #region Mandatory Variables
+        #region Main Variables
 
-        #region Path
-
+        #region Main Find Path Variables
+       
+        //ссылка на проект)
         public FindPathProject FindPathProject => findPathProject;
         [SerializeField] private FindPathProject findPathProject;
+        
+        // найденный (текущий путь)
+        public Tile.Surface[] Path { get; set; } 
+        
+        // проинициализированна только если find path trigger = target (которую мы находим выбераем и тд)
+        public Transform SeekerTarget { get; set; } 
 
-        public Transform SeekerTarget { get; set; }// проинициализированна только если find path trigger = target
-        public Tile.Surface[] Path { get; set; } // путь
-
-        public Tile.Surface CurrentSurface { get; set; } // текущая поерхность
-        public Tile.Surface StartSurface { get; set; } // стартовая поерхность
-        public Tile.Surface TargetSurface { get; set; } // целевая поерхность
+        // текущая поверхность при движении
+        public Tile.Surface CurrentSurface { get; set; }
+        
+        // стартовая поверхность
+        public Tile.Surface StartSurface { get; set; }
+        
+        // целевая поверхность
+        public Tile.Surface TargetSurface { get; set; } 
 
         #endregion
 
-        #region Parameters
-
-        public FindTargetType FindTargetType { get; set; } //проинициализированный режим таргет 
-        public FindPathMode FindPathMode { get; set; } // проинициализированный режим поиска пути
-        public FindPathTrigger FindPathTrigger { get; set; } // проинициализированный триггер пути
-        public DynamicPath DynamicPath { get; set; } //проинициализированный динамичность пути
-
-        //данные по ктоорым проходит инициализация 
+        #region Parameter Mode 
+        
+        //ДАННЫЕ ПО КОТОРЫМ ИЩЕМ ПУТЬ (РЕЖИМЫ)
+        
+        // проинициализированное условие при поиске пути
+        public FindPathMode FindPathMode { get; set; } 
         public PathMode PathMode => pathMode;
         [SerializeField] private PathMode pathMode;
         
+        // проинициализированный триггер пути (событие при котором будет найден путь)
+        public FindPathTrigger FindPathTrigger { get; set; }
         public PathTrigger PathTrigger => pathTrigger;
         [SerializeField] private PathTrigger pathTrigger;
         
+        //проинициализированный динамичность пути (событие при котором путь будет перенайдн)
+        public DynamicPath DynamicPath { get; set; } 
         public PathDynamic PathDynamic => pathDynamic;
         [SerializeField] private PathDynamic pathDynamic;
         
+        //проинициализированный режим таргет (если FindPathTrigger = TargetPosition)
+        //здесь список режимов выбора и слежки за целевыми обьектами
+        public FindTargetType FindTargetType { get; set; }
         public TargetType TargetType => targetType;
         [SerializeField] private TargetType targetType;
 
         #endregion
 
         #endregion
+        
+        #region Related Variables
 
-        #region Mode-related Variables
+        #region Find Path Trigger 
 
-        #region Find Trigger Variables
+        #region Main Variables Mouse
 
+        // mouse input 
         public int MouseSide => mouseSide;
-        [SerializeField] [Range(0, 1)] private int mouseSide; // mouse input 
+        [SerializeField] [Range(0, 1)] private int mouseSide;
 
-        public LayerMask LayerMask => layerMask;
-        [SerializeField] private LayerMask layerMask; //mouse position и для // mouse input 
+        // mouse position и для mouse input 
+        public LayerMask MouseLayerMask => mouseLayerMask;
+        [SerializeField] private LayerMask mouseLayerMask;
 
-        // trigger target
+        #endregion
+
+        #region Main Variables Target 
         
-        //solo mode
-        [SerializeField] private Transform target; 
-        
-        // array mode
-        [SerializeField] private Transform[] targets;
-        
-        // select mode
-        [SerializeField] private LayerMask targetLayer;
-        
+        //обязательные переменные при поиске Surface у Target 
         public TargetDirection TargetDirection => targetDirection;
         [SerializeField] private TargetDirection targetDirection;
 
         public int Count => count;
         [SerializeField] private int count;
+
+        public float CheckInterval => checkInterval;
+        [SerializeField] private float checkInterval;
+
+        
+        //MODES
+         // если Find PAth Mode == targetPositionMode
+        public SelectTargetMode SelectTargetMode { get; set; }
+        public TargetSelectMode TargetSelectMode => targetSelectMode;
+        [SerializeField] private TargetSelectMode targetSelectMode;
+        
+        
+        // Solo mode
+        public Transform SoloTarget => soloTarget;
+        [SerializeField] private Transform soloTarget; 
+        
+        // Array mode
+        public Transform[] ArrayTargets => arrayTargets; 
+        [SerializeField] private Transform[] arrayTargets;
+        
+        // Select mode
+        public LayerMask TargetLayer => targetLayer;
+        [SerializeField] private LayerMask targetLayer;
+
+        #endregion
 
         #endregion
 

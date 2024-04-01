@@ -6,36 +6,34 @@ namespace FindPath
     {
         private Tile.Surface _currentSurfaceTarget;
         private readonly FindPathProject _findPathProject;
-        private Vector3Int _pastTargetPosition;
+        private float _pastCheckTime;
 
-        public TargetPositionTrigger(Seeker seeker)
+        public TargetPositionTrigger(FindPathProject findPathProject)
         {
-            _findPathProject = FindPathProject.Instance;
+            _pastCheckTime = Time.time;
+            _findPathProject = findPathProject;
+        }
+
+        private bool Timer(Seeker seeker)
+        {
+            if (_pastCheckTime + seeker.CheckInterval < Time.time)
+            {
+                _pastCheckTime = Time.time;
+                return true;
+            }
+
+            return false;
         }
 
         public override Tile.Surface GetTargetSurface(Seeker seeker)
         {
-            seeker.FindTargetType.GetTargetObject(seeker);
+            if (!Timer(seeker)) { return null; }
             
-            Vector3Int targetPos = Vector3Int.RoundToInt(seeker.SeekerTarget.transform.position);
-
-            if (VectorsAreDifferent(targetPos, _pastTargetPosition)) //если прошлая позиция не равна текущей 
-            {
-                _pastTargetPosition = targetPos;
-                TargetDirection targetDirection = seeker.TargetDirection;
-
-                return SurfaceFinder.GetSurface(_pastTargetPosition, targetDirection, seeker.Count, _findPathProject,
-                    seeker.SeekerTarget);
-            }
-
-            return null;
+            seeker.SeekerTarget = seeker.FindTargetType.GetTargetObject(seeker);
+            
+            return SurfaceFinder.GetSurface(seeker.SeekerTarget.transform.position, seeker.TargetDirection, seeker.Count, _findPathProject, seeker.SeekerTarget);
         }
-
-        private bool VectorsAreDifferent(Vector3Int currentPosition, Vector3Int pastPosition)
-        {
-            return currentPosition.x != pastPosition.x || currentPosition.y != pastPosition.y || currentPosition.z != pastPosition.z;
-        }
-
+        
         public override PathParams GetPathParams()
         {
             throw new System.NotImplementedException();

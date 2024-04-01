@@ -6,7 +6,7 @@ namespace FindPath
     {
         public override Transform GetTargetObject(Seeker seeker)
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

@@ -1,4 +1,3 @@
-using FindPath;
 using UnityEngine;
 
 namespace FindPath
@@ -6,19 +5,16 @@ namespace FindPath
     public class MousePositionTrigger : FindPathTrigger
     {
         private Tile.Surface _currentTargetSurface;
-        private readonly LayerMask _layerMask;
         private readonly Camera _camera;
     
-        public MousePositionTrigger(LayerMask layerMask, Camera camera, Tile.Surface currentTargetSurface)
+        public MousePositionTrigger(Camera camera)
         {
-            _currentTargetSurface = currentTargetSurface;
-            _layerMask = layerMask;
             _camera = camera;
         }
     
         public override Tile.Surface GetTargetSurface(Seeker seeker)
         {
-            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, _layerMask))
+            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, seeker.MouseLayerMask))
             {
                 if (hit.collider.TryGetComponent(out Tile tile))
                 {

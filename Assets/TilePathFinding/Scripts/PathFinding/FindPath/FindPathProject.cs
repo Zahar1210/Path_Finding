@@ -31,7 +31,7 @@ namespace FindPath
             if (Instance == null)
             {
                 Instance = this;
-                Directions.Initialize();
+                Directions.Initialize();//точка входа  
                 return;
             }
 
