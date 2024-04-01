@@ -21,6 +21,7 @@ namespace FindPath
         }
     }
 }
+
 public enum ObstacleObjectType
 {
     Static,

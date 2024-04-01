@@ -13,11 +13,15 @@ namespace FindPath
 
         private void Update()
         {
-            TargetSurface = FindPathTrigger.CheckEvent();
-            FindPath(CurrentSurface, TargetSurface);
+            TargetSurface = FindPathTrigger.GetTargetSurface(this);
+            
+            if (TargetSurface != null)
+            {
+                FindPath(CurrentSurface, TargetSurface);
+            }
         }
 
-        private void FindPath(Tile.Surface startSurface, Tile.Surface targetSurface)
+        public override void FindPath(Tile.Surface startSurface, Tile.Surface targetSurface)
         {
             if ((targetSurface != null && startSurface != null) && FindPathMode.CheckFind(this))
             {

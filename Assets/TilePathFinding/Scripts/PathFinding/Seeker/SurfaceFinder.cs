@@ -8,7 +8,7 @@ namespace FindPath
     {
         private static Dictionary<TargetDirection, Vector3Int> _vector = new();
 
-        public static void Initialize()
+        public static void Initialize() //TODO
         {
             _vector.Add(TargetDirection.Around, Vector3Int.zero);
             _vector.Add(TargetDirection.Right, Vector3Int.right);

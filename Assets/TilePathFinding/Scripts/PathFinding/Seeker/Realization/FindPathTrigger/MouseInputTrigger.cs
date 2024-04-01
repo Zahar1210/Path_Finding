@@ -1,4 +1,3 @@
-using FindPath;
 using UnityEngine;
 
 namespace FindPath
@@ -18,7 +17,7 @@ namespace FindPath
             _mouseSide = mouseSide;
         }
 
-        public override Tile.Surface CheckEvent()
+        public override Tile.Surface GetTargetSurface(Seeker seeker)
         {
             if (Input.GetMouseButtonUp(_mouseSide))
             {
@@ -29,8 +28,8 @@ namespace FindPath
                         Vector3 hitOffset = hit.point - tile.transform.position;
                         Vector3Int direction = Vector3Int.RoundToInt(hitOffset.normalized);
 
-                        if ((tile.Surfaces.TryGetValue(direction, out var surface) && _currentTargetSurface != surface) 
-                            || _currentTargetSurface == null)
+                        if ((tile.Surfaces.TryGetValue(direction, out var surface) 
+                             && _currentTargetSurface != surface) || _currentTargetSurface == null)
                         {
                             _currentTargetSurface = surface;
                             return surface;

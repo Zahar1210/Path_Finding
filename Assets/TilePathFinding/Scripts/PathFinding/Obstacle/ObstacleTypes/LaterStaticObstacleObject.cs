@@ -20,6 +20,7 @@ namespace FindPath
         {
             while (Obstacle.IsCheck)
             {
+                Obstacle.IsCheck = false;
                 yield return new WaitForSeconds(Obstacle.CheckInterval);
                 Check();
             }

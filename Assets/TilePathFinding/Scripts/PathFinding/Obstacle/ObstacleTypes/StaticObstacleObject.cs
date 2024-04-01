@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace FindPath
 {
     public class StaticObstacleObject : ObstacleType

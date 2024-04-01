@@ -5,7 +5,6 @@ namespace FindPath
 {
     public class DynamicObstacleObject : ObstacleType
     {
-        
         public override void Initialize(Obstacle obstacle)
         {
             Obstacle = obstacle;

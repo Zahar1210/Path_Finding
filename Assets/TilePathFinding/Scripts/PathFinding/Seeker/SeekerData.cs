@@ -9,6 +9,7 @@ namespace FindPath
         
         private static readonly Dictionary<PathMode, FindPathMode> _FindPathMode = new();
         private static readonly Dictionary<PathTrigger, FindPathTrigger> _FindPathTrigger = new();
+        private static readonly Dictionary<TargetType, FindTargetType> _FindTargetType = new();
         private static readonly Dictionary<PathDynamic, DynamicPath> _FindPathDynamic = new();
 
         #endregion
@@ -28,7 +29,8 @@ namespace FindPath
             _FindPathMode.Add(PathMode.Always, new AlwaysFindMode());
             _FindPathMode.Add(PathMode.Radius, new RadiusFindMode());
             _FindPathMode.Add(PathMode.Distance, new DistanceFindMode());
-            _FindPathMode.Add(PathMode.Monitoring, new MonitoringFindMode());
+            _FindPathMode.Add(PathMode.FieldOfViewOverlap, new FieldOfViewOverlapFindMode());
+            _FindPathMode.Add(PathMode.FieldOfViewAngle, new FieldOfViewAngleFindMode());
 
             //Find Path Dynamic
             _FindPathDynamic.Add(PathDynamic.ChangeObstacle, new ChangeObstacleDynamicPath());
@@ -36,6 +38,12 @@ namespace FindPath
             _FindPathDynamic.Add(PathDynamic.CombinedIntervalObstacle, new CombinedIntervalObstacle());
             _FindPathDynamic.Add(PathDynamic.Initial, new InitialFindingPath());
             _FindPathDynamic.Add(PathDynamic.CombinedIntervalTarget, new CombinedIntevalTargetPosition());
+            
+            //Find Target Type
+            _FindTargetType.Add(TargetType.SoloMode, new SoloMode());
+            _FindTargetType.Add(TargetType.ArrayMode, new ArrayMode());
+            _FindTargetType.Add(TargetType.SelectMode, new SelectMode());
+            _FindTargetType.Add(TargetType.RandomMode, new RandomMode());
         }
 
         #endregion
@@ -49,9 +57,7 @@ namespace FindPath
 
         public static FindPathTrigger GetFindPathTrigger(PathTrigger pathTrigger)
         {
-            return _FindPathTrigger.TryGetValue(pathTrigger, out FindPathTrigger findPathTrigger)
-                ? findPathTrigger
-                : default;
+            return _FindPathTrigger.TryGetValue(pathTrigger, out FindPathTrigger findPathTrigger) ? findPathTrigger : default;
         }
 
         public static DynamicPath GetFindPathModeDynamicPath(PathDynamic pathDynamic)
@@ -69,7 +75,8 @@ namespace FindPath
         Always,
         Distance,
         Radius,
-        Monitoring
+        FieldOfViewOverlap,
+        FieldOfViewAngle
     }
 
     public enum PathTrigger
@@ -97,6 +104,14 @@ namespace FindPath
         Forward,
         Back,
         Around
+    }
+
+    public enum TargetType
+    {
+        SoloMode, 
+        ArrayMode,
+        SelectMode,
+        RandomMode
     }
 
     #endregion

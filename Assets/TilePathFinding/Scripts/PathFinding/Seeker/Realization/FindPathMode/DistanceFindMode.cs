@@ -1,13 +1,9 @@
-using FindPath;
 using UnityEngine;
-
 
 namespace FindPath
 {
     public class DistanceFindMode : FindPathMode
     {
-        private float _maxDistance;
-    
         public override bool CheckFind(Seeker seeker)
         {
             Vector3 start = GetSurfacePosition(seeker.StartSurface);
@@ -15,7 +11,7 @@ namespace FindPath
         
             float distance = Vector3.Distance(start , target);
 
-            return distance < _maxDistance;
+            return distance < seeker.MaxDistance;
         }
 
         private Vector3 GetSurfacePosition(Tile.Surface surface)

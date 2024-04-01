@@ -16,7 +16,7 @@ namespace FindPath
             _camera = camera;
         }
     
-        public override Tile.Surface CheckEvent()
+        public override Tile.Surface GetTargetSurface(Seeker seeker)
         {
             if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, _layerMask))
             {
