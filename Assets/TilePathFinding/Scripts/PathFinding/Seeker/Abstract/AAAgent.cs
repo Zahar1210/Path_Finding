@@ -9,7 +9,7 @@ namespace FindPath
         public FindMode findMode;
         private Camera _camera;
         private FindPathProject _findPathProject;
-
+        
         private void Start()
         {
             _findPathProject = FindPathProject.Instance;
