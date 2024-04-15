@@ -6,12 +6,12 @@ namespace FindPath
     {
         public override float SelectTarget(Seeker seeker, Transform target)
         {
-            Tile.Surface startSurface = seeker.CurrentSurface;
-            Tile.Surface targetSurface =
+            Surface startSurface = seeker.CurrentSurface;
+            Surface targetSurface =
                 SurfaceFinder.GetSurface(target.transform.position, seeker.TargetDirection,
                 seeker.Count, FindPathProject.Instance, target);
 
-           Tile.Surface[] path = PathFinding.GetPath(startSurface, targetSurface, FindPathProject.Instance, FindMode.BreadthFirstSearch);
+           Surface[] path = PathFinding.GetPath(startSurface, targetSurface, FindPathProject.Instance, FindMode.BreadthFirstSearch);
 
            return path.Length;
         }

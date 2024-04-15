@@ -2,7 +2,7 @@ namespace FindPath
 {
     public class AlwaysFindMode : FindPathMode
     {
-        public override bool CheckFind(Seeker seeker)
+        public override bool TryFind(Seeker seeker)
         {
             return true;
         }

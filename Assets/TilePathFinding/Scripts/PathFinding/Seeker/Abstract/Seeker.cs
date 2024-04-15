@@ -13,19 +13,19 @@ namespace FindPath
         [SerializeField] private FindPathProject findPathProject;
         
         // найденный (текущий путь)
-        public Tile.Surface[] Path { get; set; } 
+        public Surface[] Path { get; set; } 
         
         // проинициализированна только если find path trigger = target (которую мы находим выбераем и тд)
         public Transform SeekerTarget { get; set; } 
 
         // текущая поверхность при движении
-        public Tile.Surface CurrentSurface { get; set; }
+        public Surface CurrentSurface { get; set; }
         
         // стартовая поверхность
-        public Tile.Surface StartSurface { get; set; }
+        public Surface StartSurface { get; set; }
         
         // целевая поверхность
-        public Tile.Surface TargetSurface { get; set; } 
+        public Surface TargetSurface { get; set; } 
 
         #endregion
 
@@ -153,6 +153,6 @@ namespace FindPath
         
         public abstract void CheckPath(PathDynamic pathDynamic);
         
-        public abstract void FindPath(Tile.Surface startSurface, Tile.Surface targetSurface);
+        public abstract void GetPath(Surface startSurface, Surface targetSurface);
     }
 }

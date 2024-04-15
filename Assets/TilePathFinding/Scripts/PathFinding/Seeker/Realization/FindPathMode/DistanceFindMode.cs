@@ -4,7 +4,7 @@ namespace FindPath
 {
     public class DistanceFindMode : FindPathMode
     {
-        public override bool CheckFind(Seeker seeker)
+        public override bool TryFind(Seeker seeker)
         {
             Vector3 start = GetSurfacePosition(seeker.StartSurface);
             Vector3 target = GetSurfacePosition(seeker.TargetSurface);
@@ -14,7 +14,7 @@ namespace FindPath
             return distance < seeker.MaxDistance;
         }
 
-        private Vector3 GetSurfacePosition(Tile.Surface surface)
+        private Vector3 GetSurfacePosition(Surface surface)
         {
             return 
                 new Vector3

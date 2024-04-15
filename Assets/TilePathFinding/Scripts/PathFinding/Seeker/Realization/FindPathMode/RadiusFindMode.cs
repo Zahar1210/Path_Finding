@@ -4,7 +4,7 @@ namespace FindPath
 {
     public class RadiusFindMode : FindPathMode
     {
-        public override bool CheckFind(Seeker seeker) //TODO
+        public override bool TryFind(Seeker seeker) //TODO
         {
             Vector3Int startPosition = seeker.StartSurface.Tile.position;
             Vector3Int targetPosition = seeker.TargetSurface.Tile.position;

@@ -19,11 +19,11 @@ namespace FindPath
             _vector.Add(TargetDirection.Down, Vector3Int.down);
         }
 
-        public static Tile.Surface GetSurface(Vector3 pos, TargetDirection targetDirection, int count, FindPathProject findPathProject, Transform target)
+        public static Surface GetSurface(Vector3 pos, TargetDirection targetDirection, int count, FindPathProject findPathProject, Transform target)
         {
             List<Vector3Int> queueTiles = new();
             List<Tile> visitedTiles = new();
-            Dictionary<Tile.Surface, float> distanceTiles = new();
+            Dictionary<Surface, float> distanceTiles = new();
 
             Vector3Int tilePos = Vector3Int.RoundToInt(pos);
             if (findPathProject.Tiles.TryGetValue(tilePos, out Tile tile))
@@ -46,19 +46,19 @@ namespace FindPath
             distanceTiles = GetSelectedTiles(target, selectedTiles, targetVector, distanceTiles);
 
             float valueToFind = distanceTiles.Values.Min();
-            Tile.Surface key = distanceTiles.FirstOrDefault(x => x.Value == valueToFind).Key;
+            Surface key = distanceTiles.FirstOrDefault(x => x.Value == valueToFind).Key;
 
             return key;
         }
 
-        private static Dictionary<Tile.Surface, float> GetSelectedTiles(Transform target, Tile[] selectedTiles,
-            Vector3Int targetVector, Dictionary<Tile.Surface, float> distanceTiles)
+        private static Dictionary<Surface, float> GetSelectedTiles(Transform target, Tile[] selectedTiles,
+            Vector3Int targetVector, Dictionary<Surface, float> distanceTiles)
         {
-            Dictionary<Tile.Surface, float> selectedSurface = new();
+            Dictionary<Surface, float> selectedSurface = new();
             foreach (var selectedTile in selectedTiles)
             {
                 float dis = Vector3.Distance(selectedTile.position, target.transform.position);
-                Tile.Surface surface = GetSurface(selectedTile, targetVector);
+                Surface surface = GetSurface(selectedTile, targetVector);
                 if (surface != null)
                 {
                     selectedSurface.Add(surface, dis);
@@ -91,9 +91,9 @@ namespace FindPath
             return selectedTiles.ToArray();
         }
 
-        private static Tile.Surface GetSurface(Tile tile, Vector3Int direction)
+        private static Surface GetSurface(Tile tile, Vector3Int direction)
         {
-            if (tile.Surfaces.TryGetValue(direction, out Tile.Surface surface))
+            if (tile.Surfaces.TryGetValue(direction, out Surface surface))
             {
                 if (!surface.isObstacle)
                 {

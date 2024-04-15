@@ -4,7 +4,7 @@ namespace FindPath
 {
     public class FieldOfViewAngleFindMode : FindPathMode
     {
-        public override bool CheckFind(Seeker seeker)
+        public override bool TryFind(Seeker seeker)
         {
             Collider[] colliders = Physics.OverlapSphere(seeker.transform.position, seeker.Radius, seeker.TargetLayerMask);
             

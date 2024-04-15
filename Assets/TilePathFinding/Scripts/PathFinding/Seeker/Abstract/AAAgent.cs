@@ -25,9 +25,9 @@ namespace FindPath
                     Array.Clear(_findPathProject.Path, 0, _findPathProject.Path.Length);
                 }
         
-                Tile.Surface targetSurface = GetTargetSurface();
+                Surface targetSurface = GetTargetSurface();
         
-                Tile.Surface currentSurface = GetCurrentSurface();
+                Surface currentSurface = GetCurrentSurface();
         
                 if (targetSurface == null)
                 {
@@ -38,7 +38,7 @@ namespace FindPath
             }
         }
 
-        private Tile.Surface GetCurrentSurface()
+        private Surface GetCurrentSurface()
         {
             if (_findPathProject.Tiles.TryGetValue(Vector3Int.RoundToInt(transform.position) + Vector3Int.down, out var tile))
             {
@@ -51,7 +51,7 @@ namespace FindPath
             return null;
         }
 
-        private Tile.Surface GetTargetSurface()
+        private Surface GetTargetSurface()
         {
             if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
             {

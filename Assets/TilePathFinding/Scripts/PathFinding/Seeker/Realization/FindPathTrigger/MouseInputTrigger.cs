@@ -4,7 +4,7 @@ namespace FindPath
 {
     public class MouseInputTrigger : FindPathTrigger
     {
-        private Tile.Surface _currentTargetSurface;
+        private Surface _currentTargetSurface;
         private readonly Camera _camera;
 
         public MouseInputTrigger(Camera camera)
@@ -12,7 +12,7 @@ namespace FindPath
             _camera = camera;
         }
 
-        public override Tile.Surface GetTargetSurface(Seeker seeker)
+        public override Surface TryGetTargetSurface(Seeker seeker)
         {
             if (Input.GetMouseButtonUp(seeker.MouseSide))
             {

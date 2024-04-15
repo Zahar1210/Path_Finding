@@ -2,10 +2,10 @@ namespace FindPath
 {
     public class PathParams 
     {
-        public Tile.Surface StartSurface { get; set; }
-        public Tile.Surface TargetSurface { get; set; }
+        public Surface StartSurface { get; set; }
+        public Surface TargetSurface { get; set; }
 
-        public PathParams(Tile.Surface startSurface, Tile.Surface targetSurface)
+        public PathParams(Surface startSurface, Surface targetSurface)
         {
             StartSurface = startSurface;
             TargetSurface = targetSurface;

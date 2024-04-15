@@ -4,7 +4,7 @@ namespace FindPath
 {
     public class TargetPositionTrigger : FindPathTrigger
     {
-        private Tile.Surface _currentSurfaceTarget;
+        private Surface _currentSurfaceTarget;
         private readonly FindPathProject _findPathProject;
         private float _pastCheckTime;
 
@@ -25,9 +25,12 @@ namespace FindPath
             return false;
         }
 
-        public override Tile.Surface GetTargetSurface(Seeker seeker)
+        public override Surface TryGetTargetSurface(Seeker seeker)
         {
-            if (!Timer(seeker)) { return null; }
+            if (!Timer(seeker))
+            {
+                return null;
+            }
             
             seeker.SeekerTarget = seeker.FindTargetType.GetTargetObject(seeker);
             

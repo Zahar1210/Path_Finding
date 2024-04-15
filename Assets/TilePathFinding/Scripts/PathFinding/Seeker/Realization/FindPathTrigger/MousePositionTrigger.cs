@@ -2,9 +2,10 @@ using UnityEngine;
 
 namespace FindPath
 {
+    // в движкние за мышкой 
     public class MousePositionTrigger : FindPathTrigger
     {
-        private Tile.Surface _currentTargetSurface;
+        private Surface _currentTargetSurface;
         private readonly Camera _camera;
     
         public MousePositionTrigger(Camera camera)
@@ -12,7 +13,7 @@ namespace FindPath
             _camera = camera;
         }
     
-        public override Tile.Surface GetTargetSurface(Seeker seeker)
+        public override Surface TryGetTargetSurface(Seeker seeker)
         {
             if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, seeker.MouseLayerMask))
             {
@@ -24,12 +25,10 @@ namespace FindPath
                     if ((tile.Surfaces.TryGetValue(direction, out var surface) && _currentTargetSurface != surface) || _currentTargetSurface == null)
                     {
                         _currentTargetSurface = surface;
-
                         return surface;
                     }
                 }
             }
-
             return null;
         }
     

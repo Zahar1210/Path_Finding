@@ -40,9 +40,9 @@ namespace FindPath
             {
                 foreach (var tile in _tiles)
                 {
-                    foreach (KeyValuePair<Vector3Int, Tile.Surface> surface in tile.Surfaces)
+                    foreach (KeyValuePair<Vector3Int, Surface> surface in tile.Surfaces)
                     {
-                        Tile.Surface s = surface.Value;
+                        Surface s = surface.Value;
                         Vector3 dir = s.direction;
 
                         if (_findPathProject.Path != null && _findPathProject.Path.Contains(s)) //если он часть пути

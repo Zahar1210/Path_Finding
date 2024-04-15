@@ -13,17 +13,17 @@ namespace FindPath
 
         private void Update()
         {
-            TargetSurface = FindPathTrigger.GetTargetSurface(this);
+            TargetSurface = FindPathTrigger.TryGetTargetSurface(this);
             
             if (TargetSurface != null)
             {
-                FindPath(CurrentSurface, TargetSurface);
+                GetPath(CurrentSurface, TargetSurface);
             }
         }
 
-        public override void FindPath(Tile.Surface startSurface, Tile.Surface targetSurface)
+        public override void GetPath(Surface startSurface, Surface targetSurface)
         {
-            if ((targetSurface != null && startSurface != null) && FindPathMode.CheckFind(this))
+            if ((targetSurface != null && startSurface != null) && FindPathMode.TryFind(this))
             {
                 StartSurface = startSurface;
                 CurrentSurface = startSurface;
@@ -39,7 +39,7 @@ namespace FindPath
             {
                 if (DynamicPath.VerificationPath(this))
                 {
-                    FindPath(CurrentSurface, TargetSurface);
+                    GetPath(CurrentSurface, TargetSurface);
                 }
             }
         }

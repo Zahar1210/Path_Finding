@@ -8,7 +8,7 @@ namespace FindPath
 {
     public static class PathFinding 
     {
-        public static Tile.Surface[] GetPath(Tile.Surface startSurface, Tile.Surface targetSurface,
+        public static Surface[] GetPath(Surface startSurface, Surface targetSurface,
             FindPathProject findPathProject, FindMode findMode)
         {
             if (findMode == FindMode.BreadthFirstSearch)
@@ -27,10 +27,10 @@ namespace FindPath
         
         #region AStar
         
-        private static Tile.Surface[] AStar(Tile.Surface startSurface, Tile.Surface targetSurface, FindPathProject findPathProject)
+        private static Surface[] AStar(Surface startSurface, Surface targetSurface, FindPathProject findPathProject)
         {
-            List<Tile.Surface> path = new();
-            Tile.Surface currentSurface = startSurface;
+            List<Surface> path = new();
+            Surface currentSurface = startSurface;
             Dictionary<Vector3Int, TileAStar> visitedTiles = new();
             
             path.Add(currentSurface);
@@ -58,10 +58,10 @@ namespace FindPath
                 AddTileInfo(currentSurface.Tile);
 
                 
-                List<Tile.Surface> selectSurface = 
+                List<Surface> selectSurface = 
                     SelectTileSurfaces(selectedTiles, currentSurface, selectedTilesCopy, findPathProject);
                 
-                Tile.Surface surfacesWithMinCost = selectSurface
+                Surface surfacesWithMinCost = selectSurface
                     .OrderBy(s => visitedTiles[s.Tile.position].FCost) 
                     .FirstOrDefault(s => !path.Contains(s)); 
                 
@@ -100,7 +100,7 @@ namespace FindPath
         }
 
         private static List<Tile> SelectTiles(FindPathProject findPathProject, 
-            Tile.Surface currentSurface, Dictionary<Vector3Int, TileAStar> visitedTiles)
+            Surface currentSurface, Dictionary<Vector3Int, TileAStar> visitedTiles)
         {
             List<Tile> selectTiles = new();
             
@@ -114,7 +114,7 @@ namespace FindPath
         }
 
         private static List<Tile> SelectTilesCopy(FindPathProject findPathProject, 
-            Tile.Surface currentSurface, Dictionary<Vector3Int, TileAStar> visitedTiles)
+            Surface currentSurface, Dictionary<Vector3Int, TileAStar> visitedTiles)
         {
             List<Tile> selectTiles = new();
             foreach (var direction in currentSurface.Directions.Directions)
@@ -139,7 +139,7 @@ namespace FindPath
         
         #region BreadthFirstSearch
         
-        private static Tile.Surface[] BreadthFirstSearch(Tile.Surface startPosition, Tile.Surface targetPosition, FindPathProject findPathProject)
+        private static Surface[] BreadthFirstSearch(Surface startPosition, Surface targetPosition, FindPathProject findPathProject)
         {
             int step = 0;
             List<Vector3Int> queue = new();
@@ -163,7 +163,7 @@ namespace FindPath
                 }
             }
 
-            Tile.Surface[] path = GetFinalPath(visitedTiles, startPosition, targetPosition, findPathProject);
+            Surface[] path = GetFinalPath(visitedTiles, startPosition, targetPosition, findPathProject);
             return path;
         }
 
@@ -189,13 +189,13 @@ namespace FindPath
             }
         }
 
-        private static Tile.Surface[] GetFinalPath(Dictionary<Vector3Int, TileBreadthFirstSearch> visited, Tile.Surface startSurface,
-            Tile.Surface targetSurface, FindPathProject findPathProject)
+        private static Surface[] GetFinalPath(Dictionary<Vector3Int, TileBreadthFirstSearch> visited, Surface startSurface,
+            Surface targetSurface, FindPathProject findPathProject)
         {
-            List<Tile.Surface> path = new();
+            List<Surface> path = new();
             List<Tile> selectTiles = new();
             List<Tile> selectTilesCopy = new();
-            Tile.Surface currentSurface = targetSurface;
+            Surface currentSurface = targetSurface;
 
             while(!path.Contains(startSurface))
             {
@@ -235,10 +235,10 @@ namespace FindPath
                     }
                 }
 
-                List<Tile.Surface> selectSurfaces = SelectTileSurfaces(selectTiles, currentSurface, selectTilesCopy, findPathProject);
+                List<Surface> selectSurfaces = SelectTileSurfaces(selectTiles, currentSurface, selectTilesCopy, findPathProject);
                 
                 int minStep = selectSurfaces.Min(s => visited[s.Tile.position].Step);
-                List<Tile.Surface> surfacesWithMinStep = selectSurfaces.Where(s => visited[s.Tile.position].Step == minStep).ToList();
+                List<Surface> surfacesWithMinStep = selectSurfaces.Where(s => visited[s.Tile.position].Step == minStep).ToList();
                 
                 currentSurface = surfacesWithMinStep[Random.Range(0, surfacesWithMinStep.Count)];
 
@@ -255,10 +255,10 @@ namespace FindPath
 
         #region SelectSurface
 
-        private static List<Tile.Surface> SelectTileSurfaces(List<Tile> tiles, Tile.Surface currentSurface,
+        private static List<Surface> SelectTileSurfaces(List<Tile> tiles, Surface currentSurface,
             List<Tile> selectedTilesCopy, FindPathProject findPathProject)
         {
-            List<Tile.Surface> selectedSurfaces = new();
+            List<Surface> selectedSurfaces = new();
             foreach (Tile tile in tiles)
             {
                 if (tile.Surfaces.TryGetValue(currentSurface.direction, out var surface) && !surface.isObstacle)
@@ -267,7 +267,7 @@ namespace FindPath
                 }
             }
 
-            foreach (KeyValuePair<Vector3Int, Tile.Surface> s in currentSurface.Tile.Surfaces)
+            foreach (KeyValuePair<Vector3Int, Surface> s in currentSurface.Tile.Surfaces)
             {
                 if (s.Value.Directions.DirectionArray != currentSurface.Directions.DirectionArray && !s.Value.isObstacle)
                 {
@@ -283,7 +283,7 @@ namespace FindPath
             return selectedSurfaces;
         }
 
-        private static Tile.Surface SelectSurfacesTile(Tile tile, Tile.Surface currentSurface, FindPathProject findPathProject)
+        private static Surface SelectSurfacesTile(Tile tile, Surface currentSurface, FindPathProject findPathProject)
         {
             Vector3Int vector = currentSurface.Tile.position - tile.position;
 
@@ -297,7 +297,7 @@ namespace FindPath
                      currentSurface.Directions.Directions == findPathProject.Directions.direction.directionLeft)
                 vector.x = 0;
 
-            if (tile.Surfaces.TryGetValue(vector, out Tile.Surface sur) && !sur.isObstacle)
+            if (tile.Surfaces.TryGetValue(vector, out Surface sur) && !sur.isObstacle)
                 return sur;
 
             return null;

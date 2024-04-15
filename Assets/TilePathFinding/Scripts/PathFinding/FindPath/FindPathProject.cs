@@ -9,7 +9,7 @@ namespace FindPath
     public class FindPathProject : MonoBehaviour
     {
         public static FindPathProject Instance { get; private set; } //singleton
-        public Tile.Surface[] Path { get; set; } //this is where all the paths that have been traveled будет не нужным это точно ей тут не место
+        public Surface[] Path { get; set; } //this is where all the paths that have been traveled будет не нужным это точно ей тут не место
         public int TileSize => tileSize; //property for use in other classes
         public Directions Directions => directions; //property for use in other classes
         
@@ -147,14 +147,14 @@ namespace FindPath
                 {
                     if (tile.surfaces == null || tile.surfaces.Length == 0)
                     {
-                        HashSet<Tile.Surface> surfaces = new();
+                        HashSet<Surface> surfaces = new();
                     
-                        surfaces.Add(new Tile.Surface(new Vector3Int(size, 0, 0)));
-                        surfaces.Add(new Tile.Surface(new Vector3Int(-size, 0, 0)));
-                        surfaces.Add(new Tile.Surface(new Vector3Int(0, size, 0)));
-                        surfaces.Add(new Tile.Surface(new Vector3Int(0, -size, 0)));
-                        surfaces.Add(new Tile.Surface(new Vector3Int(0, 0, size)));
-                        surfaces.Add(new Tile.Surface(new Vector3Int(0, 0, -size)));
+                        surfaces.Add(new Surface(new Vector3Int(size, 0, 0)));
+                        surfaces.Add(new Surface(new Vector3Int(-size, 0, 0)));
+                        surfaces.Add(new Surface(new Vector3Int(0, size, 0)));
+                        surfaces.Add(new Surface(new Vector3Int(0, -size, 0)));
+                        surfaces.Add(new Surface(new Vector3Int(0, 0, size)));
+                        surfaces.Add(new Surface(new Vector3Int(0, 0, -size)));
                 
                         tile.surfaces = surfaces.ToArray();
                     }
