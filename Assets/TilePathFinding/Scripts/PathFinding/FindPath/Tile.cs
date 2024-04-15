@@ -4,28 +4,23 @@ using UnityEngine;
 
 namespace FindPath
 {
-    public class Tile : MonoBehaviour
+    public class Tile : GridObject
     { 
-        public Vector3Int position;
-        public Surface[] surfaces;
-        
-        public readonly Dictionary<Vector3Int, Surface> Surfaces = new();
-
         private FindPathProject _findPathProject;
         private int _tileSize;
 
-        public void SetSurface(FindPathProject pathFinding)
+        public override void SetSurface(FindPathProject pathFinding)
         {
             _findPathProject = FindPathProject.Instance;
             
             int tileSize = _findPathProject.TileSize;
-            foreach (var surface in surfaces)
+            foreach (var surface in _surfaces)
             {
                 AddSurface(surface.direction, pathFinding, tileSize);
             }
         }
         
-        private void AddSurface(Vector3Int direction, FindPathProject pathFinding, int tileSize)
+        public override void AddSurface(Vector3Int direction, FindPathProject pathFinding, int tileSize)
         {
             Directions.DirectionArrayPair directions = new();
 
@@ -34,7 +29,7 @@ namespace FindPath
                 directions = _directions;
             }
 
-            bool isObstacle = pathFinding.Tiles.TryGetValue(position + direction, out Tile tile);
+            bool isObstacle = pathFinding.Tiles.TryGetValue(Position + direction, out Tile tile);
             Surface s = new Surface(direction, directions, this, tileSize, isObstacle, isObstacle);
             Surfaces.Add(direction, s);
         }

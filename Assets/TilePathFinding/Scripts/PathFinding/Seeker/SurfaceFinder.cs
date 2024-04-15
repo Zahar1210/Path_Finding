@@ -21,43 +21,43 @@ namespace FindPath
 
         public static Surface GetSurface(Vector3 pos, TargetDirection targetDirection, int count, FindPathProject findPathProject, Transform target)
         {
-            List<Vector3Int> queueTiles = new();
-            List<Tile> visitedTiles = new();
-            Dictionary<Surface, float> distanceTiles = new();
+            List<Vector3Int> queueGridObjects = new();
+            List<GridObject> visitedGridObjects = new();
+            Dictionary<Surface, float> distanceGridObjects = new();
 
             Vector3Int tilePos = Vector3Int.RoundToInt(pos);
             if (findPathProject.Tiles.TryGetValue(tilePos, out Tile tile))
             {
-                queueTiles.Add(tilePos);
+                queueGridObjects.Add(tilePos);
             }
 
             for (int i = 0; i < count; i++)
             {
-                if (queueTiles.Count <= 0)
+                if (queueGridObjects.Count <= 0)
                     break;
 
-                GetQueueTiles(visitedTiles, queueTiles, findPathProject.Directions.directionGroup.directions,
+                GetQueueTiles(visitedGridObjects, queueGridObjects, findPathProject.Directions.directionGroup.directions,
                     findPathProject);
             }
 
             Vector3Int targetVector = GetTargetVector(targetDirection);
-            Tile[] selectedTiles = SelectTiles(visitedTiles, targetVector, target);
+            GridObject[] selectedTiles = SelectTiles(visitedGridObjects, targetVector, target);
 
-            distanceTiles = GetSelectedTiles(target, selectedTiles, targetVector, distanceTiles);
+            distanceGridObjects = GetSelectedTiles(target, selectedTiles, targetVector, distanceGridObjects);
 
-            float valueToFind = distanceTiles.Values.Min();
-            Surface key = distanceTiles.FirstOrDefault(x => x.Value == valueToFind).Key;
+            float valueToFind = distanceGridObjects.Values.Min();
+            Surface key = distanceGridObjects.FirstOrDefault(x => x.Value == valueToFind).Key;
 
             return key;
         }
 
-        private static Dictionary<Surface, float> GetSelectedTiles(Transform target, Tile[] selectedTiles,
+        private static Dictionary<Surface, float> GetSelectedTiles(Transform target, GridObject[] selectedTiles,
             Vector3Int targetVector, Dictionary<Surface, float> distanceTiles)
         {
             Dictionary<Surface, float> selectedSurface = new();
             foreach (var selectedTile in selectedTiles)
             {
-                float dis = Vector3.Distance(selectedTile.position, target.transform.position);
+                float dis = Vector3.Distance(selectedTile.Position, target.transform.position);
                 Surface surface = GetSurface(selectedTile, targetVector);
                 if (surface != null)
                 {
@@ -73,27 +73,27 @@ namespace FindPath
             return _vector.TryGetValue(targetDirection, out Vector3Int vector) ? vector : Vector3Int.zero;
         }
 
-        private static Tile[] SelectTiles(List<Tile> visitedTiles, Vector3Int targetVector, Transform target)
+        private static GridObject[] SelectTiles(List<GridObject> visitedGridObjects, Vector3Int targetVector, Transform target)
         {
-            List<Tile> selectedTiles = new();
-
-            foreach (var tile in visitedTiles)
+            List<GridObject> selectedGridObjects = new();
+            
+            foreach (var tile in visitedGridObjects)
             {
-                Vector3 hitOffset = tile.position - target.transform.position;
+                Vector3 hitOffset = tile.Position - target.transform.position;
                 Vector3Int direction = Vector3Int.RoundToInt(hitOffset.normalized);
 
                 if (direction == targetVector)
                 {
-                    selectedTiles.Add(tile);
+                    selectedGridObjects.Add(tile);
                 }
             }
 
-            return selectedTiles.ToArray();
+            return selectedGridObjects.ToArray();
         }
 
-        private static Surface GetSurface(Tile tile, Vector3Int direction)
+        private static Surface GetSurface(GridObject gridObject, Vector3Int direction)
         {
-            if (tile.Surfaces.TryGetValue(direction, out Surface surface))
+            if (gridObject.Surfaces.TryGetValue(direction, out Surface surface))
             {
                 if (!surface.isObstacle)
                 {
@@ -106,50 +106,50 @@ namespace FindPath
 
         #region GetNearTiles
 
-        private static void GetQueueTiles(List<Tile> visitedTiles, List<Vector3Int> queueTiles, Vector3Int[] directions,
+        private static void GetQueueTiles(List<GridObject> visitedGridObj, List<Vector3Int> queueGridObj, Vector3Int[] directions,
             FindPathProject findPathProject)
         {
-            List<Vector3Int> tilePositions = queueTiles;
+            List<Vector3Int> gridObjectPositions = queueGridObj;
 
-            foreach (var tilePos in tilePositions)
+            foreach (var objPos in gridObjectPositions)
             {
-                SetVisitedTile(visitedTiles, queueTiles, findPathProject, tilePos);
-                SetQueueTile(visitedTiles, queueTiles, directions, findPathProject, tilePos);
+                SetVisitedTile(visitedGridObj, queueGridObj, findPathProject, objPos);
+                SetQueueTile(visitedGridObj, queueGridObj, directions, findPathProject, objPos);
             }
         }
 
-        private static void SetQueueTile(List<Tile> visitedTiles, List<Vector3Int> queueTiles, Vector3Int[] directions,
-            FindPathProject findPathProject, Vector3Int tilePos)
+        private static void SetQueueTile(List<GridObject> visitedGridObjects, List<Vector3Int> queueGridObjects, Vector3Int[] directions,
+            FindPathProject findPathProject, Vector3Int gridObjectPos)
         {
             foreach (var direction in directions)
             {
-                Vector3Int pos = tilePos + direction;
+                Vector3Int pos = gridObjectPos + direction;
 
                 if (findPathProject.Tiles.TryGetValue(pos, out Tile tile))
                 {
-                    if (!visitedTiles.Contains(tile) && !queueTiles.Contains(pos))
+                    if (!visitedGridObjects.Contains(tile) && !queueGridObjects.Contains(pos))
                     {
-                        queueTiles.Add(tile.position);
+                        queueGridObjects.Add(tile.Position);
                     }
                 }
             }
         }
 
-        private static void SetVisitedTile(List<Tile> visitedTiles, List<Vector3Int> queueTiles,
-            FindPathProject findPathProject, Vector3Int tilePos)
+        private static void SetVisitedTile(List<GridObject> visitedGridObjects, List<Vector3Int> queueGridObjects,
+            FindPathProject findPathProject, Vector3Int gridObjPos)
         {
-            queueTiles.Remove(tilePos);
+            queueGridObjects.Remove(gridObjPos);
 
-            Tile _tile = GetTile(findPathProject, tilePos);
+            GridObject _tile = GetTile(findPathProject, gridObjPos);
             if (_tile != null)
             {
-                visitedTiles.Add(_tile);
+                visitedGridObjects.Add(_tile);
             }
         }
 
-        private static Tile GetTile(FindPathProject findPathProject, Vector3Int tilePos)
+        private static GridObject GetTile(FindPathProject findPathProject, Vector3Int objectPos)
         {
-            return (findPathProject.Tiles.TryGetValue(tilePos, out Tile tile)) ? tile : null;
+            return (findPathProject.Tiles.TryGetValue(objectPos, out Tile tile)) ? tile : null;
         }
 
         #endregion
