@@ -19,9 +19,9 @@ namespace FindPath
             return 
                 new Vector3
                 (
-                    surface.Tile.position.x + surface.direction.x,
-                    surface.Tile.position.y + surface.direction.y,
-                    surface.Tile.position.z + surface.direction.z 
+                    surface.GridObject.Position.x + surface.direction.x,
+                    surface.GridObject.Position.y + surface.direction.y,
+                    surface.GridObject.Position.z + surface.direction.z 
                 );
         }
     }

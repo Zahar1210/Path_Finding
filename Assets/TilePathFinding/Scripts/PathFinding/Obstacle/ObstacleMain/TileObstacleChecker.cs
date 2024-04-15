@@ -56,7 +56,7 @@ namespace FindPath
         {
             foreach (var surface in obstacle.Surfaces)
             {
-                Vector3 pos = surface.Tile.position + (surface.direction);
+                Vector3 pos = surface.GridObject.Position + (surface.direction);
                 Collider[] colls = Physics.OverlapSphere(pos, obstacle.CheckRadius, obstacle.LayerMask);
 
                 surface.isObstacle = (colls.Length > 0);

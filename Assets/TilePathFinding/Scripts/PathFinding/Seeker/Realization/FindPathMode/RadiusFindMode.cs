@@ -6,8 +6,8 @@ namespace FindPath
     {
         public override bool TryFind(Seeker seeker) //TODO
         {
-            Vector3Int startPosition = seeker.StartSurface.Tile.position;
-            Vector3Int targetPosition = seeker.TargetSurface.Tile.position;
+            Vector3Int startPosition = seeker.StartSurface.GridObject.Position;
+            Vector3Int targetPosition = seeker.TargetSurface.GridObject.Position;
 
             Vector3Int difference = targetPosition - startPosition;
 

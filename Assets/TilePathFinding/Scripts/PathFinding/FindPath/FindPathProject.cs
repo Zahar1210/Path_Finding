@@ -76,7 +76,7 @@ namespace FindPath
                 Vector3Int tilePosition = Vector3Int.RoundToInt(tile.transform.position);
                 if (!Tiles.ContainsKey(tilePosition))
                 {
-                    tile.position = tilePosition;
+                    tile.Position = tilePosition;
                     Tiles.Add(tilePosition, tile);
                 }
             }
@@ -145,7 +145,7 @@ namespace FindPath
                 
                 foreach (var tile in tiles)
                 {
-                    if (tile.surfaces == null || tile.surfaces.Length == 0)
+                    if (tile._surfaces == null || tile._surfaces.Length == 0)
                     {
                         HashSet<Surface> surfaces = new();
                     
@@ -156,7 +156,7 @@ namespace FindPath
                         surfaces.Add(new Surface(new Vector3Int(0, 0, size)));
                         surfaces.Add(new Surface(new Vector3Int(0, 0, -size)));
                 
-                        tile.surfaces = surfaces.ToArray();
+                        tile._surfaces = surfaces.ToArray();
                     }
                 }
             }

@@ -8,7 +8,7 @@ namespace FindPath
     public class Surface 
     {
         //variable for Path Finding 
-        public Tile Tile { get; set; }
+        public GridObject GridObject { get; set; }
         public bool obstacleLock;
         public bool isObstacle;
         public Vector3Int direction;
@@ -25,9 +25,9 @@ namespace FindPath
         }
             
         //this constructor initializes the surface to find the path
-        public Surface(Vector3Int direction ,Directions.DirectionArrayPair directions, Tile tile, int tileSize, bool obstacleLock, bool isObstacle)
+        public Surface(Vector3Int direction ,Directions.DirectionArrayPair directions, Tile gridObject, int tileSize, bool obstacleLock, bool isObstacle)
         {
-            Tile = tile;
+            GridObject = gridObject;
             Directions = directions;
             this.direction = direction;
             this.obstacleLock = obstacleLock;
