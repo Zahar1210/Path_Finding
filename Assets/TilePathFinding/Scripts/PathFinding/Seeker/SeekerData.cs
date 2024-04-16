@@ -22,11 +22,11 @@ namespace FindPath
             FindPathTrigger.Add(PathTrigger.TargetPosition, new TargetPositionTrigger(FindPathProject.Instance));
 
             //Find Path Mode
-            FindPathReason.Add(PathReason.Always, new AlwaysFindReasonReasonMode());
-            FindPathReason.Add(PathReason.Radius, new RadiusFindReasonReasonMode());
-            FindPathReason.Add(PathReason.Distance, new DistanceFindReasonReasonMode());
-            FindPathReason.Add(PathReason.FieldOfViewOverlap, new FieldOfViewOverlapFindReasonReasonMode());
-            FindPathReason.Add(PathReason.FieldOfViewAngle, new FieldOfViewAngleFindReasonReasonMode());
+            FindPathReason.Add(PathReason.Always, new AlwaysFindReasonMode());
+            FindPathReason.Add(PathReason.Radius, new RadiusFindReasonMode());
+            FindPathReason.Add(PathReason.Distance, new DistanceFindReasonMode());
+            FindPathReason.Add(PathReason.FieldOfViewOverlap, new FieldOfViewOverlapFindReasonMode());
+            FindPathReason.Add(PathReason.FieldOfViewAngle, new FieldOfViewAngleFindReasonMode());
 
             //Find Path Dynamic
             FindPathDynamic.Add(PathDynamic.ChangeObstacle, new ChangeObstacleDynamicPath());

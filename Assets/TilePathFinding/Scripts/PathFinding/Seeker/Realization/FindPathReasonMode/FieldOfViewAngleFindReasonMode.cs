@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace FindPath
 {
-    public class FieldOfViewAngleFindReasonReasonMode : FindPathReasonMode
+    public class FieldOfViewAngleFindReasonMode : FindPathReasonMode
     {
         public override bool TryFind(Seeker seeker)
         {

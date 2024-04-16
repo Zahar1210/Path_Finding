@@ -1,3 +1,5 @@
+using System;
+
 namespace FindPath
 {
     public class Agent : Seeker
@@ -33,6 +35,9 @@ namespace FindPath
                 TargetSurface = targetSurface;
                 
                 FindPathTrigger.GetPathParams();
+                
+                Array.Clear(Path, 0, Path.Length);
+                Path = FindMode.GetPath(startSurface, targetSurface, FindPathProject);
             }
         }
 

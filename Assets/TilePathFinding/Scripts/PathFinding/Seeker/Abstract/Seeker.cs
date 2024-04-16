@@ -13,7 +13,7 @@ namespace FindPath
         public Surface[] Path { get; set; } // найденный (текущий путь)
         
         
-        public FindMode FindMode { get; set; }// проинициализированный режим поиска пути 
+        public FindMode FindMode { get; set; } // проинициализированный режим поиска пути 
         public PathFindMode PathFindMode => _pathFindMode;  //режим поиска пути
         [SerializeField] private PathFindMode _pathFindMode;
 
