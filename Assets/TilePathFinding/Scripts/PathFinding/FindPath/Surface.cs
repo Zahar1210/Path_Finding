@@ -25,7 +25,7 @@ namespace FindPath
         }
             
         //this constructor initializes the surface to find the path
-        public Surface(Vector3Int direction ,Directions.DirectionArrayPair directions, Tile gridObject, int tileSize, bool obstacleLock, bool isObstacle)
+        public Surface(Vector3Int direction ,Directions.DirectionArrayPair directions, GridObject gridObject, int tileSize, bool obstacleLock, bool isObstacle)
         {
             GridObject = gridObject;
             Directions = directions;

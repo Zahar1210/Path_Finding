@@ -26,7 +26,7 @@ namespace FindPath
             Dictionary<Surface, float> distanceGridObjects = new();
 
             Vector3Int tilePos = Vector3Int.RoundToInt(pos);
-            if (findPathProject.Tiles.TryGetValue(tilePos, out Tile tile))
+            if (findPathProject.GridObjects.TryGetValue(tilePos, out GridObject tile))
             {
                 queueGridObjects.Add(tilePos);
             }
@@ -36,7 +36,7 @@ namespace FindPath
                 if (queueGridObjects.Count <= 0)
                     break;
 
-                GetQueueTiles(visitedGridObjects, queueGridObjects, findPathProject.Directions.directionGroup.directions,
+                GetQueueTiles(visitedGridObjects, queueGridObjects, findPathProject.Directions._directionGroup._directions,
                     findPathProject);
             }
 
@@ -125,7 +125,7 @@ namespace FindPath
             {
                 Vector3Int pos = gridObjectPos + direction;
 
-                if (findPathProject.Tiles.TryGetValue(pos, out Tile tile))
+                if (findPathProject.GridObjects.TryGetValue(pos, out GridObject tile))
                 {
                     if (!visitedGridObjects.Contains(tile) && !queueGridObjects.Contains(pos))
                     {
@@ -149,7 +149,7 @@ namespace FindPath
 
         private static GridObject GetTile(FindPathProject findPathProject, Vector3Int objectPos)
         {
-            return (findPathProject.Tiles.TryGetValue(objectPos, out Tile tile)) ? tile : null;
+            return (findPathProject.GridObjects.TryGetValue(objectPos, out GridObject gridObject)) ? gridObject : null;
         }
 
         #endregion

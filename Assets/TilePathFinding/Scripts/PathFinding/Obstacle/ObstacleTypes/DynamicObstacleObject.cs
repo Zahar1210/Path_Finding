@@ -32,7 +32,7 @@ namespace FindPath
                 StartChecking();
             }
 
-            Obstacle.Tiles.Clear();
+            Obstacle.GridObjects.Clear();
             Obstacle.Surfaces.Clear();
 
             TileObstacleChecker.GetTilesForCheck(Obstacle);

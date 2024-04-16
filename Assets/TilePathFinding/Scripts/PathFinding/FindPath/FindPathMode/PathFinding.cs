@@ -8,20 +8,20 @@ namespace FindPath
 {
     public static class PathFinding 
     {
-        public static Surface[] GetPath(Surface startSurface, Surface targetSurface,
-            FindPathProject findPathProject, FindMode findMode)
+        public static Surface[] GetPath(Surface startSurface, Surface targetSurface, FindPathProject findPathProject)
         {
-            if (findMode == FindMode.BreadthFirstSearch)
-            {
-                return BreadthFirstSearch(startSurface, targetSurface, findPathProject);
-            }
-
-            if (findMode == FindMode.AStar)
-            {
-                return AStar(startSurface, targetSurface, findPathProject);
-            }
-            
-            return null;
+            //TODO
+            // if (findMode == PathFindMode.BreadthFirstSearch)
+            // {
+            //     return BreadthFirstSearch(startSurface, targetSurface, findPathProject);
+            // }
+            //
+            // if (findMode == PathFindMode.AStar)
+            // {
+            //     return AStar(startSurface, targetSurface, findPathProject);
+            // }
+            //
+            // return null;
         }
 
         
@@ -37,7 +37,7 @@ namespace FindPath
             
             for (int i = 0; i < 45; i++)
             {
-                List<Tile> selectedTiles = SelectTiles(findPathProject, currentSurface, visitedTiles);
+                List<GridObject> selectedTiles = SelectTiles(findPathProject, currentSurface, visitedTiles);
                 if (selectedTiles.Count != 0)
                 {
                     foreach (var tile in selectedTiles)
@@ -46,7 +46,7 @@ namespace FindPath
                     }
                 }
                 
-                List<Tile> selectedTilesCopy = SelectTilesCopy(findPathProject, currentSurface, visitedTiles);
+                List<GridObject> selectedTilesCopy = SelectTilesCopy(findPathProject, currentSurface, visitedTiles);
                 if (selectedTilesCopy.Count != 0)
                 {
                     foreach (var tile in selectedTilesCopy)
@@ -99,12 +99,12 @@ namespace FindPath
             return path.ToArray();
         }
 
-        private static List<Tile> SelectTiles(FindPathProject findPathProject, 
+        private static List<GridObject> SelectTiles(FindPathProject findPathProject, 
             Surface currentSurface, Dictionary<Vector3Int, TileAStar> visitedTiles)
         {
-            List<Tile> selectTiles = new();
+            List<GridObject> selectTiles = new();
             
-            foreach (var direction in currentSurface.Directions.DirectionArray)
+            foreach (var direction in currentSurface.Directions._directionArray)
             {
                 Vector3Int tilePos = currentSurface.GridObject.Position + direction;
                 AddTile(findPathProject, selectTiles, tilePos, visitedTiles);
@@ -113,11 +113,11 @@ namespace FindPath
             return selectTiles;
         }
 
-        private static List<Tile> SelectTilesCopy(FindPathProject findPathProject, 
+        private static List<GridObject> SelectTilesCopy(FindPathProject findPathProject, 
             Surface currentSurface, Dictionary<Vector3Int, TileAStar> visitedTiles)
         {
-            List<Tile> selectTiles = new();
-            foreach (var direction in currentSurface.Directions.Directions)
+            List<GridObject> selectTiles = new();
+            foreach (var direction in currentSurface.Directions._directions)
             {
                 Vector3Int tilePos = currentSurface.GridObject.Position + direction;
                 AddTile(findPathProject, selectTiles, tilePos, visitedTiles);
@@ -127,9 +127,9 @@ namespace FindPath
         }
         
         private static void AddTile(FindPathProject findPathProject, 
-            List<Tile> selectTiles, Vector3Int tilePos, Dictionary<Vector3Int, TileAStar> visitedTiles )
+            List<GridObject> selectTiles, Vector3Int tilePos, Dictionary<Vector3Int, TileAStar> visitedTiles )
         {
-            if (findPathProject.Tiles.TryGetValue(tilePos, out var tile) && !visitedTiles.ContainsKey(tilePos))
+            if (findPathProject.GridObjects.TryGetValue(tilePos, out var tile) && !visitedTiles.ContainsKey(tilePos))
             {
                 selectTiles.Add(tile);
             }
@@ -176,9 +176,9 @@ namespace FindPath
             {
                 queueTiles.Remove(t);
                 visitedTiles.Add(t, new TileBreadthFirstSearch(step));
-                foreach (var direction in findPathProject.Directions.directionGroup.directions)
+                foreach (var direction in findPathProject.Directions._directionGroup._directions)
                 {
-                    if (findPathProject.Tiles.TryGetValue(t + direction, out var tile))
+                    if (findPathProject.GridObjects.TryGetValue(t + direction, out var tile))
                     {
                         if (!visitedTiles.ContainsKey(tile.Position) && !queueTiles.Contains(tile.Position))
                         {
@@ -193,8 +193,8 @@ namespace FindPath
             Surface targetSurface, FindPathProject findPathProject)
         {
             List<Surface> path = new();
-            List<Tile> selectTiles = new();
-            List<Tile> selectTilesCopy = new();
+            List<GridObject> selectTiles = new();
+            List<GridObject> selectTilesCopy = new();
             Surface currentSurface = targetSurface;
 
             while(!path.Contains(startSurface))
@@ -203,14 +203,14 @@ namespace FindPath
                 selectTilesCopy.Clear();
                 path.Add(currentSurface);
                 
-                foreach (var direction in currentSurface.Directions.DirectionArray)
+                foreach (var direction in currentSurface.Directions._directionArray)
                 {
                     Vector3Int tilePos = currentSurface.GridObject.Position + direction;
 
                     if (visited.TryGetValue(tilePos, out var tileSurface) &&
                         tileSurface.Step == visited[currentSurface.GridObject.Position].Step - 1)
                     {
-                        if (findPathProject.Tiles.TryGetValue(tilePos, out Tile tile) &&
+                        if (findPathProject.GridObjects.TryGetValue(tilePos, out GridObject tile) &&
                             tile.Surfaces.TryGetValue(currentSurface.direction, out var surface))
                         {
                             if (!path.Contains(surface) && !surface.isObstacle)
@@ -221,14 +221,14 @@ namespace FindPath
                     }
                 }
 
-                foreach (var dir in currentSurface.Directions.Directions)
+                foreach (var dir in currentSurface.Directions._directions)
                 {
                     Vector3Int tilePosition = currentSurface.GridObject.Position + dir;
 
                     if (visited.TryGetValue(tilePosition, out var tileSurface) &&
                         tileSurface.Step <= visited[currentSurface.GridObject.Position].Step)
                     {
-                        if (findPathProject.Tiles.TryGetValue(tilePosition, out Tile tile) && !selectTilesCopy.Contains(tile))
+                        if (findPathProject.GridObjects.TryGetValue(tilePosition, out GridObject tile) && !selectTilesCopy.Contains(tile))
                         {
                             selectTilesCopy.Add(tile);
                         }
@@ -255,11 +255,11 @@ namespace FindPath
 
         #region SelectSurface
 
-        private static List<Surface> SelectTileSurfaces(List<Tile> tiles, Surface currentSurface,
-            List<Tile> selectedTilesCopy, FindPathProject findPathProject)
+        private static List<Surface> SelectTileSurfaces(List<GridObject> tiles, Surface currentSurface,
+            List<GridObject> selectedTilesCopy, FindPathProject findPathProject)
         {
             List<Surface> selectedSurfaces = new();
-            foreach (Tile tile in tiles)
+            foreach (CubeGridObject tile in tiles)
             {
                 if (tile.Surfaces.TryGetValue(currentSurface.direction, out var surface) && !surface.isObstacle)
                 {
@@ -269,7 +269,7 @@ namespace FindPath
 
             foreach (KeyValuePair<Vector3Int, Surface> s in currentSurface.GridObject.Surfaces)
             {
-                if (s.Value.Directions.DirectionArray != currentSurface.Directions.DirectionArray && !s.Value.isObstacle)
+                if (s.Value.Directions._directionArray != currentSurface.Directions._directionArray && !s.Value.isObstacle)
                 {
                     selectedSurfaces.Add(s.Value);
                 }
@@ -283,18 +283,18 @@ namespace FindPath
             return selectedSurfaces;
         }
 
-        private static Surface SelectSurfacesTile(Tile tile, Surface currentSurface, FindPathProject findPathProject)
+        private static Surface SelectSurfacesTile(GridObject tile, Surface currentSurface, FindPathProject findPathProject)
         {
             Vector3Int vector = currentSurface.GridObject.Position - tile.Position;
 
-            if (currentSurface.Directions.Directions == findPathProject.Directions.direction.directionBack ||
-                currentSurface.Directions.Directions == findPathProject.Directions.direction.directionFront)
+            if (currentSurface.Directions._directions == findPathProject.Directions._direction._directionBack ||
+                currentSurface.Directions._directions == findPathProject.Directions._direction._directionFront)
                 vector.z = 0;
-            else if (currentSurface.Directions.Directions == findPathProject.Directions.direction.directionDown ||
-                     currentSurface.Directions.Directions == findPathProject.Directions.direction.directionUp)
+            else if (currentSurface.Directions._directions == findPathProject.Directions._direction._directionDown ||
+                     currentSurface.Directions._directions == findPathProject.Directions._direction._directionUp)
                 vector.y = 0;
-            else if (currentSurface.Directions.Directions == findPathProject.Directions.direction.directionRight ||
-                     currentSurface.Directions.Directions == findPathProject.Directions.direction.directionLeft)
+            else if (currentSurface.Directions._directions == findPathProject.Directions._direction._directionRight ||
+                     currentSurface.Directions._directions == findPathProject.Directions._direction._directionLeft)
                 vector.x = 0;
 
             if (tile.Surfaces.TryGetValue(vector, out Surface sur) && !sur.isObstacle)

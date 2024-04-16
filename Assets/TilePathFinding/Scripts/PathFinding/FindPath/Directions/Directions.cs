@@ -1,70 +1,71 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace FindPath
 {
     [CreateAssetMenu(menuName = "NewInfo/ DirectionInfo", fileName = "Directions")]
     public class Directions : ScriptableObject
     {
-        public Direction direction;
-        public DirectionGroup directionGroup;
-        public Dictionary<Vector3Int, DirectionArrayPair> DirDictionary = new();
+        public Direction _direction;
+        public DirectionGroup _directionGroup;
+        public readonly Dictionary<Vector3Int, DirectionArrayPair> dirDictionary = new();
         
         #region Initialize
         
         //This function is called at the beginning to ensure everything functions correctly in the future.
-        public void Initialize()//точка входа
+        public void Initialize()
         {
             //Here we determine the size of the tile so that the directions can be adjusted accordingly
             int tileSize = FindPathProject.Instance.TileSize;
-            
+
             //Initialization
-            direction.SetVector(tileSize);
-            directionGroup.SetVector(tileSize);
+            _direction.SetVector(tileSize);
+            _directionGroup.SetVector(tileSize);
             SetDirDictionary();
         }
 
-        private void SetDirDictionary()
+        public void SetDirDictionary()
         {
             /*
              Create a dictionary for each type of surface.
              This is important so that the tile knows which direction to check for the presence of another tile. 
             */
-            DirDictionary.Add(Vector3Int.right, new DirectionArrayPair
+            dirDictionary.Add(Vector3Int.right, new DirectionArrayPair
             {
-                DirectionArray = directionGroup.directionHorizontal,
-                Directions = direction.directionRight
+                _directionArray = _directionGroup._directionHorizontal,
+                _directions = _direction._directionRight
             });
 
-            DirDictionary.Add(Vector3Int.left, new DirectionArrayPair
+            dirDictionary.Add(Vector3Int.left, new DirectionArrayPair
             {
-                DirectionArray = directionGroup.directionHorizontal,
-                Directions = direction.directionLeft
+                _directionArray = _directionGroup._directionHorizontal,
+                _directions = _direction._directionLeft
             });
 
-            DirDictionary.Add(Vector3Int.up, new DirectionArrayPair
+            dirDictionary.Add(Vector3Int.up, new DirectionArrayPair
             {
-                DirectionArray = directionGroup.directionVertical,
-                Directions = direction.directionUp
+                _directionArray = _directionGroup._directionVertical,
+                _directions = _direction._directionUp
             });
 
-            DirDictionary.Add(Vector3Int.down, new DirectionArrayPair
+            dirDictionary.Add(Vector3Int.down, new DirectionArrayPair
             {
-                DirectionArray = directionGroup.directionVertical,
-                Directions = direction.directionDown
+                _directionArray = _directionGroup._directionVertical,
+                _directions = _direction._directionDown
             });
 
-            DirDictionary.Add(Vector3Int.forward, new DirectionArrayPair
+            dirDictionary.Add(Vector3Int.forward, new DirectionArrayPair
             {
-                DirectionArray = directionGroup.directionDepth,
-                Directions = direction.directionFront
+                _directionArray = _directionGroup._directionDepth,
+                _directions = _direction._directionFront
             });
 
-            DirDictionary.Add(Vector3Int.back, new DirectionArrayPair
+            dirDictionary.Add(Vector3Int.back, new DirectionArrayPair
             {
-                DirectionArray = directionGroup.directionDepth,
-                Directions = direction.directionBack
+                _directionArray = _directionGroup._directionDepth,
+                _directions = _direction._directionBack
             });
         }
 
@@ -72,46 +73,47 @@ namespace FindPath
         public class Direction
         {
             //Initializing each array while considering the tile size.
-            public Vector3Int[] directionRight;
-            public Vector3Int[] directionLeft;
-            public Vector3Int[] directionUp;
-            public Vector3Int[] directionDown;
-            public Vector3Int[] directionFront;
-            public Vector3Int[] directionBack;
+            public Vector3Int[] _directionRight;
+            public Vector3Int[] _directionLeft;
+            public Vector3Int[] _directionUp;
+            public Vector3Int[] _directionDown;
+            public Vector3Int[] _directionFront;
+            public Vector3Int[] _directionBack;
 
+            
             public void SetVector(int tileSize)
             {
-                directionRight = new[]
+                _directionRight = new[]
                 {
                     new Vector3Int(tileSize, tileSize, 0), new Vector3Int(tileSize, 0, tileSize),
                     new Vector3Int(tileSize, -tileSize, 0), new Vector3Int(tileSize, 0, -tileSize)
                 };
 
-                directionLeft = new[]
+                _directionLeft = new[]
                 {
                     new Vector3Int(-tileSize, tileSize, 0), new Vector3Int(-tileSize, -tileSize, 0),
                     new Vector3Int(-tileSize, 0, tileSize), new Vector3Int(-tileSize, 0, -tileSize)
                 };
 
-                directionUp = new[]
+                _directionUp = new[]
                 {
                     new Vector3Int(tileSize, tileSize, 0), new Vector3Int(-tileSize, tileSize, 0),
                     new Vector3Int(0, tileSize, tileSize), new Vector3Int(0, tileSize, -tileSize)
                 };
 
-                directionDown = new[]
+                _directionDown = new[]
                 {
                     new Vector3Int(tileSize, -tileSize, 0), new Vector3Int(-tileSize, -tileSize, 0),
                     new Vector3Int(0, -tileSize, tileSize), new Vector3Int(0, -tileSize, -tileSize)
                 };
 
-                directionFront = new[]
+                _directionFront = new[]
                 {
                     new Vector3Int(tileSize, 0, tileSize), new Vector3Int(-tileSize, 0, tileSize),
                     new Vector3Int(0, tileSize, tileSize), new Vector3Int(0, -tileSize, tileSize)
                 };
 
-                directionBack = new[]
+                _directionBack = new[]
                 {
                     new Vector3Int(tileSize, 0, -tileSize), new Vector3Int(-tileSize, 0, -tileSize),
                     new Vector3Int(0, tileSize, -tileSize), new Vector3Int(0, -tileSize, -tileSize)
@@ -123,32 +125,32 @@ namespace FindPath
         public class DirectionGroup
         {
             //Initializing each array while considering the tile size.
-            public Vector3Int[] directionHorizontal;
-            public Vector3Int[] directionVertical;
-            public Vector3Int[] directionDepth;
-            public Vector3Int[] directions;
+            public Vector3Int[] _directionHorizontal;
+            public Vector3Int[] _directionVertical;
+            public Vector3Int[] _directionDepth; 
+            public Vector3Int[] _directions;
 
             public void SetVector(int tileSize)
             {
-                directionHorizontal = new[]
+                _directionHorizontal = new[]
                 {
                     new Vector3Int(0, 0, tileSize), new Vector3Int(0, 0, -tileSize),
                     new Vector3Int(0, tileSize, 0), new Vector3Int(0, -tileSize, 0),
                 };
                 
-                directionVertical = new[]
+                _directionVertical = new[]
                 {
                     new Vector3Int(0, 0, -tileSize), new Vector3Int(0, 0, tileSize),
                     new Vector3Int(tileSize, 0, 0), new Vector3Int(-tileSize, 0, 0),
                 };
                 
-                directionDepth = new[]
+                _directionDepth = new[]
                 {
                     new Vector3Int(tileSize, 0, 0), new Vector3Int(-tileSize, 0, 0),
                     new Vector3Int(0, tileSize, 0), new Vector3Int(0, -tileSize, 0),
                 };
                 
-                directions = new[]
+                _directions = new[]
                 {
                     new Vector3Int(tileSize, 0, 0), new Vector3Int(-tileSize, 0, 0),
                     new Vector3Int(0, tileSize, 0), new Vector3Int(0, -tileSize, 0),
@@ -161,8 +163,8 @@ namespace FindPath
 
         public struct DirectionArrayPair
         {
-            public Vector3Int[] DirectionArray;
-            public Vector3Int[] Directions;
+            public Vector3Int[] _directionArray;
+            public Vector3Int[] _directions;
         }
     }
 }

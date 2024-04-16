@@ -34,10 +34,10 @@ namespace FindPath
                     {
                         for (int z = Mathf.Min(minPos.z, maxPos.z); z <= Mathf.Max(minPos.z, maxPos.z); z++)
                         {
-                            if (obstacle.FindPathProjectInstance.Tiles.TryGetValue(new Vector3Int(x, y, z), out var tile) &&
-                                !obstacle.Tiles.Contains(tile))
+                            if (obstacle.FindPathProjectInstance.GridObjects.TryGetValue(new Vector3Int(x, y, z), out var tile) &&
+                                !obstacle.GridObjects.Contains(tile))
                             {
-                                obstacle.Tiles.Add(tile);
+                                obstacle.GridObjects.Add(tile);
                                 foreach (var surface in tile.Surfaces.Values)
                                 {
                                     if (!surface.obstacleLock)

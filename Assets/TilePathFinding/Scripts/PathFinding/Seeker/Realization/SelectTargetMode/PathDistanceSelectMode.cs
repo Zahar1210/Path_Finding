@@ -11,7 +11,7 @@ namespace FindPath
                 SurfaceFinder.GetSurface(target.transform.position, seeker.TargetDirection,
                 seeker.Count, FindPathProject.Instance, target);
 
-           Surface[] path = PathFinding.GetPath(startSurface, targetSurface, FindPathProject.Instance, FindMode.BreadthFirstSearch);
+           // Surface[] path = PathFinding.GetPath(startSurface, targetSurface, FindPathProject.Instance, FindMode.BreadthFirstSearch);
 
            return path.Length;
         }

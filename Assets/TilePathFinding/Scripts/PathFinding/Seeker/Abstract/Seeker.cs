@@ -7,25 +7,21 @@ namespace FindPath
         #region Main Variables
 
         #region Main Find Path Variables
-       
-        //ссылка на проект)
-        public FindPathProject FindPathProject => findPathProject;
-        [SerializeField] private FindPathProject findPathProject;
+        public FindPathProject FindPathProject => _findPathProject;  //ссылка на проект)
+        [SerializeField] private FindPathProject _findPathProject;
         
-        // найденный (текущий путь)
-        public Surface[] Path { get; set; } 
+        public Surface[] Path { get; set; } // найденный (текущий путь)
         
-        // проинициализированна только если find path trigger = target (которую мы находим выбераем и тд)
-        public Transform SeekerTarget { get; set; } 
+        public PathFindMode PathFindMode => _pathFindMode;  //режим поиска пути
+        [SerializeField] private PathFindMode _pathFindMode;
+        
+        public Transform SeekerTarget { get; set; }// проинициализированна только если find path trigger = target (которую мы находим выбераем и тд)
 
-        // текущая поверхность при движении
-        public Surface CurrentSurface { get; set; }
+        public Surface CurrentSurface { get; set; } // текущая поверхность при движении
         
-        // стартовая поверхность
-        public Surface StartSurface { get; set; }
+        public Surface StartSurface { get; set; } // стартовая поверхность
         
-        // целевая поверхность
-        public Surface TargetSurface { get; set; } 
+        public Surface TargetSurface { get; set; }  // целевая поверхность
 
         #endregion
 
@@ -33,26 +29,23 @@ namespace FindPath
         
         //ДАННЫЕ ПО КОТОРЫМ ИЩЕМ ПУТЬ (РЕЖИМЫ)
         
-        // проинициализированное условие при поиске пути
-        public FindPathMode FindPathMode { get; set; } 
-        public PathMode PathMode => pathMode;
-        [SerializeField] private PathMode pathMode;
+        public FindPathMode FindPathMode { get; set; } // проинициализированное условие при поиске пути
+        public PathMode PathMode => _pathMode;
+        [SerializeField] private PathMode _pathMode;
         
-        // проинициализированный триггер пути (событие при котором будет найден путь)
-        public FindPathTrigger FindPathTrigger { get; set; }
-        public PathTrigger PathTrigger => pathTrigger;
-        [SerializeField] private PathTrigger pathTrigger;
+      
+        public FindPathTrigger FindPathTrigger { get; set; } // проинициализированный триггер пути (событие при котором будет найден путь)
+        public PathTrigger PathTrigger => _pathTrigger; 
+        [SerializeField] private PathTrigger _pathTrigger;
         
-        //проинициализированный динамичность пути (событие при котором путь будет перенайдн)
-        public DynamicPath DynamicPath { get; set; } 
-        public PathDynamic PathDynamic => pathDynamic;
-        [SerializeField] private PathDynamic pathDynamic;
+        public DynamicPath DynamicPath { get; set; } //проинициализированный динамичность пути (событие при котором путь будет перенайдн) 
+        public PathDynamic PathDynamic => _pathDynamic;
+        [SerializeField] private PathDynamic _pathDynamic;
         
-        //проинициализированный режим таргет (если FindPathTrigger = TargetPosition)
+        public FindTargetType FindTargetType { get; set; } //проинициализированный режим таргет (если FindPathTrigger = TargetPosition)
         //здесь список режимов выбора и слежки за целевыми обьектами
-        public FindTargetType FindTargetType { get; set; }
-        public TargetType TargetType => targetType;
-        [SerializeField] private TargetType targetType;
+        public TargetType TargetType => _targetType;
+        [SerializeField] private TargetType _targetType;
 
         #endregion
 
@@ -65,20 +58,20 @@ namespace FindPath
         #region Main Variables Mouse
 
         // mouse input 
-        public int MouseSide => mouseSide;
-        [SerializeField] [Range(0, 1)] private int mouseSide;
+        public int MouseSide => _mouseSide;
+        [SerializeField] [Range(0, 1)] private int _mouseSide;
 
         // mouse position и для mouse input 
-        public LayerMask MouseLayerMask => mouseLayerMask;
-        [SerializeField] private LayerMask mouseLayerMask;
+        public LayerMask MouseLayerMask => _mouseLayerMask;
+        [SerializeField] private LayerMask _mouseLayerMask;
 
         #endregion
 
         #region Main Variables Target 
         
         //обязательные переменные при поиске Surface у Target 
-        public TargetDirection TargetDirection => targetDirection;
-        [SerializeField] private TargetDirection targetDirection;
+        public TargetDirection TargetDirection => _targetDirection;
+        [SerializeField] private TargetDirection _targetDirection;
 
         public int Count => count;
         [SerializeField] private int count;
@@ -90,21 +83,21 @@ namespace FindPath
         //MODES
          // если Find PAth Mode == targetPositionMode
         public SelectTargetMode SelectTargetMode { get; set; }
-        public TargetSelectMode TargetSelectMode => targetSelectMode;
-        [SerializeField] private TargetSelectMode targetSelectMode;
+        public TargetSelectMode TargetSelectMode => _targetSelectMode;
+        [SerializeField] private TargetSelectMode _targetSelectMode;
         
         
         // Solo mode
-        public Transform SoloTarget => soloTarget;
-        [SerializeField] private Transform soloTarget; 
+        public Transform SoloTarget => _soloTarget;
+        [SerializeField] private Transform _soloTarget; 
         
         // Array mode
-        public Transform[] ArrayTargets => arrayTargets; 
-        [SerializeField] private Transform[] arrayTargets;
+        public Transform[] ArrayTargets => _arrayTargets;
+        [SerializeField] private Transform[] _arrayTargets;
         
         // Select mode
-        public LayerMask TargetLayer => targetLayer;
-        [SerializeField] private LayerMask targetLayer;
+        public LayerMask TargetLayer => _targetLayer;
+        [SerializeField] private LayerMask _targetLayer;
 
         #endregion
 
@@ -119,31 +112,31 @@ namespace FindPath
         #region Find Mode Variables
 
         // distance
-        public float MaxDistance => maxDistance;
-        [SerializeField] private float maxDistance;
+        public float MaxDistance => _maxDistance;
+        [SerializeField] private float _maxDistance;
 
         // radius
-        public float DifferenceX => differenceX;
-        [SerializeField] private float differenceX;
+        public float DifferenceX => _differenceX;
+        [SerializeField] private float _differenceX;
 
-        public float DifferenceY => differenceY;
-        [SerializeField] private float differenceY;
+        public float DifferenceY => _differenceY;
+        [SerializeField] private float _differenceY;
 
-        public float DifferenceZ => differenceZ;
-        [SerializeField] private float differenceZ;
+        public float DifferenceZ => _differenceZ;
+        [SerializeField] private float _differenceZ;
 
         // field of view 
-        public float Angle => angle;
-        [SerializeField] [Range(0, 360)] private float angle;
+        public float Angle => _angle;
+        [SerializeField] [Range(0, 360)] private float _angle;
         
-        public float Radius => radius;
-        [SerializeField] private float radius;
+        public float Radius => _radius;
+        [SerializeField] private float _radius;
         
-        public LayerMask ObstacleLayerMask => obstacleLayerMask;
-        [SerializeField] private LayerMask obstacleLayerMask;
+        public LayerMask ObstacleLayerMask => _obstacleLayerMask;
+        [SerializeField] private LayerMask _obstacleLayerMask;
         
-        public LayerMask TargetLayerMask => targetLayerMask;
-        [SerializeField] private LayerMask targetLayerMask;
+        public LayerMask TargetLayerMask => _targetLayerMask;
+        [SerializeField] private LayerMask _targetLayerMask;
  
         #endregion
 

@@ -18,7 +18,7 @@ namespace FindPath
             {
                 if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, seeker.MouseLayerMask))
                 {
-                    if (hit.collider.TryGetComponent(out Tile tile))
+                    if (hit.collider.TryGetComponent(out CubeGridObject tile))
                     {
                         Vector3 hitOffset = hit.point - tile.transform.position;
                         Vector3Int direction = Vector3Int.RoundToInt(hitOffset.normalized);

@@ -13,7 +13,7 @@ namespace FindPath
         public int TileSize => tileSize; //property for use in other classes
         public Directions Directions => directions; //property for use in other classes
         
-        public readonly Dictionary<Vector3Int, Tile> Tiles = new();//this is where all the tiles are stored 
+        public readonly Dictionary<Vector3Int, GridObject> GridObjects = new();//this is where all the tiles are stored 
 
         [SerializeField] [Range(1f, 3f)] private int tileSize;
         [SerializeField] private Directions directions;
@@ -70,23 +70,23 @@ namespace FindPath
         private void AddTiles()
         {
             //here the "Tiles" dictionary is filled in and the found tiles are initialized
-            Tile[] tiles = FindObjectsOfType<Tile>();
-            foreach (var tile in tiles)
+            GridObject[] gridObjects = FindObjectsOfType<CubeGridObject>();
+            foreach (var gridObject in gridObjects)
             {
-                Vector3Int tilePosition = Vector3Int.RoundToInt(tile.transform.position);
-                if (!Tiles.ContainsKey(tilePosition))
+                Vector3Int tilePosition = Vector3Int.RoundToInt(gridObject.transform.position);
+                if (!GridObjects.ContainsKey(tilePosition))
                 {
-                    tile.Position = tilePosition;
-                    Tiles.Add(tilePosition, tile);
+                    gridObject.Position = tilePosition;
+                    GridObjects.Add(tilePosition, gridObject);
                 }
             }
 
-            foreach (var tile in tiles)
+            foreach (var tile in gridObjects)
             {
                 tile.SetSurface(this);
             }
             
-            _findPathGizmos.Initialize(tiles.ToList());
+            _findPathGizmos.Initialize(gridObjects.ToList());
         }
 
         #endregion
@@ -98,7 +98,7 @@ namespace FindPath
         
         public static void ArrangeAll()
         {
-            Tile[] tiles = FindObjectsOfType<Tile>();
+            CubeGridObject[] tiles = FindObjectsOfType<CubeGridObject>();
             if (tiles.Length > 0)
             {
                 foreach (var tile in tiles)
@@ -126,11 +126,11 @@ namespace FindPath
         {
             foreach (var item in FindObjectsOfType<GameObject>())
             {
-                Tile tile = item.gameObject.GetComponent<Tile>();
+                CubeGridObject cubeGridObject = item.gameObject.GetComponent<CubeGridObject>();
 
-                if (item.gameObject.layer == 3 && !tile)
+                if (item.gameObject.layer == 3 && !cubeGridObject)
                 {
-                    item.gameObject.AddComponent<Tile>();
+                    item.gameObject.AddComponent<CubeGridObject>();
                 }
             }
         }
@@ -138,7 +138,7 @@ namespace FindPath
         [MenuItem("PathFinding/Utility Functions/Set Tile Surfaces All")]
         public static void SetTileSurfacesAll()
         {
-            Tile[] tiles = FindObjectsOfType<Tile>();
+            CubeGridObject[] tiles = FindObjectsOfType<CubeGridObject>();
             if (tiles.Length > 0)
             {
                 int size = FindObjectOfType<FindPathProject>().tileSize;
@@ -177,7 +177,7 @@ namespace FindPath
 
     #region Mode
 
-    public enum FindMode
+    public enum PathFindMode
     {
         BreadthFirstSearch,
         AStar

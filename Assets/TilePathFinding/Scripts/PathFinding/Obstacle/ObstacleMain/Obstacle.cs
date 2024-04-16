@@ -12,7 +12,7 @@ namespace FindPath
         public ObstacleType ObstacleType { get; set; }
         
         public bool IsCheck { get; set; } = true;
-        public List<Tile> Tiles { get; set; }
+        public List<GridObject> GridObjects { get; set; }
         public List<Surface> Surfaces { get; set; }
         public FindPathProject FindPathProjectInstance { get; set; }
         public ObstacleObjectType StartObjectObstacleType { get; set; }

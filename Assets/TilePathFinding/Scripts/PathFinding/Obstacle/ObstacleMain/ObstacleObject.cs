@@ -4,7 +4,7 @@ namespace FindPath
     {
         public override void Initialize()
         {
-            Tiles = new();
+            GridObjects = new();
             Surfaces = new();
             
             FindPathProjectInstance = FindPathProject.Instance;

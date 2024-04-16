@@ -1,6 +1,6 @@
 namespace FindPath
 {
-    public enum PathUpdateModes
+    public class BFSFindMode : FindMode
     {
         
     }

@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace FindPath
 {
-    public class Tile : GridObject
-    { 
+    public class HexagonGridObject : GridObject
+    {
         private FindPathProject _findPathProject;
         private int _tileSize;
 
@@ -24,12 +22,12 @@ namespace FindPath
         {
             Directions.DirectionArrayPair directions = new();
 
-            if (pathFinding.Directions.DirDictionary.TryGetValue(direction, out Directions.DirectionArrayPair _directions))
+            if (pathFinding.Directions.dirDictionary.TryGetValue(direction, out Directions.DirectionArrayPair _directions))
             {
                 directions = _directions;
             }
 
-            bool isObstacle = pathFinding.Tiles.TryGetValue(Position + direction, out Tile tile);
+            bool isObstacle = pathFinding.GridObjects.TryGetValue(Position + direction, out GridObject gridObject);
             Surface s = new Surface(direction, directions, this, tileSize, isObstacle, isObstacle);
             Surfaces.Add(direction, s);
         }

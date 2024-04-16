@@ -40,7 +40,7 @@ namespace FindPath
 
         private Surface GetCurrentSurface()
         {
-            if (_findPathProject.Tiles.TryGetValue(Vector3Int.RoundToInt(transform.position) + Vector3Int.down, out var tile))
+            if (_findPathProject.GridObjects.TryGetValue(Vector3Int.RoundToInt(transform.position) + Vector3Int.down, out var tile))
             {
                 if (tile.Surfaces.TryGetValue(Vector3Int.up, out var surface))
                 {
@@ -55,7 +55,7 @@ namespace FindPath
         {
             if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
             {
-                if (hit.collider.TryGetComponent(out Tile tile))
+                if (hit.collider.TryGetComponent(out CubeGridObject tile))
                 {
                     Vector3 hitOffset = hit.point - tile.transform.position;
                     Vector3Int direction = Vector3Int.RoundToInt(hitOffset.normalized);

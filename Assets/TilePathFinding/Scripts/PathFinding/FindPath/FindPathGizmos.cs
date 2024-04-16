@@ -9,8 +9,8 @@ namespace FindPath
         public static FindPathGizmos Instance { get; private set; }
 
         public bool drawTileGizmos;
-        private List<Tile> _tiles = new();
-
+        private List<GridObject> _tiles = new();
+        
         private FindPathProject _findPathProject;
 
 
@@ -25,7 +25,7 @@ namespace FindPath
             Destroy(gameObject);
         }
 
-        public void Initialize(List<Tile> tiles) //точка входа
+        public void Initialize(List<GridObject> tiles) //точка входа
         {
             _findPathProject = FindPathProject.Instance;
             _tiles = tiles;
