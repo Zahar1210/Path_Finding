@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace FindPath
 {
-    public class FieldOfViewOverlapFindMode : FindPathMode
+    public class FieldOfViewOverlapFindReasonReasonMode : FindPathReasonMode
     {
         public override bool TryFind(Seeker seeker)
         {

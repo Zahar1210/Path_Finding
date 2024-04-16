@@ -175,16 +175,6 @@ namespace FindPath
         #endregion//это в Editor
     }
 
-    #region Mode
-
-    public enum PathFindMode
-    {
-        BreadthFirstSearch,
-        AStar
-    }
-
-    #endregion
-
     // #region Inspector
     //
     // [CustomPropertyDrawer(typeof(BigHeaderAttribute))]

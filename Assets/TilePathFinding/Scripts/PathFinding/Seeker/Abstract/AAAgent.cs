@@ -6,7 +6,7 @@ namespace FindPath
     public class AAAgent : MonoBehaviour
     {
         [SerializeField] private LayerMask layerMask;
-        public FindMode findMode;
+        public PathFindMode findMode;
         private Camera _camera;
         private FindPathProject _findPathProject;
         
@@ -34,6 +34,7 @@ namespace FindPath
                     return;
                 }
         
+                //TODO исправить ошибку чтобы метод ниже можно было нормально вызывать 
                 _findPathProject.Path = PathFinding.GetPath(currentSurface, targetSurface, _findPathProject, findMode);
             }
         }

@@ -4,11 +4,14 @@ namespace FindPath
     {
         public override void Initialize()
         {
-            SeekerData.Initialization();//точка входа 
+            SeekerData.Initialization(); //точка входа 
 
-            FindPathMode = SeekerData.GetFindPathMode(PathMode);
+            FindPathReasonMode = SeekerData.GetFindPathMode(PathReason);
+            FindTargetType = SeekerData.GetFindPathTargetType(TargetType);
+            SelectTargetMode = SeekerData.GetTargetSelectMode(TargetSelectMode);
             FindPathTrigger = SeekerData.GetFindPathTrigger(PathTrigger);
             DynamicPath = SeekerData.GetFindPathModeDynamicPath(PathDynamic);
+            FindMode = SeekerData.GetFindMode(PathFindMode);
         }
 
         private void Update()
@@ -17,13 +20,13 @@ namespace FindPath
             
             if (TargetSurface != null)
             {
-                GetPath(CurrentSurface, TargetSurface);
+                TryGetPath(CurrentSurface, TargetSurface);
             }
         }
 
-        public override void GetPath(Surface startSurface, Surface targetSurface)
+        public override void TryGetPath(Surface startSurface, Surface targetSurface)
         {
-            if ((targetSurface != null && startSurface != null) && FindPathMode.TryFind(this))
+            if ((targetSurface != null && startSurface != null) && FindPathReasonMode.TryFind(this))
             {
                 StartSurface = startSurface;
                 CurrentSurface = startSurface;
@@ -39,7 +42,7 @@ namespace FindPath
             {
                 if (DynamicPath.VerificationPath(this))
                 {
-                    GetPath(CurrentSurface, TargetSurface);
+                    TryGetPath(CurrentSurface, TargetSurface);
                 }
             }
         }

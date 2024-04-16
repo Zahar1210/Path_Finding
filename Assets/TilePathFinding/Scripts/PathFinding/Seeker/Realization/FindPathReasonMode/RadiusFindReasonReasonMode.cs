@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace FindPath
 {
-    public class RadiusFindMode : FindPathMode
+    public class RadiusFindReasonReasonMode : FindPathReasonMode
     {
         public override bool TryFind(Seeker seeker) //TODO
         {

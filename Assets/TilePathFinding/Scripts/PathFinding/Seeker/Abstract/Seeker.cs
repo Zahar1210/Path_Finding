@@ -12,8 +12,11 @@ namespace FindPath
         
         public Surface[] Path { get; set; } // найденный (текущий путь)
         
+        
+        public FindMode FindMode { get; set; }// проинициализированный режим поиска пути 
         public PathFindMode PathFindMode => _pathFindMode;  //режим поиска пути
         [SerializeField] private PathFindMode _pathFindMode;
+
         
         public Transform SeekerTarget { get; set; }// проинициализированна только если find path trigger = target (которую мы находим выбераем и тд)
 
@@ -29,9 +32,9 @@ namespace FindPath
         
         //ДАННЫЕ ПО КОТОРЫМ ИЩЕМ ПУТЬ (РЕЖИМЫ)
         
-        public FindPathMode FindPathMode { get; set; } // проинициализированное условие при поиске пути
-        public PathMode PathMode => _pathMode;
-        [SerializeField] private PathMode _pathMode;
+        public FindPathReasonMode FindPathReasonMode { get; set; } // проинициализированное условие при поиске пути
+        public PathReason PathReason => _pathReason;
+        [SerializeField] private PathReason _pathReason;
         
       
         public FindPathTrigger FindPathTrigger { get; set; } // проинициализированный триггер пути (событие при котором будет найден путь)
@@ -73,11 +76,11 @@ namespace FindPath
         public TargetDirection TargetDirection => _targetDirection;
         [SerializeField] private TargetDirection _targetDirection;
 
-        public int Count => count;
-        [SerializeField] private int count;
+        public int Count => _count;
+        [SerializeField] private int _count;
 
-        public float CheckInterval => checkInterval;
-        [SerializeField] private float checkInterval;
+        public float CheckInterval => _checkInterval;
+        [SerializeField] private float _checkInterval;
 
         
         //MODES
@@ -146,6 +149,6 @@ namespace FindPath
         
         public abstract void CheckPath(PathDynamic pathDynamic);
         
-        public abstract void GetPath(Surface startSurface, Surface targetSurface);
+        public abstract void TryGetPath(Surface startSurface, Surface targetSurface);
     }
 }

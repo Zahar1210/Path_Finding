@@ -1,6 +1,6 @@
 namespace FindPath
 {
-    public class AlwaysFindMode : FindPathMode
+    public class AlwaysFindReasonReasonMode : FindPathReasonMode
     {
         public override bool TryFind(Seeker seeker)
         {

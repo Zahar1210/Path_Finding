@@ -8,20 +8,20 @@ namespace FindPath
 {
     public static class PathFinding 
     {
-        public static Surface[] GetPath(Surface startSurface, Surface targetSurface, FindPathProject findPathProject)
+        public static Surface[] GetPath(Surface startSurface, Surface targetSurface, FindPathProject findPathProject, PathFindMode findMode)
         {
-            //TODO
-            // if (findMode == PathFindMode.BreadthFirstSearch)
-            // {
-            //     return BreadthFirstSearch(startSurface, targetSurface, findPathProject);
-            // }
-            //
-            // if (findMode == PathFindMode.AStar)
-            // {
-            //     return AStar(startSurface, targetSurface, findPathProject);
-            // }
-            //
-            // return null;
+            //TODO переделать так чтобы вызывался метод override у текущего режима поиска пути
+            if (findMode == PathFindMode.BreadthFirstSearch)
+            {
+                return BreadthFirstSearch(startSurface, targetSurface, findPathProject);
+            }
+            
+            if (findMode == PathFindMode.AStar)
+            {
+                return AStar(startSurface, targetSurface, findPathProject);
+            }
+            
+            return null;
         }
 
         
@@ -318,7 +318,7 @@ namespace FindPath
         private class TileAStar
         {
             public float FCost { get; }
-
+            
             public TileAStar(float gCost)
             {
                 FCost =  gCost;
