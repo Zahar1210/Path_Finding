@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace FindPath
 {
+    // служит только примером 
     public class AAAgent : MonoBehaviour
     {
         [SerializeField] private LayerMask layerMask;

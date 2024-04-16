@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace FindPath
 {
@@ -7,11 +8,12 @@ namespace FindPath
     {
         //variable for Path Finding 
         public GridObject GridObject { get; set; }
+        public Directions.DirectionArrayPair Directions { get; }
+
         public bool obstacleLock;
         public bool isObstacle;
         public Vector3Int direction;
-
-        public Directions.DirectionArrayPair Directions { get; }
+        public Seeker _inPath;
 
         //variable for Gizmos 
         public Vector3 Size { get; }

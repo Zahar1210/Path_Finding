@@ -6,7 +6,10 @@ namespace FindPath
     {
         public static void GetTilesForCheck(Obstacle obstacle)
         {
-            if (obstacle.FindPathProjectInstance == null || obstacle.Colliders.Length <= 0) { return; }
+            if (obstacle.FindPathProjectInstance == null || obstacle.Colliders.Length <= 0)
+            {
+                return;
+            }
 
             foreach (var coll in obstacle.Colliders)
             {
@@ -56,10 +59,12 @@ namespace FindPath
         {
             foreach (var surface in obstacle.Surfaces)
             {
-                Vector3 pos = surface.GridObject.Position + (surface.direction);
+                Vector3 pos = surface.GridObject.Position + surface.direction;
                 Collider[] colls = Physics.OverlapSphere(pos, obstacle.CheckRadius, obstacle.LayerMask);
 
                 surface.isObstacle = (colls.Length > 0);
+                
+                //Todo вохможно где то здесь будет вызов метода проверки пути чтобы находить путь но новой  
             }
         }
     }

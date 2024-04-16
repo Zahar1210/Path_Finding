@@ -33,7 +33,7 @@ namespace FindPath
             FindPathDynamic.Add(PathDynamic.Interval, new IntervalDynamicPath());
             FindPathDynamic.Add(PathDynamic.CombinedIntervalObstacle, new CombinedIntervalObstacle());
             FindPathDynamic.Add(PathDynamic.Initial, new InitialFindingPath());
-            FindPathDynamic.Add(PathDynamic.CombinedIntervalTarget, new CombinedIntevalTargetPosition());
+            FindPathDynamic.Add(PathDynamic.CombinedIntervalTarget, new CombinedIntervalTargetPosition());
             
             //Find Target Type
             FindTargetType.Add(TargetType.SoloMode, new SoloMode());
@@ -52,7 +52,7 @@ namespace FindPath
 
         #endregion
 
-        #region Get Find Path
+        #region Get Find Path Value
 
         public static FindPathReasonMode GetFindPathMode(PathReason pathReason)
         {
@@ -87,7 +87,7 @@ namespace FindPath
         #endregion
     }
 
-    #region enumFindPath
+    #region enum Find Path
 
     public enum PathReason
     {

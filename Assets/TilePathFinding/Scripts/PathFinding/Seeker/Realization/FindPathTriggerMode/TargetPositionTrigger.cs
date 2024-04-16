@@ -27,14 +27,16 @@ namespace FindPath
 
         public override Surface TryGetTargetSurface(Seeker seeker)
         {
-            if (!Timer(seeker))
+            if (!Timer(seeker)) 
             {
                 return null;
             }
             
             seeker.SeekerTarget = seeker.FindTargetType.GetTargetObject(seeker);
             
-            return SurfaceFinder.GetSurface(seeker.SeekerTarget.transform.position, seeker.TargetDirection, seeker.Count, _findPathProject, seeker.SeekerTarget);
+            return 
+                SurfaceFinder.GetSurface(seeker.SeekerTarget.transform.position, 
+                seeker.TargetDirection, seeker.Count, _findPathProject, seeker.SeekerTarget);
         }
         
         public override PathParams GetPathParams()

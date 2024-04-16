@@ -36,7 +36,6 @@ namespace FindPath
         public PathReason PathReason => _pathReason;
         [SerializeField] private PathReason _pathReason;
         
-      
         public FindPathTrigger FindPathTrigger { get; set; } // проинициализированный триггер пути (событие при котором будет найден путь)
         public PathTrigger PathTrigger => _pathTrigger; 
         [SerializeField] private PathTrigger _pathTrigger;

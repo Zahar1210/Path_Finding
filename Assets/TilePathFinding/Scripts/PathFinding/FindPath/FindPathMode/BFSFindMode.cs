@@ -48,7 +48,7 @@ namespace FindPath
             {
                 queueTiles.Remove(t);
                 visitedTiles.Add(t, new TileBreadthFirstSearch(step));
-                foreach (var direction in findPathProject.Directions._directionGroup._directions)
+                foreach (var direction in findPathProject.Directions.directionGroup._directions)
                 {
                     if (findPathProject.GridObjects.TryGetValue(t + direction, out var tile))
                     {
@@ -156,14 +156,14 @@ namespace FindPath
         {
             Vector3Int vector = currentSurface.GridObject.Position - tile.Position;
 
-            if (currentSurface.Directions._directions == findPathProject.Directions._direction._directionBack ||
-                currentSurface.Directions._directions == findPathProject.Directions._direction._directionFront)
+            if (currentSurface.Directions._directions == findPathProject.Directions.direction._directionBack ||
+                currentSurface.Directions._directions == findPathProject.Directions.direction._directionFront)
                 vector.z = 0;
-            else if (currentSurface.Directions._directions == findPathProject.Directions._direction._directionDown ||
-                     currentSurface.Directions._directions == findPathProject.Directions._direction._directionUp)
+            else if (currentSurface.Directions._directions == findPathProject.Directions.direction._directionDown ||
+                     currentSurface.Directions._directions == findPathProject.Directions.direction._directionUp)
                 vector.y = 0;
-            else if (currentSurface.Directions._directions == findPathProject.Directions._direction._directionRight ||
-                     currentSurface.Directions._directions == findPathProject.Directions._direction._directionLeft)
+            else if (currentSurface.Directions._directions == findPathProject.Directions.direction._directionRight ||
+                     currentSurface.Directions._directions == findPathProject.Directions.direction._directionLeft)
                 vector.x = 0;
 
             if (tile.Surfaces.TryGetValue(vector, out Surface sur) && !sur.isObstacle)

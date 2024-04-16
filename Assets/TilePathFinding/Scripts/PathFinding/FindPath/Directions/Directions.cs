@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace FindPath
 {
     [CreateAssetMenu(menuName = "NewInfo/ DirectionInfo", fileName = "Directions")]
     public class Directions : ScriptableObject
     {
-        public Direction _direction;
-        public DirectionGroup _directionGroup;
+        public Direction direction;
+        public DirectionGroup directionGroup;
         public readonly Dictionary<Vector3Int, DirectionArrayPair> dirDictionary = new();
         
         #region Initialize
@@ -20,8 +21,8 @@ namespace FindPath
             int tileSize = FindPathProject.Instance.TileSize;
 
             //Initialization
-            _direction.SetVector(tileSize);
-            _directionGroup.SetVector(tileSize);
+            direction.SetVector(tileSize);
+            directionGroup.SetVector(tileSize);
             SetDirDictionary();
         }
 
@@ -33,38 +34,38 @@ namespace FindPath
             */
             dirDictionary.Add(Vector3Int.right, new DirectionArrayPair
             {
-                _directionArray = _directionGroup._directionHorizontal,
-                _directions = _direction._directionRight
+                _directionArray = directionGroup._directionHorizontal,
+                _directions = direction._directionRight
             });
 
             dirDictionary.Add(Vector3Int.left, new DirectionArrayPair
             {
-                _directionArray = _directionGroup._directionHorizontal,
-                _directions = _direction._directionLeft
+                _directionArray = directionGroup._directionHorizontal,
+                _directions = direction._directionLeft
             });
 
             dirDictionary.Add(Vector3Int.up, new DirectionArrayPair
             {
-                _directionArray = _directionGroup._directionVertical,
-                _directions = _direction._directionUp
+                _directionArray = directionGroup._directionVertical,
+                _directions = direction._directionUp
             });
 
             dirDictionary.Add(Vector3Int.down, new DirectionArrayPair
             {
-                _directionArray = _directionGroup._directionVertical,
-                _directions = _direction._directionDown
+                _directionArray = directionGroup._directionVertical,
+                _directions = direction._directionDown
             });
 
             dirDictionary.Add(Vector3Int.forward, new DirectionArrayPair
             {
-                _directionArray = _directionGroup._directionDepth,
-                _directions = _direction._directionFront
+                _directionArray = directionGroup._directionDepth,
+                _directions = direction._directionFront
             });
 
             dirDictionary.Add(Vector3Int.back, new DirectionArrayPair
             {
-                _directionArray = _directionGroup._directionDepth,
-                _directions = _direction._directionBack
+                _directionArray = directionGroup._directionDepth,
+                _directions = direction._directionBack
             });
         }
 

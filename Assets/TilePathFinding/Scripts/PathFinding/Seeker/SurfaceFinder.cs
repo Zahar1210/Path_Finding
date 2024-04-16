@@ -36,7 +36,7 @@ namespace FindPath
                 if (queueGridObjects.Count <= 0)
                     break;
 
-                GetQueueTiles(visitedGridObjects, queueGridObjects, findPathProject.Directions._directionGroup._directions,
+                GetQueueTiles(visitedGridObjects, queueGridObjects, findPathProject.Directions.directionGroup._directions,
                     findPathProject);
             }
 
