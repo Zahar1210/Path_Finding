@@ -83650,7 +83650,7 @@ GameObject:
   - component: {fileID: 1469914839}
   - component: {fileID: 1469914843}
   m_Layer: 0
-  m_Name: Bot
+  m_Name: Agent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83746,34 +83746,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e8719abd68443a4b26eee04f16bf73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _findPathProject: {fileID: 0}
-  _pathFindMode: 0
-  _pathReason: 0
-  _pathTrigger: 0
+  _findPathProject: {fileID: 257014525}
+  _pathFindMode: 1
+  _pathReason: 2
+  _pathTrigger: 2
   _pathDynamic: 0
-  _targetType: 0
+  _targetType: 2
   _mouseSide: 0
   _mouseLayerMask:
     serializedVersion: 2
-    m_Bits: 0
-  _targetDirection: 0
+    m_Bits: 8
+  _targetDirection: 6
   _count: 0
   _checkInterval: 0
-  _targetSelectMode: 0
+  _targetSelectMode: 1
   _soloTarget: {fileID: 0}
   _arrayTargets: []
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 0
-  _maxDistance: 0
+    m_Bits: 8
+  _maxDistance: 1.03
   _differenceX: 0
   _differenceY: 0
   _differenceZ: 0
-  _angle: 0
-  _radius: 0
+  _angle: 205
+  _radius: 0.37
   _obstacleLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   _targetLayerMask:
     serializedVersion: 2
     m_Bits: 0

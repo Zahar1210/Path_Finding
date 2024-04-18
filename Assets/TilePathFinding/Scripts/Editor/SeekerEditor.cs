@@ -1,8 +1,9 @@
 using UnityEditor;
+using UnityEngine;
 
 namespace FindPath
 {
-    [CustomEditor(typeof(FindPathProject))]
+    [CustomEditor(typeof(Agent))]
     public class SeekerEditor : Editor
     {
         #region Variable
@@ -34,6 +35,12 @@ namespace FindPath
         private SerializedProperty _targetLayerMask;
         private SerializedProperty _obstacleLayerMask;
         //еще должны быть переменные для dynamic path changer
+
+        private bool _showModes;
+        private bool _showModePrams;
+        
+        private GUIStyle _headerStyle;
+        
         #endregion
         
         private void OnEnable()
@@ -41,7 +48,7 @@ namespace FindPath
             _count = serializedObject.FindProperty("_count");
             _angle = serializedObject.FindProperty("_angle");
             _radius = serializedObject.FindProperty("_radius");
-            _findMode = serializedObject.FindProperty("_findMode");
+            _findMode = serializedObject.FindProperty("_pathFindMode");
             _mouseSide = serializedObject.FindProperty("_mouseSide");
             _targetType = serializedObject.FindProperty("_targetType");
             _soloTarget = serializedObject.FindProperty("_soloTarget");
@@ -71,7 +78,130 @@ namespace FindPath
          private void DrawFindPathInspector()
         {
             serializedObject.Update();
+            
+            Agent agent = (Agent)target;
 
+            EditorGUILayout.BeginVertical("box");
+            EditorGUI.indentLevel = 1;
+            EditorGUILayout.BeginVertical("box");
+            EditorGUILayout.Space(3);
+            
+            _showModes = EditorGUILayout.Foldout(_showModes, "Mode", true);
+            if (_showModes)
+            {
+                EditorGUI.indentLevel = 0;
+                
+                EditorGUILayout.PropertyField(_findPathProject);
+                EditorGUILayout.Space(3);
+                EditorGUILayout.PropertyField(_findMode);
+                EditorGUILayout.PropertyField(_pathTrigger);
+                EditorGUILayout.PropertyField(_pathReason);
+                EditorGUILayout.PropertyField(_pathDynamic);
+
+                EditorGUI.indentLevel = 1;
+            }
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.BeginVertical("box");
+            EditorGUILayout.Space(3);
+            
+            _showModePrams = EditorGUILayout.Foldout(_showModePrams, "Mode Parameters", true);
+            if (_showModePrams)
+            {
+                EditorGUI.indentLevel = 0;
+                
+                EditorGUILayout.Space(5);
+                EditorGUILayout.LabelField("Path Trigger Params:" + " " + agent.PathTrigger, EditorStyles.boldLabel);
+                
+                switch (agent.PathTrigger)
+                {
+                    case PathTrigger.TargetPosition:
+                        EditorGUILayout.PropertyField(_targetLayer);
+                        EditorGUILayout.PropertyField(_targetType);
+                        
+                        if (agent.TargetType == TargetType.ArrayMode)
+                        {
+                            EditorGUILayout.PropertyField(_arrayTargets);
+                        }
+                        else if (agent.TargetType == TargetType.SoloMode)
+                        {
+                            EditorGUILayout.PropertyField(_soloTarget);
+                        }
+                        
+                        EditorGUILayout.PropertyField(_targetDirection);
+                        EditorGUILayout.PropertyField(_targetSelectMode);
+                        EditorGUILayout.PropertyField(_checkInterval);
+                        EditorGUILayout.PropertyField(_count);
+                        break;
+                    case PathTrigger.MouseInput:
+                        EditorGUILayout.PropertyField(_mouseLayerMask);
+                        EditorGUILayout.PropertyField(_mouseSide);
+                        break;
+                    case PathTrigger.MousePosition:
+                        EditorGUILayout.PropertyField(_mouseLayerMask);
+                        break;
+                }
+                
+                EditorGUILayout.Space(5);
+                EditorGUILayout.LabelField("Path Reason Params:" + " " + agent.PathReason, EditorStyles.boldLabel);
+                
+                switch (agent.PathReason)
+                {
+                    case PathReason.Always:
+                        // Код для случая, когда PathReason равно Always
+                        break;
+                    case PathReason.Distance:
+                        EditorGUILayout.PropertyField(_maxDistance);
+                        break;
+                    case PathReason.FieldOfViewAngle:
+                        EditorGUILayout.PropertyField(_targetLayerMask);
+                        EditorGUILayout.PropertyField(_radius);
+                        EditorGUILayout.PropertyField(_angle);
+                        EditorGUILayout.PropertyField(_obstacleLayerMask);
+                        break;
+                    case PathReason.FieldOfViewOverlap:
+                        EditorGUILayout.PropertyField(_radius);
+                        EditorGUILayout.PropertyField(_targetLayerMask);
+                        break;
+                    case PathReason.Radius:
+                        EditorGUILayout.PropertyField(_differenceX);
+                        EditorGUILayout.PropertyField(_differenceY);
+                        EditorGUILayout.PropertyField(_differenceZ);
+                        break;
+                }
+                
+                EditorGUILayout.Space(5);
+                EditorGUILayout.LabelField("Path Dynamic Params:" + " " + agent.PathDynamic, EditorStyles.boldLabel);
+
+                switch (agent.PathDynamic)
+                {
+                    
+                    case  PathDynamic.ChangeObstacle:
+                        EditorGUILayout.LabelField("Path Dynamic ChangeObstacle", EditorStyles.whiteLabel);
+                        break;
+                    case  PathDynamic.CombinedIntervalTarget:
+                        EditorGUILayout.LabelField("Path Dynamic CombinedIntervalTarget", EditorStyles.whiteLabel);
+
+                        break;
+                    case  PathDynamic.CombinedIntervalObstacle:
+                        EditorGUILayout.LabelField("Path Dynamic CombinedIntervalObstacle", EditorStyles.whiteLabel);
+
+                        break;
+                    case PathDynamic.Initial:
+                        EditorGUILayout.LabelField("Path Dynamic Initial", EditorStyles.whiteLabel);
+                        break;
+                    case PathDynamic.Interval:
+                        EditorGUILayout.LabelField("Path Dynamic Interval", EditorStyles.whiteLabel);
+                        break;
+                }
+
+                
+                EditorGUI.indentLevel = 1;
+            }
+            
+            EditorGUILayout.EndVertical();
+            
+            EditorGUILayout.EndVertical();
+            
             serializedObject.ApplyModifiedProperties();
         }
     }

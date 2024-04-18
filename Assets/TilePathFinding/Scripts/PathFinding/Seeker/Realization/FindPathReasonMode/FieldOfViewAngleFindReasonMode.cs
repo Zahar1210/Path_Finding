@@ -17,7 +17,7 @@ namespace FindPath
 
                     if (Vector3.Angle(seeker.transform.forward, targetDirection) < seeker.Angle / 2)
                     {
-                        float distanceToTarget = Vector3.Distance(seeker.transform.position, seeker.SeekerTarget.transform.position);
+                        float distanceToTarget = Vector3.Distance(seeker.transform.position, seeker.SeekerTarget.transform.position);//ошибка seekertarget не проинициализирован
                         
                         if (Physics.Raycast(seeker.transform.position, targetDirection, distanceToTarget, seeker.ObstacleLayerMask))
                         {
