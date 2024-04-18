@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace FindPath
 {
@@ -7,13 +6,13 @@ namespace FindPath
     public class Surface 
     {
         //variable for Path Finding 
+        public Seeker InPath { get; set; }
         public GridObject GridObject { get; set; }
         public Directions.DirectionArrayPair Directions { get; }
 
-        public bool obstacleLock;
-        public bool isObstacle;
-        public Vector3Int direction;
-        public Seeker _inPath;
+        public bool ObstacleLock;
+        public bool IsObstacle; 
+        public Vector3Int Direction;
 
         //variable for Gizmos 
         public Vector3 Size { get; }
@@ -21,7 +20,7 @@ namespace FindPath
         //this constructor is to automatically create surfaces on a tile.
         public Surface(Vector3Int direction)
         {
-            this.direction = direction;
+            this.Direction = direction;
         }
             
         //this constructor initializes the surface to find the path
@@ -29,9 +28,9 @@ namespace FindPath
         {
             GridObject = gridObject;
             Directions = directions;
-            this.direction = direction;
-            this.obstacleLock = obstacleLock;
-            this.isObstacle = isObstacle;
+            this.Direction = direction;
+            this.ObstacleLock = obstacleLock;
+            this.IsObstacle = isObstacle;
                 
             //for Gizmos 
             if (direction == Vector3Int.up || direction == Vector3Int.down)

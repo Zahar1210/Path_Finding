@@ -95,7 +95,7 @@ namespace FindPath
         {
             if (gridObject.Surfaces.TryGetValue(direction, out Surface surface))
             {
-                if (!surface.isObstacle)
+                if (!surface.IsObstacle)
                 {
                     return surface;
                 }

@@ -14,7 +14,7 @@ namespace FindPath
             int tileSize = _findPathProject.TileSize;
             foreach (var surface in _surfaces)
             {
-                AddSurface(surface.direction, pathFinding, tileSize);
+                AddSurface(surface.Direction, pathFinding, tileSize);
             }
         }
         

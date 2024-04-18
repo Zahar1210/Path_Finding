@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace FindPath
 {
     public class FindPathProject : MonoBehaviour
     {
         public static FindPathProject Instance { get; private set; } //singleton
-        public Surface[] Path { get; set; } //this is where all the paths that have been traveled будет не нужным это точно ей тут не место
-        public int TileSize => tileSize; //property for use in other classes
-        public Directions Directions => directions; //property for use in other classes
+        public int TileSize => _tileSize; //property for use in other classes
+        public Directions Directions => _directions; //property for use in other classes
         
         public readonly Dictionary<Vector3Int, GridObject> GridObjects = new();//this is where all the tiles are stored 
 
-        [SerializeField] [Range(1f, 3f)] private int tileSize;
-        [SerializeField] private Directions directions;
+        [SerializeField] [Range(1f, 3f)] private int _tileSize;
+        [SerializeField] private Directions _directions;
         
         private FindPathGizmos _findPathGizmos;
-        public Color obstacleColor;
-        public Color noObstacleColor;
-        public Color pathColor;
+        public Color ObstacleColor;
+        public Color NoObstacleColor;
+        public Color PathColor;
         
 
         #region Initialize
@@ -141,7 +141,7 @@ namespace FindPath
             CubeGridObject[] tiles = FindObjectsOfType<CubeGridObject>();
             if (tiles.Length > 0)
             {
-                int size = FindObjectOfType<FindPathProject>().tileSize;
+                int size = FindObjectOfType<FindPathProject>()._tileSize;
                 
                 foreach (var tile in tiles)
                 {

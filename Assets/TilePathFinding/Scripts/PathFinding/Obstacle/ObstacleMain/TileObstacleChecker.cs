@@ -43,7 +43,7 @@ namespace FindPath
                                 obstacle.GridObjects.Add(tile);
                                 foreach (var surface in tile.Surfaces.Values)
                                 {
-                                    if (!surface.obstacleLock)
+                                    if (!surface.ObstacleLock)
                                     {
                                         obstacle.Surfaces.Add(surface);
                                     }
@@ -59,10 +59,10 @@ namespace FindPath
         {
             foreach (var surface in obstacle.Surfaces)
             {
-                Vector3 pos = surface.GridObject.Position + surface.direction;
+                Vector3 pos = surface.GridObject.Position + surface.Direction;
                 Collider[] colls = Physics.OverlapSphere(pos, obstacle.CheckRadius, obstacle.LayerMask);
 
-                surface.isObstacle = (colls.Length > 0);
+                surface.IsObstacle = (colls.Length > 0);
                 
                 //Todo вохможно где то здесь будет вызов метода проверки пути чтобы находить путь но новой  
             }

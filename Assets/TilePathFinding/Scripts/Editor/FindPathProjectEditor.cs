@@ -18,15 +18,14 @@ namespace FindPath
         private bool _showGizmosParameters;
 
         #endregion
-
-
+        
         private void OnEnable()
         {
-            _tileSize = serializedObject.FindProperty("tileSize");
-            _directions = serializedObject.FindProperty("directions");
-            _obstacleColor = serializedObject.FindProperty("obstacleColor");
-            _noObstacleColor = serializedObject.FindProperty("noObstacleColor");
-            _pathColor = serializedObject.FindProperty("pathColor");
+            _tileSize = serializedObject.FindProperty("_tileSize");
+            _directions = serializedObject.FindProperty("_directions");
+            _obstacleColor = serializedObject.FindProperty("ObstacleColor");
+            _noObstacleColor = serializedObject.FindProperty("NoObstacleColor");
+            _pathColor = serializedObject.FindProperty("PathColor");
         }
 
         public override void OnInspectorGUI()

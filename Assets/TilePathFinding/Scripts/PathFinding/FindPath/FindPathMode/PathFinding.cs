@@ -211,9 +211,9 @@ namespace FindPath
                         tileSurface.Step == visited[currentSurface.GridObject.Position].Step - 1)
                     {
                         if (findPathProject.GridObjects.TryGetValue(tilePos, out GridObject tile) &&
-                            tile.Surfaces.TryGetValue(currentSurface.direction, out var surface))
+                            tile.Surfaces.TryGetValue(currentSurface.Direction, out var surface))
                         {
-                            if (!path.Contains(surface) && !surface.isObstacle)
+                            if (!path.Contains(surface) && !surface.IsObstacle)
                             {
                                 selectTiles.Add(tile);
                             }
@@ -261,7 +261,7 @@ namespace FindPath
             List<Surface> selectedSurfaces = new();
             foreach (CubeGridObject tile in tiles)
             {
-                if (tile.Surfaces.TryGetValue(currentSurface.direction, out var surface) && !surface.isObstacle)
+                if (tile.Surfaces.TryGetValue(currentSurface.Direction, out var surface) && !surface.IsObstacle)
                 {
                     selectedSurfaces.Add(surface);
                 }
@@ -269,7 +269,7 @@ namespace FindPath
 
             foreach (KeyValuePair<Vector3Int, Surface> s in currentSurface.GridObject.Surfaces)
             {
-                if (s.Value.Directions._directionArray != currentSurface.Directions._directionArray && !s.Value.isObstacle)
+                if (s.Value.Directions._directionArray != currentSurface.Directions._directionArray && !s.Value.IsObstacle)
                 {
                     selectedSurfaces.Add(s.Value);
                 }
@@ -297,7 +297,7 @@ namespace FindPath
                      currentSurface.Directions._directions == findPathProject.Directions.direction._directionLeft)
                 vector.x = 0;
 
-            if (tile.Surfaces.TryGetValue(vector, out Surface sur) && !sur.isObstacle)
+            if (tile.Surfaces.TryGetValue(vector, out Surface sur) && !sur.IsObstacle)
                 return sur;
 
             return null;

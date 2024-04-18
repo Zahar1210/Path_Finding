@@ -1,13 +1,13 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace FindPath
 {
     // служит только примером 
     public class AAAgent : MonoBehaviour
     {
-        [SerializeField] private LayerMask layerMask;
-        public PathFindMode findMode;
+        public PathFindMode FindMode;
         private Camera _camera;
         private FindPathProject _findPathProject;
         
@@ -19,25 +19,25 @@ namespace FindPath
 
         void Update()
         {
-            if (Input.GetMouseButtonUp(0))
-            {
-                if (_findPathProject.Path != null)
-                {
-                    Array.Clear(_findPathProject.Path, 0, _findPathProject.Path.Length);
-                }
-        
-                Surface targetSurface = GetTargetSurface();
-        
-                Surface currentSurface = GetCurrentSurface();
-        
-                if (targetSurface == null)
-                {
-                    return;
-                }
-        
-                //TODO исправить ошибку чтобы метод ниже можно было нормально вызывать 
-                _findPathProject.Path = PathFinding.GetPath(currentSurface, targetSurface, _findPathProject, findMode);
-            }
+            // if (Input.GetMouseButtonUp(0))
+            // {
+            //     if (_findPathProject.Path != null)
+            //     {
+            //         Array.Clear(_findPathProject.Path, 0, _findPathProject.Path.Length);
+            //     }
+            //
+            //     Surface targetSurface = GetTargetSurface();
+            //
+            //     Surface currentSurface = GetCurrentSurface();
+            //
+            //     if (targetSurface == null)
+            //     {
+            //         return;
+            //     }
+            //
+            //     //TODO исправить ошибку чтобы метод ниже можно было нормально вызывать 
+            //     _findPathProject.Path = PathFinding.GetPath(currentSurface, targetSurface, _findPathProject, FindMode);
+            // }
         }
 
         private Surface GetCurrentSurface()

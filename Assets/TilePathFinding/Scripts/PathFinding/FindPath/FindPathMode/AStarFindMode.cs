@@ -126,7 +126,7 @@ namespace FindPath
             List<Surface> selectedSurfaces = new();
             foreach (GridObject gridObject in tiles)
             {
-                if (gridObject.Surfaces.TryGetValue(currentSurface.direction, out var surface) && !surface.isObstacle)
+                if (gridObject.Surfaces.TryGetValue(currentSurface.Direction, out var surface) && !surface.IsObstacle)
                 {
                     selectedSurfaces.Add(surface);
                 }
@@ -135,7 +135,7 @@ namespace FindPath
             foreach (KeyValuePair<Vector3Int, Surface> s in currentSurface.GridObject.Surfaces)
             {
                 if (s.Value.Directions._directionArray != currentSurface.Directions._directionArray &&
-                    !s.Value.isObstacle)
+                    !s.Value.IsObstacle)
                 {
                     selectedSurfaces.Add(s.Value);
                 }
@@ -163,7 +163,7 @@ namespace FindPath
                      currentSurface.Directions._directions == findPathProject.Directions.direction._directionLeft)
                 vector.x = 0;
 
-            if (tile.Surfaces.TryGetValue(vector, out Surface sur) && !sur.isObstacle)
+            if (tile.Surfaces.TryGetValue(vector, out Surface sur) && !sur.IsObstacle)
                 return sur;
 
             return null;
