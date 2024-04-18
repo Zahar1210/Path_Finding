@@ -83743,10 +83743,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 1469914838}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcdfef94757be4899a7c2ea0c62ff907, type: 3}
+  m_Script: {fileID: 11500000, guid: 32e8719abd68443a4b26eee04f16bf73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FindMode: 0
+  _findPathProject: {fileID: 0}
+  _pathFindMode: 0
+  _pathReason: 0
+  _pathTrigger: 0
+  _pathDynamic: 0
+  _targetType: 0
+  _mouseSide: 0
+  _mouseLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  _targetDirection: 0
+  _count: 0
+  _checkInterval: 0
+  _targetSelectMode: 0
+  _soloTarget: {fileID: 0}
+  _arrayTargets: []
+  _targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  _maxDistance: 0
+  _differenceX: 0
+  _differenceY: 0
+  _differenceZ: 0
+  _angle: 0
+  _radius: 0
+  _obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  _targetLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1470525929
 GameObject:
   m_ObjectHideFlags: 0

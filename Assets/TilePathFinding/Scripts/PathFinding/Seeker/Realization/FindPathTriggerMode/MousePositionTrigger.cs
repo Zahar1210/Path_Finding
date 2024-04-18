@@ -32,7 +32,7 @@ namespace FindPath
             return null;
         }
     
-        public override PathParams GetPathParams()
+        public override Surface TryGetCurrentSurface(Seeker seeker)
         {
             throw new System.NotImplementedException();
         }

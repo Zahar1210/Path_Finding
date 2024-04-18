@@ -1,4 +1,3 @@
-using System;
 
 namespace FindPath
 {
@@ -18,10 +17,20 @@ namespace FindPath
 
         private void Update()
         {
+            CheckFind();
+        }
+
+        private void CheckFind()
+        {
             TargetSurface = FindPathTrigger.TryGetTargetSurface(this);
-            
-            if (TargetSurface != null)
+
+            if (TargetSurface != null) 
             {
+                if (CurrentSurface == null)
+                {
+                    CurrentSurface = FindPathTrigger.TryGetCurrentSurface(this);
+                }
+                
                 TryGetPath(CurrentSurface, TargetSurface);
             }
         }
@@ -34,14 +43,11 @@ namespace FindPath
                 CurrentSurface = startSurface;
                 TargetSurface = targetSurface;
                 
-                FindPathTrigger.GetPathParams();
-                
-                Array.Clear(Path, 0, Path.Length);
                 Path = FindMode.GetPath(startSurface, targetSurface, FindPathProject);
             }
         }
 
-        public override void CheckPath(PathDynamic pathDynamic)
+        public override void CheckPath(PathDynamic pathDynamic) // какаха ненужная )) 
         {
             if (PathDynamic == pathDynamic && Path?.Length > 0)
             {

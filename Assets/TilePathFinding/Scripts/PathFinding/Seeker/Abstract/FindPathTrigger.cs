@@ -5,6 +5,6 @@ namespace FindPath
         // это первичные условия для поиска пути
         public abstract Surface TryGetTargetSurface(Seeker seeker);
 
-        public abstract PathParams GetPathParams();
+        public abstract Surface TryGetCurrentSurface(Seeker seeker);
     }
 }

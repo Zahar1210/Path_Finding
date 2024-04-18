@@ -1,5 +1,6 @@
 namespace FindPath
 {
+    [System.Serializable]
     public class PathParams 
     {
         public Surface StartSurface { get; set; }
